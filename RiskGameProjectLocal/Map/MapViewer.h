@@ -11,7 +11,7 @@
 #include "Observer.h"
 #include "Map.h"
 
-#include </home/mateus/Documents/Advanced Programming with C++/SFML-master/include/SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
 
