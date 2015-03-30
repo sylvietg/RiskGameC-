@@ -33,6 +33,17 @@ Game::graphics()
 {
   // Requires the Singletone instance of Map
 
+	std::string c[] = {
+	    "blue",
+	    "red",
+	    "green",
+	    "black",
+	    "gray",
+	    "cyan",
+	    "magenta",
+	    "yellow"
+	};
+
 	window.clear();
     	map->loadMap("World.map");
   	window.display();
@@ -49,6 +60,11 @@ Game::graphics()
   	PlayerObserver = new PlayerViewer(map, window); // Responsible for displaying the User in it's territories and it's armies
   	MapObserver = new MapViewer(map, window); // Responsible for displaying the Map itself, continent colors and neighborhoods
 
+  	for(int i = 0; i < map->getContinents().size(); i++)
+	{
+  	  map->getContinents().at(i)->setColor(c[i]);
+	}
+
   	//window.clear();
   	map->notify();
   	window.display();
@@ -58,8 +74,8 @@ void Game::createPlayer()
 {
   std::cout << "Please enter the number of player 2-6.\n\n";
   //std::cin >> nPlayer;
-  std::cout<<"2"<<std::endl;
-  nPlayer = 2;
+  std::cout<<"3"<<std::endl;
+  nPlayer = 3;
 
   players = new Player*[nPlayer];
   std::cout << "\nCreating players...\n\n";
@@ -69,12 +85,22 @@ void Game::createPlayer()
   std::string name;
   std::cin >> name;
   players[0]->setName(name);
+  players[0]->setColor("red");
 
   players[1] = new AIPlayer("AI", 1);
   players[1]->setName("AI");
 
+  std::cout << "Please enter your name\n";
+  std::cout<< "AI\n";
+
   AIPlayer *AI = (AIPlayer*)players[1];
   AI->setStrategy(new Defensive());
+
+  players[2] = new Player(2);
+  std::cout << "Please enter your name\n";
+  std::cin >> name;
+  players[2]->setName(name);
+  players[2]->setColor("green");
 
   for (int i = 0; i < nPlayer; i++)
     {

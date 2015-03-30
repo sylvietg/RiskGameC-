@@ -43,7 +43,6 @@ std::vector<Continent*> Map::getContinents()
 std::vector<Territory*> Map::getTerritories()
 {
   std::vector<Territory*> vt;
-
   int nContinents = this->continents.size();
   int nTerritories = 0;
 
@@ -55,11 +54,9 @@ std::vector<Territory*> Map::getTerritories()
       nTerritories = this->continents.at(i)->getTerritories().size();
 
       for (int j = 0; j < nTerritories; j++)
-    	  vt.push_back(this->continents.at(i)->getTerritories().at(j));
+	vt.push_back(this->continents.at(i)->getTerritories().at(j));
     }
-
   return vt;
-
 }
 std::string Map::getFileName()
 {

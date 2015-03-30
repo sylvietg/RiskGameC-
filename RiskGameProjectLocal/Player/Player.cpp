@@ -14,7 +14,7 @@ Player::Player()
 	listCards[0] = 0;
 	listCards[1] = 0;
 	listCards[2] = 0;
-	this->color = "green"; // default
+	this->color = "gray"; // default
 }
 
 Player::Player(std::string color)
