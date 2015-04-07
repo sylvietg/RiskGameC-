@@ -19,7 +19,6 @@ CPP_DEPS += \
 ./Driver/Fortification.d \
 ./Driver/Game.d \
 ./Driver/GameDriver.d \
-<<<<<<< Upstream, based on origin/master
 ./Driver/Reinforcement.d 
 
 
@@ -32,17 +31,3 @@ Driver/%.o: ../Driver/%.cpp
 	@echo ' '
 
 
-=======
-./Driver/Reinforcement.d 
-
-
-# Each subdirectory must supply rules for building sources it contributes
-Driver/%.o: ../Driver/%.cpp
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C++ Compiler'
-	g++ -DSFML_STATIC -I"C:\SFML-2.2\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
-
->>>>>>> 07773f4 Added folders to the cards

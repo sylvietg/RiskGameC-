@@ -27,5 +27,6 @@ Player/Strategies \
 Player \
 Map \
 Driver \
+Cards \
 Battle \
 

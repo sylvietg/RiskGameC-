@@ -84,7 +84,15 @@ void Reinforcement::checkCards()
 	}
 	/* HERE!!!!!!!!!!!! */
 	//std::cout << "Test: " << mCurrent->getListCards(0) << " " << mCurrent->getListCards(1) << " " << mCurrent->getListCards(2) << std::endl;
-	if ((mCurrent->getListCards(0) > 0 && mCurrent->getListCards(1) > 0 && mCurrent->getListCards(2) > 0) || mCurrent->getListCards(0) >= 3 || mCurrent->getListCards(1) >= 3 || mCurrent->getListCards(2) >= 3)
+	if ((
+			mCurrent->getPDeck()->getCards().at(0) > 0
+		 && mCurrent->getPDeck()->getCards().at(1) > 0
+		 && mCurrent->getPDeck()->getCards().at(2) > 0
+		 )
+		|| mCurrent->getPDeck()->getCards().at(0) >= 3
+		|| mCurrent->getPDeck()->getCards().at(1) >= 3
+		|| mCurrent->getPDeck()->getCards().at(2) >= 3
+		)
 	{
 		std::cout << "Player may exchange its cards.\n\n";
 		std::string ans;

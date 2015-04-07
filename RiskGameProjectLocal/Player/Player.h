@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../Deck.h"
+#include "../Cards/Deck.h"
 
 
 class Player
