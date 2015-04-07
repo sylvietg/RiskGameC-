@@ -6,7 +6,6 @@
 #include <iostream>
 #include <stdlib.h>
 
-
 class Card
 {
 public:
