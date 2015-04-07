@@ -4,6 +4,7 @@
 #include <math.h>
 #include <string>
 #include <iostream>
+#include <stdlib.h>
 
 
 class Card

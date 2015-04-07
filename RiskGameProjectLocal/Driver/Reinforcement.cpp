@@ -85,13 +85,13 @@ void Reinforcement::checkCards()
 	/* HERE!!!!!!!!!!!! */
 	//std::cout << "Test: " << mCurrent->getListCards(0) << " " << mCurrent->getListCards(1) << " " << mCurrent->getListCards(2) << std::endl;
 	if ((
-			mCurrent->getPDeck()->getCards().at(0) > 0
-		 && mCurrent->getPDeck()->getCards().at(1) > 0
-		 && mCurrent->getPDeck()->getCards().at(2) > 0
+			mCurrent->getPDeck()->getCards().at(0)->getTypeOfArmy() > 0
+		 && mCurrent->getPDeck()->getCards().at(1)->getTypeOfArmy() > 0
+		 && mCurrent->getPDeck()->getCards().at(2)->getTypeOfArmy() > 0
 		 )
-		|| mCurrent->getPDeck()->getCards().at(0) >= 3
-		|| mCurrent->getPDeck()->getCards().at(1) >= 3
-		|| mCurrent->getPDeck()->getCards().at(2) >= 3
+		|| mCurrent->getPDeck()->getCards().at(0)->getTypeOfArmy() >= 3
+		|| mCurrent->getPDeck()->getCards().at(1)->getTypeOfArmy() >= 3
+		|| mCurrent->getPDeck()->getCards().at(2)->getTypeOfArmy() >= 3
 		)
 	{
 		std::cout << "Player may exchange its cards.\n\n";
@@ -113,25 +113,25 @@ void Reinforcement::exchangeSet()
 	if (ans == 1)
 	{
 		mCurrent->setNCard(mCurrent->getNCard() - 3);
-		mCurrent->setListCards(mCurrent->getNCard() - 1, mCurrent->getNCard() - 1, mCurrent->getNCard() - 1);
+		mCurrent->getPDeck()->setListCards(mCurrent->getNCard() - 1, mCurrent->getNCard() - 1, mCurrent->getNCard() - 1);
 		mCurrent->setNCard(mCurrent->getNCard() -3);
 	}
 	if (ans == 2)
 	{
 		mCurrent->setNCard(mCurrent->getNCard() - 3);
-		mCurrent->setListCards(mCurrent->getNCard() - 1, 0, 0);
+		mCurrent->getPDeck()->setListCards(mCurrent->getNCard() - 1, 0, 0);
 		mCurrent->setNCard(mCurrent->getNCard() - 3);
 	}
 	if (ans == 3)
 	{
 		mCurrent->setNCard(mCurrent->getNCard() - 3);
-		mCurrent->setListCards(0, mCurrent->getNCard() - 1, 0);
+		mCurrent->getPDeck()->setListCards(0, mCurrent->getNCard() - 1, 0);
 		mCurrent->setNCard(mCurrent->getNCard() - 3);
 	}
 	if (ans == 4)
 	{
 		mCurrent->setNCard(mCurrent->getNCard() - 3);
-		mCurrent->setListCards(0, 0, mCurrent->getNCard() - 1);
+		mCurrent->getPDeck()->setListCards(0, 0, mCurrent->getNCard() - 1);
 		mCurrent->setNCard(mCurrent->getNCard() - 3);
 	}
 

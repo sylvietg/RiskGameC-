@@ -18,6 +18,13 @@ std::vector<Card*> Deck::getCards()
 	return cards;
 }
 
+void Deck::setListCards(int i, int j, int k)
+{
+	this->getCards().at(0) += i;
+	this->getCards().at(0) += j;
+	this->getCards().at(0) += k;
+}
+
 int Deck::getNumOfCards()
 {
 	return cards.size();
