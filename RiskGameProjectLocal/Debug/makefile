@@ -42,19 +42,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: RiskGameProject
+all: RiskGameProjectLocal
 
 # Tool invocations
-RiskGameProject: $(OBJS) $(USER_OBJS)
+RiskGameProjectLocal: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L"/home/mateus/Documents/Advanced Programming with C++/SFML-master/lib" -o "RiskGameProject" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L"/home/orpheus/Documents/Advanced Programming with C++/SFML-feature-gl_dev_new/lib" -o "RiskGameProjectLocal" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(C_UPPER_DEPS)$(CXX_DEPS)$(OBJS)$(CPP_DEPS)$(C_DEPS) RiskGameProject
+	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(C_UPPER_DEPS)$(CXX_DEPS)$(OBJS)$(CPP_DEPS)$(C_DEPS) RiskGameProjectLocal
 	-@echo ' '
 
 .PHONY: all clean dependents
