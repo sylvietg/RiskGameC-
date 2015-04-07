@@ -8,6 +8,8 @@
 #ifndef MAP_H_
 #define MAP_H_
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <string>
 #include <vector>
 
@@ -19,6 +21,8 @@
 #include "Territory.h"
 #include "Continent.h"
 #include "Observable.h"
+
+
 
 class Map : public Observable
 {

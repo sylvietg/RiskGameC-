@@ -11,15 +11,14 @@ Player::Player()
 	nArmy = 0;
 	nReinforcement = 0;
 	nWin = 0;
-	listCards[0] = 0;
-	listCards[1] = 0;
-	listCards[2] = 0;
 	this->color = "gray"; // default
+	pDeck = new Deck;
 }
 
 Player::Player(std::string color)
 {
 	this->color = color;
+	pDeck = new Deck;
 }
 Player::Player(int n)
 
@@ -32,10 +31,8 @@ Player::Player(int n)
   	nArmy = 0;
   	nReinforcement = 0;
   	nWin = 0;
-  	listCards[0] = 0;
-  	listCards[1] = 0;
-  	listCards[2] = 0;
 	this->color = "green"; // default
+	pDeck = new Deck;
 }
 
 
@@ -124,22 +121,22 @@ void Player::setNCard(int i)
 	nCard = i;
 }
 
-int Player::getListCards(int i)
+/*int Player::getListCards(int i)
 {
 	return listCards[i];
-}
+}*/
 
 void Player::setNReinforcement(int n)
 {
 	nReinforcement = n;
 }
 
-void Player::setListCards(int i, int j, int k)
+/*void Player::setListCards(int i, int j, int k)
 {
 	listCards[0] += i;
 	listCards[1] += i;
 	listCards[2] += i;
-}
+}*/
 
 bool Player::getHasNewTerritory()
 {
@@ -154,4 +151,9 @@ void Player::setHasNewTerritory(bool b)
 int Player::getNReinforcement()
 {
 	return nReinforcement;
+}
+
+Deck* Player::getPDeck()
+{
+	return pDeck;
 }

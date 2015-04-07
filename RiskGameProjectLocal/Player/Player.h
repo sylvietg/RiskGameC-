@@ -4,13 +4,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Card.h"
+#include "../Deck.h"
 
 
 class Player
 {
 public:
-
 	Player();
 	Player(int n);
 	Player(std::string name);
@@ -36,10 +35,13 @@ std::string getColor();
 	void setOrder(int o);
 	bool getHasNewTerritory();
 	void setHasNewTerritory(bool b);
-	int getListCards(int index);
-	void setListCards(int i, int j, int k);
+/*	int getListCards(int index);
+	void setListCards(int i, int j, int k);*/
 	void setNReinforcement(int n);
 	int getNReinforcement();
+
+	Deck* getPDeck();
+
 
   void
   setNumber (int number)
@@ -64,9 +66,7 @@ private:
 
 	bool hasNewTerritory;
 
-//	std::vector<Continent*> Player::listContinents; //New
-//	std::vector<Territory*> Player::listTerritories;
-	int listCards[3];
+	Deck *pDeck; //New
 	
 };
 #endif /* PLAYER_H_ */

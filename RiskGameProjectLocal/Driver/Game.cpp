@@ -24,8 +24,8 @@ void Game::startUp()
   turnOrder();
   pickRandom();
   placeArmy();
-
   //std::cout << "Shuffling Risk Card...\n\n";
+  gDeck.createDeck();
 }
 
 void
@@ -140,7 +140,6 @@ else
 cout << "Country is occupied, please chose again.\n\n";
 }*/
 
-
 void Game::placeArmy()
 {
   std::cout<<"Now it's the distributing armies phase."<<std::endl;
@@ -212,7 +211,7 @@ void Game::pickRandom()
 
 
 
-/*
+/* OLD
 void Game::placeArmy()
 {
 	int army = assignArmy() * nPlayer;
@@ -293,7 +292,7 @@ void Game::mainPlay()
 
       //Reinforcement
       //std::cout << "Before Reinforcement, Test" << players[ct].getListCards(0) << " " << players[ct].getListCards(1) << " " << players[ct].getListCards(2) << std::endl;
-      reinforcement();
+	  //reinforcement();
 
       //Battle
       battle();
@@ -305,8 +304,8 @@ void Game::mainPlay()
 }
 
 
-////////  Reinforcement  ////////
-void Game::reinforcement()
+////////  Reinforcement  //////// 
+/* Game::reinforcement()
 {
   Reinforcement r(players[ct], &cardReinforcement);
   r.checkCards();
@@ -315,7 +314,7 @@ void Game::reinforcement()
   r.reinforce();
   placeArmy();
   r.updateCardBonus();
-}
+}*/
 
 void
 Game::battle()
@@ -385,7 +384,7 @@ int Game::rollDice()
   int val = rand() % 5 + 1;
   return val;
 }
-
+/*
 void Game::drawCard()
 {
   if (players[ct]->getHasNewTerritory())
@@ -407,3 +406,4 @@ void Game::drawCard()
     }
 
 }
+*/

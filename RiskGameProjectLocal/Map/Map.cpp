@@ -278,11 +278,20 @@ Map::loadMap (char* filename)
 		{
 		  posC = lineString.find("=");
 
+		  // Takes the continent name
 		  std::string aContinent = lineString.substr(0, posC);
 		  continentsNames.push_back(aContinent);
 
+		  // Takes the continent reinforcement bonus
+		  std::string aContinentBonusStr = lineString.substr(posC + 1);
+		  std::stringstream convert(aContinentBonusStr);
+		  int aContinentBonusInt;
+		  if (!(convert >> aContinentBonusInt))
+			  aContinentBonusInt = 0;
+
 		  Continent* continentObject = new Continent();
 		  continentObject->setName(aContinent);
+		  continentObject->setBonus(aContinentBonusInt); // Define the continent bonus value for reinforcement
 		  this->addNewContinent(continentObject);
 		}
 
