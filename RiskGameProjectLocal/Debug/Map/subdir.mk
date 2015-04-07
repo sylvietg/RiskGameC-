@@ -28,6 +28,7 @@ CPP_DEPS += \
 ./Map/Observable.d \
 ./Map/Observer.d \
 ./Map/PlayerViewer.d \
+<<<<<<< Upstream, based on origin/master
 ./Map/Territory.d 
 
 
@@ -40,3 +41,17 @@ Map/%.o: ../Map/%.cpp
 	@echo ' '
 
 
+=======
+./Map/Territory.d 
+
+
+# Each subdirectory must supply rules for building sources it contributes
+Map/%.o: ../Map/%.cpp
+	@echo 'Building file: $<'
+	@echo 'Invoking: GCC C++ Compiler'
+	g++ -DSFML_STATIC -I"C:\SFML-2.2\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+
+>>>>>>> 07773f4 Added folders to the cards
