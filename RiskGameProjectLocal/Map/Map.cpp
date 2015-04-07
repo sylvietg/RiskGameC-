@@ -43,7 +43,6 @@ std::vector<Continent*> Map::getContinents()
 std::vector<Territory*> Map::getTerritories()
 {
   std::vector<Territory*> vt;
-
   int nContinents = this->continents.size();
   int nTerritories = 0;
 
@@ -55,11 +54,9 @@ std::vector<Territory*> Map::getTerritories()
       nTerritories = this->continents.at(i)->getTerritories().size();
 
       for (int j = 0; j < nTerritories; j++)
-    	  vt.push_back(this->continents.at(i)->getTerritories().at(j));
+	vt.push_back(this->continents.at(i)->getTerritories().at(j));
     }
-
   return vt;
-
 }
 std::string Map::getFileName()
 {
@@ -281,11 +278,20 @@ Map::loadMap (char* filename)
 		{
 		  posC = lineString.find("=");
 
+		  // Takes the continent name
 		  std::string aContinent = lineString.substr(0, posC);
 		  continentsNames.push_back(aContinent);
 
+		  // Takes the continent reinforcement bonus
+		  std::string aContinentBonusStr = lineString.substr(posC + 1);
+		  std::stringstream convert(aContinentBonusStr);
+		  int aContinentBonusInt;
+		  if (!(convert >> aContinentBonusInt))
+			  aContinentBonusInt = 0;
+
 		  Continent* continentObject = new Continent();
 		  continentObject->setName(aContinent);
+		  continentObject->setBonus(aContinentBonusInt); // Define the continent bonus value for reinforcement
 		  this->addNewContinent(continentObject);
 		}
 

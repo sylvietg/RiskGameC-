@@ -24,14 +24,25 @@ void Game::startUp()
   turnOrder();
   pickRandom();
   placeArmy();
-
   //std::cout << "Shuffling Risk Card...\n\n";
+  gDeck.createDeck();
 }
 
 void
 Game::graphics()
 {
   // Requires the Singletone instance of Map
+
+	std::string c[] = {
+	    "blue",
+	    "red",
+	    "green",
+	    "black",
+	    "gray",
+	    "cyan",
+	    "magenta",
+	    "yellow"
+	};
 
 	window.clear();
     	map->loadMap("World.map");
@@ -49,6 +60,11 @@ Game::graphics()
   	PlayerObserver = new PlayerViewer(map, window); // Responsible for displaying the User in it's territories and it's armies
   	MapObserver = new MapViewer(map, window); // Responsible for displaying the Map itself, continent colors and neighborhoods
 
+  	for(int i = 0; i < map->getContinents().size(); i++)
+	{
+  	  map->getContinents().at(i)->setColor(c[i]);
+	}
+
   	//window.clear();
   	map->notify();
   	window.display();
@@ -58,8 +74,8 @@ void Game::createPlayer()
 {
   std::cout << "Please enter the number of player 2-6.\n\n";
   //std::cin >> nPlayer;
-  std::cout<<"2"<<std::endl;
-  nPlayer = 2;
+  std::cout<<"3"<<std::endl;
+  nPlayer = 3;
 
   players = new Player*[nPlayer];
   std::cout << "\nCreating players...\n\n";
@@ -69,12 +85,22 @@ void Game::createPlayer()
   std::string name;
   std::cin >> name;
   players[0]->setName(name);
+  players[0]->setColor("red");
 
   players[1] = new AIPlayer("AI", 1);
   players[1]->setName("AI");
 
+  std::cout << "Please enter your name\n";
+  std::cout<< "AI\n";
+
   AIPlayer *AI = (AIPlayer*)players[1];
   AI->setStrategy(new Defensive());
+
+  players[2] = new Player(2);
+  std::cout << "Please enter your name\n";
+  std::cin >> name;
+  players[2]->setName(name);
+  players[2]->setColor("green");
 
   for (int i = 0; i < nPlayer; i++)
     {
@@ -113,7 +139,6 @@ c.setIsOwned(true);
 else
 cout << "Country is occupied, please chose again.\n\n";
 }*/
-
 
 void Game::placeArmy()
 {
@@ -186,7 +211,7 @@ void Game::pickRandom()
 
 
 
-/*
+/* OLD
 void Game::placeArmy()
 {
 	int army = assignArmy() * nPlayer;
@@ -267,7 +292,7 @@ void Game::mainPlay()
 
       //Reinforcement
       //std::cout << "Before Reinforcement, Test" << players[ct].getListCards(0) << " " << players[ct].getListCards(1) << " " << players[ct].getListCards(2) << std::endl;
-      reinforcement();
+	  //reinforcement();
 
       //Battle
       battle();
@@ -279,8 +304,8 @@ void Game::mainPlay()
 }
 
 
-////////  Reinforcement  ////////
-void Game::reinforcement()
+////////  Reinforcement  //////// 
+/* Game::reinforcement()
 {
   Reinforcement r(players[ct], &cardReinforcement);
   r.checkCards();
@@ -289,7 +314,7 @@ void Game::reinforcement()
   r.reinforce();
   placeArmy();
   r.updateCardBonus();
-}
+}*/
 
 void
 Game::battle()
@@ -359,7 +384,7 @@ int Game::rollDice()
   int val = rand() % 5 + 1;
   return val;
 }
-
+/*
 void Game::drawCard()
 {
   if (players[ct]->getHasNewTerritory())
@@ -381,3 +406,4 @@ void Game::drawCard()
     }
 
 }
+*/

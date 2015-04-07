@@ -44,6 +44,11 @@ std::string Continent::getColor()
 	return this->color;
 }
 
+int Continent::getBonus()
+{
+	return this->bonus;
+}
+
 // setter ---------------------------------------------------------
 void Continent::setTerritories(std::vector<Territory*> territories)
 {
@@ -61,6 +66,11 @@ void Continent::setColor(std::string color)
 {
 	this->color = color;
 	notify();
+}
+
+void Continent::setBonus(int value)
+{
+	bonus = value;
 }
 
 // other methods --------------------------------------------------

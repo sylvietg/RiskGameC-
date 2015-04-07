@@ -5,6 +5,9 @@
  *      Author: mateus
  */
 
+
+//#include </home/mateus/Documents/Advanced Programming with C++/SFML-master/include/SFML/Graphics.hpp>
+
 // ADD YOUR PATH FOR SFML HERE
 
 #include "PlayerViewer.h"
