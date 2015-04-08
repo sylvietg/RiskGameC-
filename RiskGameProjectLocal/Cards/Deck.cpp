@@ -21,8 +21,8 @@ std::vector<Card*> Deck::getCards()
 void Deck::setListCards(int i, int j, int k)
 {
 	this->getCards().at(0) += i;
-	this->getCards().at(0) += j;
-	this->getCards().at(0) += k;
+	this->getCards().at(1) += j;
+	this->getCards().at(2) += k;
 }
 
 int Deck::getNumOfCards()
