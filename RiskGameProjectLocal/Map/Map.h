@@ -21,6 +21,7 @@
 #include "Territory.h"
 #include "Continent.h"
 #include "Observable.h"
+#include "MapIO/MapIO.h"
 
 
 

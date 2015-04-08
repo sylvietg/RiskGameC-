@@ -45,7 +45,9 @@ Game::graphics()
 	};
 
 	window.clear();
-    	map->loadMap("World.map");
+	MapIO mio;
+    	mio.loadMapInfo("World.map");
+    	mio.saveMapInfo("WorldSave.map");
   	window.display();
 
   	map->getFileName();

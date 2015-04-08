@@ -203,6 +203,11 @@ void
 Map::loadMap (char* filename)
 {
 
+  MapIO mio;
+  mio.loadMapInfo(filename);
+
+/*
+
   // Reading lines
   char lineBuffer[302];
   char lineStream[302];
@@ -268,7 +273,7 @@ Map::loadMap (char* filename)
 	      if(lineString.find("image") == 0)
 		{
 			imageFileName = lineString.substr(6);
-			imageFileName = imageFileName.substr(0, imageFileName.size() - 1); // removes the break line character
+			//imageFileName = imageFileName.substr(0, imageFileName.size() - 1); // removes the break line character
 			this->setFileName(imageFileName);
 		}
 	    }
@@ -387,6 +392,7 @@ Map::loadMap (char* filename)
       //cout << imageFileName;
     }
 notify();
+*/
 
 }
 
