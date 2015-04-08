@@ -1,4 +1,5 @@
-/Debug/
+*/Debug/
+*/.setting/
 # Compiled Object files
 *.slo
 *.lo
@@ -33,3 +34,6 @@
 *.cproject
 *.project
 *.autotools
+/RiskGameProjectLocal/gameSave.gsv
+.settings
+/RiskGameProjectLocal/Debug

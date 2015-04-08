@@ -15,6 +15,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "Fortification.h"
+#include "../Map/MapIO/GameIO.h"
+#include "../Map/MapIO/GameToMapIO.h"
 
 class Game
 {

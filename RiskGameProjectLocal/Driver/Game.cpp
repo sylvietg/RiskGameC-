@@ -45,7 +45,11 @@ Game::graphics()
 	};
 
 	window.clear();
-    	map->loadMap("World.map");
+	MapIO mio;
+	GameToMapIO gtmio(mio);
+	gtmio.loadGameInfo("World.map");
+    	//mio.loadMapInfo("World.map");
+    	mio.saveMapInfo("WorldSave.map");
   	window.display();
 
   	map->getFileName();
@@ -207,6 +211,13 @@ void Game::pickRandom()
       //Incrementing the turn order counter
       ct = (ct + 1) % nPlayer;
     }
+
+  GameIO gio;
+  gio.saveGameInfo("gameSave.gsv");
+  std::cout<<"If you desire to change any information from the current game state, edit the gameSave.gsv file and press enter.";
+  std::cin.get();
+  std::cin.get();
+  gio.loadGameInfo("gameSave.gsv");
 }
 
 
