@@ -34,3 +34,6 @@
 *.cproject
 *.project
 *.autotools
+/RiskGameProjectLocal/gameSave.gsv
+.settings
+/RiskGameProjectLocal/Debug
