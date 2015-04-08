@@ -6,7 +6,7 @@
 #include "../Map/PlayerViewer.h"
 #include "../Player/Player.h"
 #include "../Player/AIPlayer.h"
-#include "../GameDeck.h"
+#include "../Cards/GameDeck.h"
 #include "Reinforcement.h"
 #include <math.h>
 

@@ -15,7 +15,8 @@ public:
 	virtual std::vector<Card*> getCards();
 	int getNumOfCards();
 
-	// Setter
+	// Setters
+	void setListCards(int i, int j, int k);
 	void setNumOfCards(int num);
 
 	// Others

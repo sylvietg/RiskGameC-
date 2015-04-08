@@ -49,7 +49,7 @@ all: RiskGameProjectLocal
 RiskGameProjectLocal: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L"/home/orpheus/Documents/Advanced Programming with C++/SFML-feature-gl_dev_new/lib" -o "RiskGameProjectLocal" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++  -o "RiskGameProjectLocal" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

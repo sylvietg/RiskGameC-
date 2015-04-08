@@ -2,7 +2,7 @@
 #define GAMEDECK_H_
 
 #include "Deck.h"
-#include "../RiskGameProjectLocal/Map/Map.h"
+#include "../Map/Map.h"
 #include <vector>
 
 class GameDeck: public Deck

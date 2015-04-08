@@ -28,7 +28,6 @@ CPP_DEPS += \
 ./Map/Observable.d \
 ./Map/Observer.d \
 ./Map/PlayerViewer.d \
-<<<<<<< Upstream, based on origin/master
 ./Map/Territory.d 
 
 
@@ -36,22 +35,8 @@ CPP_DEPS += \
 Map/%.o: ../Map/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -I"/home/orpheus/Documents/Advanced Programming with C++/SFML-feature-gl_dev_new/include/SFML" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 
-=======
-./Map/Territory.d 
-
-
-# Each subdirectory must supply rules for building sources it contributes
-Map/%.o: ../Map/%.cpp
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C++ Compiler'
-	g++ -DSFML_STATIC -I"C:\SFML-2.2\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
-
->>>>>>> 07773f4 Added folders to the cards

@@ -1,5 +1,5 @@
 #include <math.h>
-#include "../Player/Card.h"
+#include "../Cards/Card.h"
 #include "../Player/Player.h"
 #include "../Map/Map.h"
 
