@@ -215,27 +215,6 @@ MapIO
 ::saveMapInfo (std::string filename)
 {
   mMap = Map::getMapInstance();
-  // Reading lines
-   char lineBuffer[302];
-   char lineStream[302];
-   std::string lineString;
-
-   // Auxiliary for finding character position
-   size_t posC;
-
-   // Info for the viewMap
-   std::string imageFileName;
-
-   // Vector for the name of the continents
-   std::vector<std::string> continents;
-
-   // Vector for the info of the territories
-   std::vector<std::string> continentsNames;
-
-   // Flags for switching between the modes of parsing
-   bool map = false;
-   bool continent = false;
-   bool territory = false;
 
    // File to be read
    FILE *fptr;
