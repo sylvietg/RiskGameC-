@@ -5,9 +5,10 @@
 #include <string>
 #include <vector>
 #include "../Cards/Deck.h"
+#include "../Map/Observable.h"
 
 
-class Player
+class Player : public Observable
 {
 public:
 	Player();
@@ -35,8 +36,6 @@ std::string getColor();
 	void setOrder(int o);
 	bool getHasNewTerritory();
 	void setHasNewTerritory(bool b);
-/*	int getListCards(int index);
-	void setListCards(int i, int j, int k);*/
 	void setNReinforcement(int n);
 	int getNReinforcement();
 

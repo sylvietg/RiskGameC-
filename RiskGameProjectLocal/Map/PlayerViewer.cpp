@@ -5,16 +5,9 @@
  *      Author: mateus
  */
 
-
-//#include </home/mateus/Documents/Advanced Programming with C++/SFML-master/include/SFML/Graphics.hpp>
-
-// ADD YOUR PATH FOR SFML HERE
-
 #include "PlayerViewer.h"
 
-
-
-PlayerViewer::PlayerViewer(Map* aMap, sf::RenderWindow &aWindow) : observedMap (aMap), window (&aWindow)
+PlayerViewer::PlayerViewer(Map* aMap, sf::RenderWindow& aWindow) : observedMap (aMap), window (&aWindow)
 {
 	(this->observedMap)->attach(this);
 

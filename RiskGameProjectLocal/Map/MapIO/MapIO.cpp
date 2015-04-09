@@ -88,7 +88,10 @@ MapIO
   	      if(lineString.find("image") == 0)
   		{
   			imageFileName = lineString.substr(6);
-  			//imageFileName = imageFileName.substr(0, imageFileName.size() - 1); // removes the break line character
+			#ifdef linux
+  				imageFileName = imageFileName.substr(0, imageFileName.size() - 1); // removes the break line character
+			#endif
+
   			mMap->setFileName(imageFileName);
   		}
   	    }

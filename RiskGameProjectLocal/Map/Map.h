@@ -23,8 +23,6 @@
 #include "Observable.h"
 #include "MapIO/MapIO.h"
 
-
-
 class Map : public Observable
 {
 

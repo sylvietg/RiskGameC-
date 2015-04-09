@@ -82,6 +82,7 @@ void Game::createPlayer()
   nPlayer = 3;
 
   players = new Player*[nPlayer];
+
   std::cout << "\nCreating players...\n\n";
 
   players[0] = new Player(0);
@@ -106,8 +107,12 @@ void Game::createPlayer()
   players[2]->setName(name);
   players[2]->setColor("green");
 
+  // Create the Statistics Observers, that will monitor individually each player
+  StatisticsObserver = new StatisticsViewer* [nPlayer];
+
   for (int i = 0; i < nPlayer; i++)
     {
+	  StatisticsObserver[i] = new StatisticsViewer(players[i], window);
       players[i]->setNArmy(assignArmy());
       players[i]->setNReinforcement(assignArmy());
       totArmy += assignArmy() * nPlayer;
