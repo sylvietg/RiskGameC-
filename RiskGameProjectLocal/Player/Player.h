@@ -21,10 +21,12 @@ public:
 std::string getColor();
 	void setColor(std::string color);
 	void setName(std::string n);
+	void setTurnState(bool state);
 	std::string getName();
 	int getNumber();
 	void setNArmy(int a);
 	int getNArmy();
+	bool getTurnState();
 	void incArmy();
 	void decArmyToPlace();
 	void winTerritory();
@@ -64,6 +66,7 @@ private:
 	int nWin;
 
 	bool hasNewTerritory;
+	bool turnState;
 
 	Deck *pDeck; //New
 	

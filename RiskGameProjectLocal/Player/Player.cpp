@@ -5,6 +5,7 @@ Player::Player()
 	//order = 0;
 	mNumber = 0;
 	name = "";
+	turnState = false;
 	nCard = 0;
 	nTerritory = 0;
 	nContinent = 0;
@@ -21,10 +22,10 @@ Player::Player(std::string color)
 	pDeck = new Deck;
 }
 Player::Player(int n)
-
 {
 	mNumber = n;
 	name = "";
+	turnState = false;
   	nCard = 0;
   	nTerritory = 0;
   	nContinent = 0;
@@ -40,6 +41,7 @@ std::string Player::getColor()
 {
 	return this->color;
 }
+
 void Player::setName(std::string n)
 {
 	name = n;
@@ -47,6 +49,12 @@ void Player::setName(std::string n)
 	notify();
 }
 
+void Player::setTurnState(bool state)
+{
+	this->turnState = state;
+
+	notify();
+}
 
 void Player::setColor(std::string color)
 {
@@ -65,11 +73,14 @@ Player::getNumber()
   return mNumber;
 }
 
+bool Player::getTurnState()
+{
+	return this->turnState;
+}
+
 void Player::setNArmy(int a)
 {
 	nArmy = a;
-
-	notify();
 }
 
 int Player::getNArmy()

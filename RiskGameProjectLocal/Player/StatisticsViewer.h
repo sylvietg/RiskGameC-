@@ -13,6 +13,8 @@
 #include <iostream>
 #include "../Map/Observer.h"
 #include "Player.h"
+#include <sstream>
+#include "../Map/Map.h"
 
 class StatisticsViewer : public Observer
 {
@@ -25,11 +27,17 @@ class StatisticsViewer : public Observer
 
 		void update();
 
+		sf::Color getSFMLColor(std::string sPlayerColor);
+
+		void drawPlayerBlock();
 		void drawPlayerStatistics();
 
 	private:
 		Player* observedPlayer;
 		sf::RenderWindow *window;
+		int refPosX; 		// Position X in the statistics bottom bar
+		int refPosY; 		// Position Y in the statistics bottom bar
+		sf::Color color;			// Color of the observed player
 
 };
 
