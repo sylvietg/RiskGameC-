@@ -5,6 +5,7 @@ Player::Player()
 	//order = 0;
 	mNumber = 0;
 	name = "";
+	turnState = false;
 	nCard = 0;
 	nTerritory = 0;
 	nContinent = 0;
@@ -21,10 +22,10 @@ Player::Player(std::string color)
 	pDeck = new Deck;
 }
 Player::Player(int n)
-
 {
 	mNumber = n;
 	name = "";
+	turnState = false;
   	nCard = 0;
   	nTerritory = 0;
   	nContinent = 0;
@@ -40,15 +41,26 @@ std::string Player::getColor()
 {
 	return this->color;
 }
+
 void Player::setName(std::string n)
 {
 	name = n;
+
+	notify();
 }
 
+void Player::setTurnState(bool state)
+{
+	this->turnState = state;
+
+	notify();
+}
 
 void Player::setColor(std::string color)
 {
 	this->color = color;
+
+	notify();
 }
 std::string Player::getName()
 {
@@ -59,6 +71,11 @@ int
 Player::getNumber()
 {
   return mNumber;
+}
+
+bool Player::getTurnState()
+{
+	return this->turnState;
 }
 
 void Player::setNArmy(int a)
@@ -74,42 +91,35 @@ int Player::getNArmy()
 void Player::incArmy()
 {
 	nArmy++;
+
+	notify();
 }
 
 void Player::decArmyToPlace()
 {
 	nArmy--;
+
+	notify();
 }
 
 void Player::winTerritory()
 {
 	nTerritory++;
+
+	notify();
 }
 
 void Player::loseTerritory()
 {
 	nTerritory--;
+
+	notify();
 }
 
 int Player::getNTerritory()
 {
 	return nTerritory;
 }
-
-/*
-void Player::addCard()
-{
-	if (hasNewTerritory)
-	{
-		std::cout << "Player receives new card\n\n";
-		hasNewTerritory = false;
-		if (nCard > 5)
-			std::cout << "Player has 5 cards and must exchange them in the next round.\n\n";
-	}
-	else
-		std::cout << "No risk card.\n\n";
-}
-*/
 
 int Player::getNCard()
 {
@@ -119,24 +129,16 @@ int Player::getNCard()
 void Player::setNCard(int i)
 {
 	nCard = i;
-}
 
-/*int Player::getListCards(int i)
-{
-	return listCards[i];
-}*/
+	notify();
+}
 
 void Player::setNReinforcement(int n)
 {
 	nReinforcement = n;
-}
 
-/*void Player::setListCards(int i, int j, int k)
-{
-	listCards[0] += i;
-	listCards[1] += i;
-	listCards[2] += i;
-}*/
+	notify();
+}
 
 bool Player::getHasNewTerritory()
 {
@@ -146,6 +148,8 @@ bool Player::getHasNewTerritory()
 void Player::setHasNewTerritory(bool b)
 {
 	hasNewTerritory = b;
+
+	notify();
 }
 
 int Player::getNReinforcement()

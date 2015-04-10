@@ -5,9 +5,10 @@
 #include <string>
 #include <vector>
 #include "../Cards/Deck.h"
+#include "../Map/Observable.h"
 
 
-class Player
+class Player : public Observable
 {
 public:
 	Player();
@@ -20,10 +21,12 @@ public:
 std::string getColor();
 	void setColor(std::string color);
 	void setName(std::string n);
+	void setTurnState(bool state);
 	std::string getName();
 	int getNumber();
 	void setNArmy(int a);
 	int getNArmy();
+	bool getTurnState();
 	void incArmy();
 	void decArmyToPlace();
 	void winTerritory();
@@ -35,8 +38,6 @@ std::string getColor();
 	void setOrder(int o);
 	bool getHasNewTerritory();
 	void setHasNewTerritory(bool b);
-/*	int getListCards(int index);
-	void setListCards(int i, int j, int k);*/
 	void setNReinforcement(int n);
 	int getNReinforcement();
 
@@ -65,6 +66,7 @@ private:
 	int nWin;
 
 	bool hasNewTerritory;
+	bool turnState;
 
 	Deck *pDeck; //New
 	

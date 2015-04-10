@@ -44,7 +44,7 @@ Game::graphics()
 	    "yellow"
 	};
 
-	window.clear();
+	//window.clear();
 	MapIO mio;
 	GameToMapIO gtmio(mio);
 	gtmio.loadGameInfo("World.map");
@@ -55,21 +55,33 @@ Game::graphics()
   	map->getFileName();
   	sf::Image mapBackground;
   	mapBackground.loadFromFile(map->getFileName());
+
   	// Creates the main render window
   	sf::ContextSettings settings;
   	settings.antialiasingLevel = 6;
-  	window.create(sf::VideoMode(mapBackground.getSize().x, mapBackground.getSize().y), "Map Assignment 2!", sf::Style::Default, settings);
+  	//settings.depthBits = 0;
+  	//settings.stencilBits = 0;
+  	//settings.majorVersion = 3;
+  	//settings.minorVersion = 3;
+
+  	if (mapBackground.getSize().x >= 900)
+  	{
+  		window.create(sf::VideoMode(mapBackground.getSize().x, mapBackground.getSize().y + 100), "Map Assignment 2!", sf::Style::Default, settings);
+  	}
+  	else
+  		window.create(sf::VideoMode(mapBackground.getSize().x + (900 - mapBackground.getSize().x), mapBackground.getSize().y + 100), "Map Assignment 2!", sf::Style::Default, settings);
+
 
   	// Create and Attach Map and Player Viewers:
-  	PlayerObserver = new PlayerViewer(map, window); // Responsible for displaying the User in it's territories and it's armies
-  	MapObserver = new MapViewer(map, window); // Responsible for displaying the Map itself, continent colors and neighborhoods
+ 	MapObserver = new MapViewer(map, window); // Responsible for displaying the Map itself, continent colors and neighborhoods
+ 	PlayerObserver = new PlayerViewer(map, window); // Responsible for displaying the User in it's territories and it's armies
 
   	for(int i = 0; i < map->getContinents().size(); i++)
 	{
-  	  map->getContinents().at(i)->setColor(c[i]);
+  	  map->getContinents().at(i)->setColor(c[i%8]);
 	}
 
-  	//window.clear();
+  	window.clear(sf::Color(45, 45, 45)); /// Background Color
   	map->notify();
   	window.display();
 }
@@ -82,6 +94,7 @@ void Game::createPlayer()
   nPlayer = 3;
 
   players = new Player*[nPlayer];
+
   std::cout << "\nCreating players...\n\n";
 
   players[0] = new Player(0);
@@ -93,10 +106,8 @@ void Game::createPlayer()
 
   players[1] = new AIPlayer("AI", 1);
   players[1]->setName("AI");
-
   std::cout << "Please enter your name\n";
   std::cout<< "AI\n";
-
   AIPlayer *AI = (AIPlayer*)players[1];
   AI->setStrategy(new Defensive());
 
@@ -106,15 +117,22 @@ void Game::createPlayer()
   players[2]->setName(name);
   players[2]->setColor("green");
 
+  // Create the Statistics Observers, that will monitor individually each player
+  StatisticsObserver = new StatisticsViewer* [nPlayer];
+
   for (int i = 0; i < nPlayer; i++)
     {
+	  StatisticsObserver[i] = new StatisticsViewer(players[i], window);
       players[i]->setNArmy(assignArmy());
       players[i]->setNReinforcement(assignArmy());
       totArmy += assignArmy() * nPlayer;
       std::cout << players[i]->getName() << " is now a player and will receive an army of " << assignArmy() << " infantries.\n\n";
+      players[i]->notify();
     }
 
   std::cout << std::endl;
+
+
 }
 
 int Game::assignArmy()
@@ -151,22 +169,39 @@ void Game::placeArmy()
   int turn = ct;
 
   for(int i = 0; i < nPlayer; i++)
-    {
-      while (players[ct]->getNReinforcement() > 0)
+  {
+
+	  if (i == ct)
+		  players[i]->setTurnState(true);
+	  else
+		  players[i]->setTurnState(false);
+
+    while (players[ct]->getNReinforcement() > 0)
 	{
-	  std::cout << players[ct]->getName() << ",  "<<players[ct]->getNReinforcement()<<" reinforcements remaining, select a country.\n";
+	  std::cout << players[ct]->getName() << ",  "<< players[ct]->getNReinforcement()<<" reinforcements remaining, select a country.\n";
 	  std::string territory;
 	  getline(std::cin, territory);
-	  if(map->getTerritoryByName(territory)->getPlayerOwner()->getName() == players[ct]->getName()){
+
+	  if(map->getTerritoryByName(territory)->getPlayerOwner()->getName() == players[ct]->getName())
+	  {
 	      map->getTerritoryByName(territory)->setAmountOfArmies(map->getTerritoryByName(territory)->getAmountOfArmies() + 1);
 	      players[ct]->setNReinforcement(players[ct]->getNReinforcement() - 1);
 	      std::cout << territory << " has now " << map->getTerritoryByName(territory)->getAmountOfArmies() << " armies.\n";
 	  }
 	}
       ct = (ct + 1) % nPlayer;
-    }
+
+  }
 
   ct = turn;
+
+  for (int i = 0; i < nPlayer; i++)
+  {
+	  if (i == ct)
+		  players[i]->setTurnState(true);
+	  else
+		  players[i]->setTurnState(false);
+  }
 
 }
 void Game::pickRandom()
@@ -175,6 +210,14 @@ void Game::pickRandom()
 
   ct = first;
   std::vector<Territory*> vt = map->getTerritories();
+
+  for (int i = 0; i < nPlayer; i++)
+  {
+	  if (i == ct)
+		  players[i]->setTurnState(true);
+	  else
+		  players[i]->setTurnState(false);
+  }
 
   srand (time(NULL));
 
@@ -190,7 +233,7 @@ void Game::pickRandom()
 		} while (map->getTerritories().at(rd)->getPlayerOwner()->getName() == "");
 		std::cout << players[ct].getName() << " is assigned a country.\n\n";
 		map->getTerritories().at(rd)->setPlayerOwner(&players[ct]);
-		players[ct].setNReinforcement(players[ct].getNReinforcement() - 1);
+		players[ct].setNReinforcement(players[].getNReinforcement() - 1);
 		totArmy--;*/
 
       int rd;
@@ -199,6 +242,7 @@ void Game::pickRandom()
       vt.at(rd)->setPlayerOwner(players[ct]);
       vt.at(rd)->setAmountOfArmies(1);
       players[ct]->setNReinforcement(players[ct]->getNReinforcement() - 1);
+      players[ct]->winTerritory();
 
       std::cout << vt.at(rd)->getName() << " belongs to: " << players[ct]->getName()<<std::endl;
 
@@ -210,6 +254,14 @@ void Game::pickRandom()
 
       //Incrementing the turn order counter
       ct = (ct + 1) % nPlayer;
+
+      for (int i = 0; i < nPlayer; i++)
+      {
+    	  if (i == ct)
+    		  players[i]->setTurnState(true);
+    	  else
+    		  players[i]->setTurnState(false);
+      }
     }
 
   GameIO gio;
@@ -283,6 +335,15 @@ void Game::turnOrder()
     }
   players = &temp;*/
   ct = (first) % nPlayer;
+
+  for (int i = 0; i < nPlayer; i++)
+  {
+	  if (i == ct)
+		  players[i]->setTurnState(true);
+	  else
+		  players[i]->setTurnState(false);
+  }
+
 }
 
 
@@ -294,6 +355,14 @@ void Game::mainPlay()
 
   int test = 5;
   ct = first;
+
+  for (int i = 0; i < nPlayer; i++)
+	{
+	  if (i == ct)
+		  players[i]->setTurnState(true);
+	  else
+		  players[i]->setTurnState(false);
+	}
 
   //Round-Robin
   while (!endGame && test > 0)
@@ -309,6 +378,14 @@ void Game::mainPlay()
       battle();
 
       ct = (ct + 1) % nPlayer;
+
+      for (int i = 0; i < nPlayer; i++)
+      {
+    	  if (i == ct)
+    		  players[i]->setTurnState(true);
+    	  else
+    		  players[i]->setTurnState(false);
+      }
 
       test--;
     }

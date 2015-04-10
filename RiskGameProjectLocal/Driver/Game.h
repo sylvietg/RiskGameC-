@@ -5,6 +5,7 @@
 #include "../Map/MapViewer.h"
 #include "../Map/PlayerViewer.h"
 #include "../Player/Player.h"
+#include "../Player/StatisticsViewer.h"
 #include "../Player/AIPlayer.h"
 #include "../Cards/GameDeck.h"
 #include "Reinforcement.h"
@@ -59,6 +60,7 @@ private:
 	sf::RenderWindow window;
 	MapViewer* MapObserver;
 	PlayerViewer* PlayerObserver;
+	StatisticsViewer** StatisticsObserver;
 	GameDeck gDeck;
 };
 

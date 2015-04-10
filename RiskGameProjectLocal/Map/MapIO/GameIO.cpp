@@ -49,7 +49,7 @@ GameIO::loadGameInfo (std::string filename)
 	       std::string aTerritoryOwner = lineString.substr(posC+1, posC1 - posC - 1);
 	       t->setPlayerOwner(mMap->getTerritoriesByPlayer(aTerritoryOwner).at(0)->getPlayerOwner());
 	       std::string aTerritoryArmies = lineString.substr(posC1+1);
-	       std::cout<<"Amout: "<<atoi(aTerritoryArmies.c_str())<<std::endl;
+	       std::cout<<"Amount: "<<atoi(aTerritoryArmies.c_str())<<std::endl;
 	       t->setAmountOfArmies(atoi(aTerritoryArmies.c_str()));
 	   }
 
