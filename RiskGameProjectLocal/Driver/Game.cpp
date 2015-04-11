@@ -28,8 +28,7 @@ void Game::startUp()
   gDeck.createDeck();
 }
 
-void
-Game::graphics()
+void Game::graphics()
 {
   // Requires the Singletone instance of Map
 
@@ -65,12 +64,9 @@ Game::graphics()
   	//settings.minorVersion = 3;
 
   	if (mapBackground.getSize().x >= 900)
-  	{
   		window.create(sf::VideoMode(mapBackground.getSize().x, mapBackground.getSize().y + 100), "Map Assignment 2!", sf::Style::Default, settings);
-  	}
   	else
   		window.create(sf::VideoMode(mapBackground.getSize().x + (900 - mapBackground.getSize().x), mapBackground.getSize().y + 100), "Map Assignment 2!", sf::Style::Default, settings);
-
 
   	// Create and Attach Map and Player Viewers:
  	MapObserver = new MapViewer(map, window); // Responsible for displaying the Map itself, continent colors and neighborhoods
@@ -119,16 +115,17 @@ void Game::createPlayer()
 
   // Create the Statistics Observers, that will monitor individually each player
   StatisticsObserver = new StatisticsViewer* [nPlayer];
+  bottomBar.create(window.getSize().x, window.getSize().y);
 
   for (int i = 0; i < nPlayer; i++)
-    {
-	  StatisticsObserver[i] = new StatisticsViewer(players[i], window);
+  {
+	  StatisticsObserver[i] = new StatisticsViewer(players[i], bottomBar, window);
       players[i]->setNArmy(assignArmy());
       players[i]->setNReinforcement(assignArmy());
       totArmy += assignArmy() * nPlayer;
       std::cout << players[i]->getName() << " is now a player and will receive an army of " << assignArmy() << " infantries.\n\n";
       players[i]->notify();
-    }
+  }
 
   std::cout << std::endl;
 
@@ -404,8 +401,7 @@ void Game::mainPlay()
   r.updateCardBonus();
 }*/
 
-void
-Game::battle()
+void Game::battle()
 {
   bool endTurn = false;
   char choice;

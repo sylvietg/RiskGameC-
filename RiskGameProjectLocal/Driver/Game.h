@@ -58,6 +58,7 @@ private:
 	int totArmy;
 	int cardReinforcement;
 	sf::RenderWindow window;
+	sf::RenderTexture bottomBar;
 	MapViewer* MapObserver;
 	PlayerViewer* PlayerObserver;
 	StatisticsViewer** StatisticsObserver;
