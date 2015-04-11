@@ -22,7 +22,7 @@ class StatisticsViewer : public Observer
 	public:
 
 		StatisticsViewer();
-		StatisticsViewer(Player* aPlayer, sf::RenderWindow& aWindow);
+		StatisticsViewer(Player* aPlayer, sf::RenderTexture& aBottomBar, sf::RenderWindow& aWindow);
 		virtual ~StatisticsViewer();
 
 		void update();
@@ -34,6 +34,7 @@ class StatisticsViewer : public Observer
 
 	private:
 		Player* observedPlayer;
+		sf::RenderTexture *bottomBar;
 		sf::RenderWindow *window;
 		int refPosX; 		// Position X in the statistics bottom bar
 		int refPosY; 		// Position Y in the statistics bottom bar

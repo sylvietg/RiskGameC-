@@ -10,14 +10,15 @@
 StatisticsViewer::StatisticsViewer()
 {}
 
-StatisticsViewer::StatisticsViewer(Player* aPlayer, sf::RenderWindow& aWindow) : observedPlayer (aPlayer), window (&aWindow)
+StatisticsViewer::StatisticsViewer(Player* aPlayer, sf::RenderTexture& aBottomBar, sf::RenderWindow& aWindow) : observedPlayer (aPlayer), bottomBar (&aBottomBar), window(&aWindow)
 {
 
-	this->refPosX = (window->getSize().x/6)*(this->observedPlayer->getNumber()); // Distributes the players info in the available space
-	this->refPosY = window->getSize().y - 100; // Put the statistics in the black bottom bar;
+	this->refPosX = (bottomBar->getSize().x/6)*(this->observedPlayer->getNumber()); // Distributes the players info in the available space
+	this->refPosY = bottomBar->getSize().y - 100; // Put the statistics in the black bottom bar;
 	this->color = getSFMLColor(this->observedPlayer->getColor());
 
 	(this->observedPlayer)->attach(this);
+
 }
 
 StatisticsViewer::~StatisticsViewer()
@@ -27,11 +28,12 @@ StatisticsViewer::~StatisticsViewer()
 
 void StatisticsViewer::update()
 {
-	window->clear(sf::Color(45, 45, 45)); /// Background Colo
+	bottomBar->clear(sf::Color(45, 45, 45)); /// Background Color
 	drawPlayerBlock();
 	drawPlayerStatistics();
-	Map::getMapInstance()->notify();
-	window->display();
+	bottomBar->display();
+	sf::Sprite bottomSprite(bottomBar->getTexture());
+	window->draw(bottomSprite);
 
 }
 
@@ -62,17 +64,17 @@ void StatisticsViewer::drawPlayerBlock()
 	// Draw Borders for the individual player
 	sf::VertexArray lines(sf::Lines, 4);
 
-	lines[0].position = sf::Vector2f(refPosX, (window->getSize().y - 100));
+	lines[0].position = sf::Vector2f(refPosX, (bottomBar->getSize().y - 100));
 	lines[0].color = color;
-	lines[1].position = sf::Vector2f(refPosX, (window->getSize().y));
+	lines[1].position = sf::Vector2f(refPosX, (bottomBar->getSize().y));
 	lines[1].color = color;
 
-	lines[2].position = sf::Vector2f(refPosX, (window->getSize().y));
+	lines[2].position = sf::Vector2f(refPosX, (bottomBar->getSize().y));
 	lines[2].color = color;
-	lines[3].position = sf::Vector2f(refPosX + (window->getSize().x/6), (window->getSize().y));
+	lines[3].position = sf::Vector2f(refPosX + (bottomBar->getSize().x/6), (bottomBar->getSize().y));
 	lines[3].color = color;
 
-	window->draw(lines);
+	bottomBar->draw(lines);
 
 // Not implemented as the method getTurnState is not fully implemented.
 // Also, the SFML alternates each player notified for now.
@@ -82,9 +84,9 @@ void StatisticsViewer::drawPlayerBlock()
 		// Draw the PLAY box for the player that is as the current turn
 		sf::RectangleShape playRect(sf::Vector2f(28, 100));
 		playRect.setFillColor(color);
-		playRect.setPosition(refPosX  + (window->getSize().x/6) - 28, refPosY);
+		playRect.setPosition(refPosX  + (bottomBar->getSize().x/6) - 28, refPosY);
 
-		window->draw(playRect);
+		bottomBar->draw(playRect);
 
 		// SFML font settings
 		sf::Font font;
@@ -99,13 +101,13 @@ void StatisticsViewer::drawPlayerBlock()
 
 			// setting the text configurations for amount of Territories
 			playText.setString(playString);
-			playText.setPosition(refPosX + (window->getSize().x/6) - 20, refPosY + 7);
+			playText.setPosition(refPosX + (bottomBar->getSize().x/6) - 20, refPosY + 7);
 			playText.setCharacterSize(18);		// set size in pixels
 			playText.setFont(font); 			// select the font
 			playText.setColor(sf::Color::White);// set the color
 			playText.setStyle(sf::Text::Bold);  // set the text style
 
-			window->draw(playText);
+			bottomBar->draw(playText);
 		}
 //	}
 
@@ -181,10 +183,10 @@ void StatisticsViewer::drawPlayerStatistics()
 		nCards.setStyle(sf::Text::Regular);   		// set the text style
 
 		// Draw the informations
-		window->draw(nameOfPlayer);
-		window->draw(nTerritories);
-		window->draw(nArmies);
-		window->draw(nCards);
+		bottomBar->draw(nameOfPlayer);
+		bottomBar->draw(nTerritories);
+		bottomBar->draw(nArmies);
+		bottomBar->draw(nCards);
 
 	}
 
