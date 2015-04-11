@@ -8,13 +8,16 @@
 #include "StatisticsViewer.h"
 
 StatisticsViewer::StatisticsViewer()
-{}
+{
+}
 
-StatisticsViewer::StatisticsViewer(Player* aPlayer, sf::RenderTexture& aBottomBar, sf::RenderWindow& aWindow) : observedPlayer (aPlayer), bottomBar (&aBottomBar), window(&aWindow)
+StatisticsViewer::StatisticsViewer(Player* aPlayer,
+		sf::RenderTexture& aBottomBar, sf::RenderWindow& aWindow) :
+		observedPlayer(aPlayer), bottomBar(&aBottomBar), window(&aWindow)
 {
 
-	this->refPosX = (bottomBar->getSize().x/6)*(this->observedPlayer->getNumber()); // Distributes the players info in the available space
-	this->refPosY = bottomBar->getSize().y - 100; // Put the statistics in the black bottom bar;
+	this->refPosX = 0;
+	this->refPosY = bottomBar->getSize().y - 100;
 	this->color = getSFMLColor(this->observedPlayer->getColor());
 
 	(this->observedPlayer)->attach(this);
@@ -33,6 +36,10 @@ void StatisticsViewer::update()
 	drawPlayerStatistics();
 	bottomBar->display();
 	sf::Sprite bottomSprite(bottomBar->getTexture());
+	bottomSprite.setPosition(
+			(window->getSize().x / 6) * (this->observedPlayer->getNumber()), // Distributes the players info in the available space
+			window->getSize().y - 100 // Put the statistics in the black bottom bar;
+					);
 	window->draw(bottomSprite);
 
 }
@@ -62,29 +69,25 @@ sf::Color StatisticsViewer::getSFMLColor(std::string sPlayerColor)
 void StatisticsViewer::drawPlayerBlock()
 {
 	// Draw Borders for the individual player
-	sf::VertexArray lines(sf::Lines, 4);
+	sf::VertexArray lines(sf::Lines, 2);
 
-	lines[0].position = sf::Vector2f(refPosX, (bottomBar->getSize().y - 100));
+	lines[0].position = sf::Vector2f(refPosX + bottomBar->getSize().x,
+			(bottomBar->getSize().y - 100));
 	lines[0].color = color;
-	lines[1].position = sf::Vector2f(refPosX, (bottomBar->getSize().y));
+	lines[1].position = sf::Vector2f(refPosX + bottomBar->getSize().x,
+			(bottomBar->getSize().y));
 	lines[1].color = color;
-
-	lines[2].position = sf::Vector2f(refPosX, (bottomBar->getSize().y));
-	lines[2].color = color;
-	lines[3].position = sf::Vector2f(refPosX + (bottomBar->getSize().x/6), (bottomBar->getSize().y));
-	lines[3].color = color;
 
 	bottomBar->draw(lines);
 
 // Not implemented as the method getTurnState is not fully implemented.
-// Also, the SFML alternates each player notified for now.
-//
-//	if (this->observedPlayer->getTurnState())
-//	{
+
+	if (this->observedPlayer->getTurnState())
+	{
 		// Draw the PLAY box for the player that is as the current turn
 		sf::RectangleShape playRect(sf::Vector2f(28, 100));
 		playRect.setFillColor(color);
-		playRect.setPosition(refPosX  + (bottomBar->getSize().x/6) - 28, refPosY);
+		playRect.setPosition(refPosX + (bottomBar->getSize().x) - 28, refPosY);
 
 		bottomBar->draw(playRect);
 
@@ -101,15 +104,16 @@ void StatisticsViewer::drawPlayerBlock()
 
 			// setting the text configurations for amount of Territories
 			playText.setString(playString);
-			playText.setPosition(refPosX + (bottomBar->getSize().x/6) - 20, refPosY + 7);
+			playText.setPosition(refPosX + (bottomBar->getSize().x) - 20,
+					refPosY + 7);
 			playText.setCharacterSize(18);		// set size in pixels
 			playText.setFont(font); 			// select the font
-			playText.setColor(sf::Color::White);// set the color
+			playText.setColor(sf::Color::White); 			// set the color
 			playText.setStyle(sf::Text::Bold);  // set the text style
 
 			bottomBar->draw(playText);
 		}
-//	}
+	}
 
 }
 
@@ -137,12 +141,14 @@ void StatisticsViewer::drawPlayerStatistics()
 
 		std::stringstream sStreamTerritories;
 		std::string sTerritories;
-		sStreamTerritories << "Territories: " << this->observedPlayer->getNTerritory();
+		sStreamTerritories << "Territories: "
+				<< this->observedPlayer->getNTerritory();
 		sTerritories = sStreamTerritories.str();
 
 		std::stringstream sStreamArmies;
 		std::string sArmies;
-		sStreamArmies << "Armies: " << this->observedPlayer->getNReinforcement();
+		sStreamArmies << "Armies: "
+				<< this->observedPlayer->getNReinforcement();
 		sArmies = sStreamArmies.str();
 
 		std::stringstream sStreamCards;
@@ -152,23 +158,26 @@ void StatisticsViewer::drawPlayerStatistics()
 
 		// setting the text configurations for User Name
 		nameOfPlayer.setString(sNameOfPlayer);
-		nameOfPlayer.setPosition(refPosX + rightPadding - 3, refPosY + topPadding - 6);
+		nameOfPlayer.setPosition(refPosX + rightPadding - 3,
+				refPosY + topPadding - 6);
 		nameOfPlayer.setCharacterSize(fontSize + 4);	// set size in pixels
 		nameOfPlayer.setFont(font); 			 		// select the font
 		nameOfPlayer.setColor(color); 					// set the color
-		nameOfPlayer.setStyle(sf::Text::Regular);   		// set the text style
+		nameOfPlayer.setStyle(sf::Text::Regular);   	// set the text style
 
 		// setting the text configurations for amount of Territories
 		nTerritories.setString(sTerritories);
-		nTerritories.setPosition(refPosX + rightPadding, refPosY + topPadding + (lineSpacing + fontSize)*1);
+		nTerritories.setPosition(refPosX + rightPadding,
+				refPosY + topPadding + (lineSpacing + fontSize) * 1);
 		nTerritories.setCharacterSize(fontSize);		// set size in pixels
 		nTerritories.setFont(font); 			 		// select the font
-		nTerritories.setColor(sf::Color::White); 					// set the color
+		nTerritories.setColor(sf::Color::White); 				// set the color
 		nTerritories.setStyle(sf::Text::Regular);   	// set the text style
 
 		// setting the text configurations for amount of Armies
 		nArmies.setString(sArmies);
-		nArmies.setPosition(refPosX + rightPadding, refPosY + topPadding + (lineSpacing + fontSize)*2);
+		nArmies.setPosition(refPosX + rightPadding,
+				refPosY + topPadding + (lineSpacing + fontSize) * 2);
 		nArmies.setCharacterSize(fontSize);			// set size in pixels
 		nArmies.setFont(font); 			 			// select the font
 		nArmies.setColor(sf::Color::White); 					// set the color
@@ -176,7 +185,8 @@ void StatisticsViewer::drawPlayerStatistics()
 
 		// setting the text configurations for amount of Cards
 		nCards.setString(sCards);
-		nCards.setPosition(refPosX + rightPadding, refPosY + topPadding + (lineSpacing + fontSize)*3);
+		nCards.setPosition(refPosX + rightPadding,
+				refPosY + topPadding + (lineSpacing + fontSize) * 3);
 		nCards.setCharacterSize(fontSize);			// set size in pixels
 		nCards.setFont(font); 			 			// select the font
 		nCards.setColor(sf::Color::White); 					// set the color
@@ -191,5 +201,4 @@ void StatisticsViewer::drawPlayerStatistics()
 	}
 
 }
-
 
