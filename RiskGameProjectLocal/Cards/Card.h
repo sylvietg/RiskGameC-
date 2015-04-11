@@ -1,7 +1,8 @@
 #ifndef CARD_H_
 #define CARD_H_
 
-#include <math.h>
+#include <ctime>
+#include <cstdlib>
 #include <string>
 #include <iostream>
 #include <stdlib.h>
@@ -22,13 +23,16 @@ public:
 	// Setters
 	void setTerritoryName(std::string name);
 	void setTypeOfArmy(int type);
-	
+	void setTypeOfArmyStr(std::string typeStr);
+
 	// Others
 	int generateTypeOfArmy();
 	std::string getTypeOfArmyStr();
+	
 
 private:
-	int typeOfArmy; //0: Wild card 1: Infantry 2: Cavalry 3: Artillery
+	int typeOfArmy; //2: Infantry 3: Cavalry 5: Artillery
+	std::string typeStr;
 	std::string territoryName;
 };
 

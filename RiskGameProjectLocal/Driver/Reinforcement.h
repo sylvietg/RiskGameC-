@@ -7,25 +7,27 @@
 class Reinforcement
 {
 public:
-	Reinforcement();
+	// Constructor
 	Reinforcement(Player *p, int *cardBonusCt);
-	void checkCards();
-	void exchangeSet();
-	void territoryBonus();
-	void continentBonus();
-	void reinforce();
-	void chooseTerritory(std::string s);
-	int* updateCardBonus();
 	
+	// Others
+	void countTerritories();
+	void countContinents();
+	void countCards();
+	void reinforce();
+		
 private:
-	Map *map;
+	// Attributes
 	Player *mCurrent;
-/*	int cArtillery;
-	int cCavalry;
-	int cInfantry;	*/
 	int numOfR;
 	int *cardBonusCt;
 	bool useCard;
+
+	// Methods
+	//int* updateCardBonus();
+	bool checkMinCondition();
+	void exchangeCards();
+	void checkCardName(Card* exchangeSet[3]);
 };
 
 

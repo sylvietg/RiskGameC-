@@ -13,13 +13,13 @@ Player::Player()
 	nReinforcement = 0;
 	nWin = 0;
 	this->color = "gray"; // default
-	pDeck = new Deck;
+	pDeck = new PlayerDeck;
 }
 
 Player::Player(std::string color)
 {
 	this->color = color;
-	pDeck = new Deck;
+	pDeck = new PlayerDeck;
 }
 Player::Player(int n)
 {
@@ -33,7 +33,7 @@ Player::Player(int n)
   	nReinforcement = 0;
   	nWin = 0;
 	this->color = "green"; // default
-	pDeck = new Deck;
+	pDeck = new PlayerDeck;
 }
 
 
@@ -85,9 +85,31 @@ void Player::setNArmy(int a)
 
 int Player::getNArmy()
 {
-	return nArmy;
+	// Local variables
+	int nArmy = 0;
+	Map *map = Map::getMapInstance();
+	std::vector<Territory*> allTerritories = map->getTerritories();
+	std::vector<Territory*>::iterator it;
+
+	// Looking for all the territories that the player owns 
+	for (it = allTerritories.begin(); it != allTerritories.end(); it++)
+	{
+		if ((*it)->getPlayerOwner()->getName() == name)
+		{
+			// Count the number of armies in this territory
+			nArmy += (*it)->getAmountOfArmies();
+		}
+	}
+
+	// Delete pointers
+	delete map;
+	allTerritories.clear();
+	
+	// Return number of armies
+	return nArmy; 
 }
 
+/*
 void Player::incArmy()
 {
 	nArmy++;
@@ -100,7 +122,7 @@ void Player::decArmyToPlace()
 	nArmy--;
 
 	notify();
-}
+}*/
 
 void Player::winTerritory()
 {
@@ -108,22 +130,42 @@ void Player::winTerritory()
 
 	notify();
 }
-
+/*
 void Player::loseTerritory()
 {
 	nTerritory--;
 
 	notify();
-}
+}*/
 
 int Player::getNTerritory()
 {
+	// Local variables
+	Map *map = Map::getMapInstance();
+	std::vector<Territory*> allTerritories = map->getTerritories();
+	std::vector<Territory*> playerTerritories;
+	int nTerritory = 0;
+	std::vector<Territory*>::iterator it;
+
+	// Looking for all the territories that the player owns
+	for (it = allTerritories.begin(); it != allTerritories.end(); it++)
+	{
+		if ((*it)->getPlayerOwner()->getName() == name)
+		{
+			nTerritory++;
+			playerTerritories.push_back((*it));
+		}
+	}
+
+	allTerritories.clear();
+	playerTerritories.clear();
+
 	return nTerritory;
 }
 
 int Player::getNCard()
 {
-	return nCard;
+	return pDeck->getNumOfCards();
 }
 
 void Player::setNCard(int i)
@@ -135,7 +177,7 @@ void Player::setNCard(int i)
 
 void Player::setNReinforcement(int n)
 {
-	nReinforcement = n;
+	nReinforcement = n; // TO UPDATE WITH REAL FUNCTIONS
 
 	notify();
 }
@@ -157,7 +199,7 @@ int Player::getNReinforcement()
 	return nReinforcement;
 }
 
-Deck* Player::getPDeck()
+PlayerDeck* Player::getPDeck()
 {
 	return pDeck;
 }

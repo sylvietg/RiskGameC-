@@ -20,12 +20,16 @@ void Game::startUp()
 {
 	endGame = false;
 	createPlayer();
-	turnOrder();
+/*	turnOrder();
 	pickRandom();
-	placeArmy();
+	placeArmy(); */
 	//std::cout << "Shuffling Risk Card...\n\n";
+	// Test
 	gDeck.createDeck();
+	gDeck.printCards();
+	// _Test
 }
+
 
 void Game::graphics()
 {
@@ -82,10 +86,11 @@ void Game::graphics()
 
 void Game::createPlayer()
 {
+
 	std::cout << "Please enter the number of player 2-6.\n\n";
 	//std::cin >> nPlayer;
-	std::cout << "3" << std::endl;
-	nPlayer = 3;
+	std::cout << "2" << std::endl;
+	nPlayer = 2;
 
 	players = new Player*[nPlayer];
 
@@ -97,7 +102,7 @@ void Game::createPlayer()
 	std::cin >> name;
 	players[0]->setName(name);
 	players[0]->setColor("red");
-
+	
 	players[1] = new AIPlayer("AI", 1);
 	players[1]->setName("AI");
 	std::cout << "Please enter your name\n";
@@ -105,11 +110,13 @@ void Game::createPlayer()
 	AIPlayer *AI = (AIPlayer*) players[1];
 	AI->setStrategy(new Defensive());
 
-	players[2] = new Player(2);
+	
+
+	/*players[2] = new Player(2);
 	std::cout << "Please enter your name\n";
 	std::cin >> name;
 	players[2]->setName(name);
-	players[2]->setColor("green");
+	players[2]->setColor("green");*/
 
 	// Create the Statistics Observers, that will monitor individually each player
 	StatisticsObserver = new StatisticsViewer*[nPlayer];
@@ -128,6 +135,8 @@ void Game::createPlayer()
 				<< assignArmy() << " infantries.\n\n";
 		players[i]->notify();
 	}
+
+	
 
 	std::cout << std::endl;
 
@@ -174,13 +183,16 @@ void Game::placeArmy()
 		else
 			players[i]->setTurnState(false);
 
+		/* Testing */
+		std::cout << players[ct]->getName() << ",  "
+			<< players[ct]->getNReinforcement()
+			<< " reinforcements remaining, select a country.\n";
+		std::string territory;
+		getline(std::cin, territory);
+
 		while (players[ct]->getNReinforcement() > 0)
 		{
-			std::cout << players[ct]->getName() << ",  "
-					<< players[ct]->getNReinforcement()
-					<< " reinforcements remaining, select a country.\n";
-			std::string territory;
-			getline(std::cin, territory);
+			
 
 			if (map->getTerritoryByName(territory)->getPlayerOwner()->getName()
 					== players[ct]->getName())
@@ -225,7 +237,7 @@ void Game::pickRandom()
 			players[i]->setTurnState(false);
 	}
 
-	srand(time(NULL));
+//srand(time(NULL));
 
 	int numTerri = vt.size();
 
@@ -379,7 +391,7 @@ void Game::mainPlay()
 		//reinforcement();
 
 		//Battle
-		battle();
+	//	battle();
 
 		ct = (ct + 1) % nPlayer;
 
@@ -396,17 +408,13 @@ void Game::mainPlay()
 }
 
 ////////  Reinforcement  //////// 
-/* Game::reinforcement()
+ void Game::reinforcement()
  {
- Reinforcement r(players[ct], &cardReinforcement);
- r.checkCards();
- r.territoryBonus();
- r.continentBonus();
- r.reinforce();
- placeArmy();
- r.updateCardBonus();
- }*/
-
+	 Reinforcement rPhase(players[ct], &cardReinforcement);
+	 rPhase.reinforce();
+	 placeArmy();
+ }
+ /*
 void Game::battle()
 {
 	bool endTurn = false;
@@ -448,7 +456,7 @@ void Game::battle()
 		}
 
 	}
-}
+}*/
 
 ////////  Battle  ////////
 

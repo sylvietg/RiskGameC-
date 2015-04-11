@@ -1,10 +1,17 @@
 #include "GameDeck.h"
 
-// Constructor
-GameDeck::GameDeck()
+// Singletone Instance
+GameDeck *GameDeck::gameDeckInstance = NULL;
+
+GameDeck* GameDeck::getGameDeckInstance()
 {
-	map = Map::getMapInstance();
+	if (!gameDeckInstance)
+		gameDeckInstance = new GameDeck;
+	return gameDeckInstance;
 }
+
+// Constructor
+GameDeck::GameDeck() {}
 
 // Destructor
 GameDeck::~GameDeck()
@@ -21,20 +28,40 @@ std::vector<Card*> GameDeck::getCards()
 // Others
 void GameDeck::createDeck()
 {
-	/* Deck: total numOfCard = numOfTerritories + 2 wild cards */
+	/* Deck: total numOfCard = numOfTerritories */
 
+	Map* map = Map::getMapInstance();
+	Card *aCard = NULL;
 	// Define regular Risk Card
 	std::vector<Territory*> tempList = map->getTerritories();
 	for (int i = 0; i < tempList.size(); i++)
 	{
-		Card *aCard = new Card(tempList.at(i)->getName());	// Card takes the name of a territory
+		aCard = new Card(tempList.at(i)->getName());	// Card takes the name of a territory
 		aCard->generateTypeOfArmy();						
 		cards.push_back(aCard);
 	}
 
-	// Define wild cards
-	cards.push_back(new Card("Wild Card"));
-	cards.push_back(new Card("Wild Card"));
+	// Delete pointer
+	delete map;
+	delete aCard;
+	tempList.clear();
+}
+
+void GameDeck::addCard(Card* aCard)
+{
+	this->cards.push_back(aCard);
+}
+
+void GameDeck::removeCard(Card* aCard)
+{
+	for (int i = 0; i < cards.size(); i++)
+	{
+		if (cards.at(i)->getTerritoryName() == aCard->getTerritoryName())
+		{
+			cards.erase(cards.begin() + i);
+			break;
+		}
+	}
 }
 
 Card* GameDeck::drawCard()
@@ -49,4 +76,23 @@ Card* GameDeck::drawCard()
 	}
 	else
 		return NULL;
+}
+
+void GameDeck::printCards()
+{
+	std::cout << "FIRST\n";
+	//std::vector<Card*>::iterator it;
+	if (cards.size() <= 0)
+		std::cout << "No card.\n";
+	else
+	{
+		std::cout << "HERE\n";
+		for (int i = 0; i < cards.size(); i++)
+		{
+			std::cout << cards.at(i)->getTerritoryName() << ", ";
+			std::cout << cards.at(i)->getTypeOfArmyStr() << std::endl;
+		}
+
+	}
+		
 }

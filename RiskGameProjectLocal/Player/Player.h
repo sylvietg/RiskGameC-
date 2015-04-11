@@ -4,9 +4,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../Cards/Deck.h"
+#include "../Cards/PlayerDeck.h"
 #include "../Map/Observable.h"
-
+#include "../Map/Map.h"
 
 class Player : public Observable
 {
@@ -27,10 +27,10 @@ std::string getColor();
 	void setNArmy(int a);
 	int getNArmy();
 	bool getTurnState();
-	void incArmy();
-	void decArmyToPlace();
+/*	void incArmy();
+	void decArmyToPlace();*/
 	void winTerritory();
-	void loseTerritory();
+/*	void loseTerritory(); */
 	int getNTerritory();
 //	void addCard();
 	int getNCard();
@@ -41,7 +41,7 @@ std::string getColor();
 	void setNReinforcement(int n);
 	int getNReinforcement();
 
-	Deck* getPDeck();
+	PlayerDeck* getPDeck();
 
 
   void
@@ -68,7 +68,7 @@ private:
 	bool hasNewTerritory;
 	bool turnState;
 
-	Deck *pDeck; //New
+	PlayerDeck *pDeck; //New
 	
 };
 #endif /* PLAYER_H_ */
