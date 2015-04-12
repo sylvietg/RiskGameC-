@@ -13,13 +13,13 @@ Player::Player()
 	nReinforcement = 0;
 	nWin = 0;
 	this->color = "gray"; // default
-	pDeck = new Deck;
+	pDeck = new PlayerDeck;
 }
 
 Player::Player(std::string color)
 {
 	this->color = color;
-	pDeck = new Deck;
+	pDeck = new PlayerDeck;
 }
 Player::Player(int n)
 {
@@ -33,7 +33,7 @@ Player::Player(int n)
   	nReinforcement = 0;
   	nWin = 0;
 	this->color = "green"; // default
-	pDeck = new Deck;
+	pDeck = new PlayerDeck;
 }
 
 
@@ -83,11 +83,34 @@ void Player::setNArmy(int a)
 	nArmy = a;
 }
 
-int Player::getNArmy()
+void Player::defineNArmy()
 {
-	return nArmy;
+	// Local variables
+	int num = 0;
+	Map *map = Map::getMapInstance();
+	std::vector<Territory*> allTerritories = map->getTerritories();
+	std::vector<Territory*>::iterator it;
+
+	// Looking for all the territories that the player owns 
+	for (it = allTerritories.begin(); it != allTerritories.end(); it++)
+	{
+		if ((*it)->getPlayerOwner()->getName() == name)
+		{
+			// Count the number of armies in this territory
+			num += (*it)->getAmountOfArmies();
+		}
+	}
+
+	nArmy = num;
+	//notify();
 }
 
+int Player::getNArmy()
+{
+	return nArmy; 
+}
+
+/*
 void Player::incArmy()
 {
 	nArmy++;
@@ -100,7 +123,7 @@ void Player::decArmyToPlace()
 	nArmy--;
 
 	notify();
-}
+}*/
 
 void Player::winTerritory()
 {
@@ -108,12 +131,32 @@ void Player::winTerritory()
 
 	notify();
 }
-
+/*
 void Player::loseTerritory()
 {
 	nTerritory--;
 
 	notify();
+}*/
+
+void Player::defineNTerritory()
+{
+	// Local variables
+	Map *map = Map::getMapInstance();
+	std::vector<Territory*> allTerritories = map->getTerritories();
+	int num = 0;
+	std::vector<Territory*>::iterator it;
+
+	// Looking for all the territories that the player owns
+	for (it = allTerritories.begin(); it != allTerritories.end(); it++)
+	{
+		if ((*it)->getPlayerOwner() == this)
+			num++;
+	}
+
+	// Assign to nTerritory
+	nTerritory = num;
+	//notify();
 }
 
 int Player::getNTerritory()
@@ -135,7 +178,7 @@ void Player::setNCard(int i)
 
 void Player::setNReinforcement(int n)
 {
-	nReinforcement = n;
+	nReinforcement = n; // TO UPDATE WITH REAL FUNCTIONS
 
 	notify();
 }
@@ -157,7 +200,13 @@ int Player::getNReinforcement()
 	return nReinforcement;
 }
 
-Deck* Player::getPDeck()
+void Player::defineNCard()
+{
+	nCard = pDeck->getNumOfCards();
+//	notify();
+}
+
+PlayerDeck* Player::getPDeck()
 {
 	return pDeck;
 }
