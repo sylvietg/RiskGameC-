@@ -10,7 +10,7 @@ Game::Game()
 	std::cout << "Map has been created!\n\n";
 	startUp();
 	std::cout << "End of Start-up!\n\n";
-	mainPlay();
+	//mainPlay();
 	cardReinforcement = 5;
 	totArmy = 0;
 }
@@ -20,14 +20,34 @@ void Game::startUp()
 {
 	endGame = false;
 	createPlayer();
-/*	turnOrder();
+	//Test
+	std::cout << "Num of Territory" << players[0]->getNTerritory() << std::endl;
+	turnOrder();
 	pickRandom();
-	placeArmy(); */
-	//std::cout << "Shuffling Risk Card...\n\n";
+	placeArmy();
 	// Test
 	gDeck.createDeck();
 	gDeck.printCards();
 	// _Test
+	//std::cout << "Shuffling Risk Card...\n\n";
+	std::cout << "\nDraw 1. 2\n";
+	players[0]->getPDeck()->addCard(gDeck.drawCard());
+	players[0]->getPDeck()->addCard(gDeck.drawCard());
+	std::cout << "\n\nGame Deck Cards\n";
+	players[0]->getPDeck()->printCards();
+	std::cout << "\n\nDraw 3\n";
+	players[1]->getPDeck()->addCard(gDeck.drawCard());
+	//players[1]->getPDeck()->printCards();
+	std::cout << "\n\nGame Deck Cards\n";
+//	gDeck.printCards();
+	std::cout << "Player 0 again \n\nGame Deck Cards\n:";
+	players[0]->getPDeck()->printCards();
+	// _draw from gamedeck -> add to player deck working! :)
+
+	// Remove
+	Reinforcement rPhase(players[0], &cardReinforcement);
+	rPhase.reinforce();
+
 }
 
 
@@ -102,13 +122,21 @@ void Game::createPlayer()
 	std::cin >> name;
 	players[0]->setName(name);
 	players[0]->setColor("red");
-	
+	//Test
+	std::cout << "Initial deck.\n";
+	players[0]->getPDeck()->printCards();
+	//_Test
+
 	players[1] = new AIPlayer("AI", 1);
 	players[1]->setName("AI");
 	std::cout << "Please enter your name\n";
 	std::cout << "AI\n";
 	AIPlayer *AI = (AIPlayer*) players[1];
 	AI->setStrategy(new Defensive());
+	//Test
+	std::cout << "Initial deck.\n";
+	players[1]->getPDeck()->printCards();
+	//_Test
 
 	
 
@@ -183,16 +211,13 @@ void Game::placeArmy()
 		else
 			players[i]->setTurnState(false);
 
-		/* Testing */
-		std::cout << players[ct]->getName() << ",  "
-			<< players[ct]->getNReinforcement()
-			<< " reinforcements remaining, select a country.\n";
-		std::string territory;
-		getline(std::cin, territory);
-
 		while (players[ct]->getNReinforcement() > 0)
 		{
-			
+			std::cout << players[ct]->getName() << ",  "
+				<< players[ct]->getNReinforcement()
+				<< " reinforcements remaining, select a country.\n";
+			std::string territory;
+			getline(std::cin, territory);
 
 			if (map->getTerritoryByName(territory)->getPlayerOwner()->getName()
 					== players[ct]->getName())
@@ -237,7 +262,7 @@ void Game::pickRandom()
 			players[i]->setTurnState(false);
 	}
 
-//srand(time(NULL));
+	srand(time(NULL));
 
 	int numTerri = vt.size();
 

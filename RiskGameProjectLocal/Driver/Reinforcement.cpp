@@ -20,10 +20,12 @@ void Reinforcement::countTerritories()
 {
 	std::cout << "Counting the number of territories.\n";
 	int count = mCurrent->getNTerritory();
+	std::cout << "Num = " << count << std::endl;
 	if (count >= 3)
 		numOfR += (int)floor(count / 3);
 	else
 		numOfR += 3;
+	std::cout << "Reinforcement = " << numOfR << std::endl;
 }
 
 
@@ -58,6 +60,8 @@ void Reinforcement::countContinents()
 		// Assign appropriate bonus value according to ownership status
 		numOfR = bonus;
 	}
+
+	std::cout << "Reinforcement = " << numOfR << std::endl;
 
 	// Delete pointers
 	delete map;
@@ -147,6 +151,8 @@ void Reinforcement::exchangeCards()
 	// Update the player's & the game's number of reinforcements
 	numOfR += (*cardBonusCt);
 	cardBonusCt += 5;
+
+	std::cout << "Reinforcement = " << numOfR << std::endl;
 
 //	useCard = true;
 

@@ -47,7 +47,9 @@ std::vector<Territory*> Map::getTerritories()
   int nTerritories = 0;
 
   if (nContinents == 0)
-    std::cout << "No continents here." << std::endl;
+	  std::cout << "No continents here." << std::endl; 
+  // To remove in the final version ?
+  // Replace by if (nContinent > 0) ??
 
   for (int i = 0; i < nContinents; i++)
     {

@@ -152,6 +152,7 @@ int Player::getNTerritory()
 	{
 		if ((*it)->getPlayerOwner()->getName() == name)
 		{
+			std::cout << (*it)->getName() << std::endl;
 			nTerritory++;
 			playerTerritories.push_back((*it));
 		}
