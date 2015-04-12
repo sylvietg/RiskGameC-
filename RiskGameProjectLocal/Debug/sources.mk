@@ -26,6 +26,8 @@ SUBDIRS := \
 Player/Strategies \
 Player \
 Map \
+Map/MapIO \
 Driver \
+Cards \
 Battle \
 

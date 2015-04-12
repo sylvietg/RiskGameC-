@@ -10,8 +10,10 @@
 
 #include <vector>
 #include "Territory.h"
-#include "../Player/Player.h"
-#include "Observable.h"
+#include "Observable.h" // ALREADY IN TERRITORY.H 
+
+/* Added to fixe circular dependency problem */
+class Territory;
 
 class Continent : public Observable
 {
@@ -32,12 +34,16 @@ public:
 
 	std::string getColor();
 
+	int getBonus();
+
 	// setter
 	void setTerritories(std::vector<Territory*> territories);
 
 	void setName(std::string name);
 
 	void setColor(std::string color);
+
+	void setBonus(int value);
 
 	// other methods
 	void printMyTerritories();
@@ -54,6 +60,7 @@ private:
 	std::vector<Territory*> territories;
 	std::string name;
 	std::string color;
+	int bonus; // Reinforcement bonus
 
 };
 

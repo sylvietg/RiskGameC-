@@ -5,18 +5,18 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../Player/AIPlayer.cpp \
-../Player/Card.cpp \
-../Player/Player.cpp 
+../Player/Player.cpp \
+../Player/StatisticsViewer.cpp 
 
 OBJS += \
 ./Player/AIPlayer.o \
-./Player/Card.o \
-./Player/Player.o 
+./Player/Player.o \
+./Player/StatisticsViewer.o 
 
 CPP_DEPS += \
 ./Player/AIPlayer.d \
-./Player/Card.d \
-./Player/Player.d 
+./Player/Player.d \
+./Player/StatisticsViewer.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

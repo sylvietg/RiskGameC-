@@ -5,37 +5,35 @@ Player::Player()
 	//order = 0;
 	mNumber = 0;
 	name = "";
+	turnState = false;
 	nCard = 0;
 	nTerritory = 0;
 	nContinent = 0;
 	nArmy = 0;
 	nReinforcement = 0;
 	nWin = 0;
-	listCards[0] = 0;
-	listCards[1] = 0;
-	listCards[2] = 0;
-	this->color = "green"; // default
+	this->color = "gray"; // default
+	pDeck = new PlayerDeck;
 }
 
 Player::Player(std::string color)
 {
 	this->color = color;
+	pDeck = new PlayerDeck;
 }
 Player::Player(int n)
-
 {
 	mNumber = n;
 	name = "";
+	turnState = false;
   	nCard = 0;
   	nTerritory = 0;
   	nContinent = 0;
   	nArmy = 0;
   	nReinforcement = 0;
   	nWin = 0;
-  	listCards[0] = 0;
-  	listCards[1] = 0;
-  	listCards[2] = 0;
 	this->color = "green"; // default
+	pDeck = new PlayerDeck;
 }
 
 
@@ -43,15 +41,26 @@ std::string Player::getColor()
 {
 	return this->color;
 }
+
 void Player::setName(std::string n)
 {
 	name = n;
+
+	notify();
 }
 
+void Player::setTurnState(bool state)
+{
+	this->turnState = state;
+
+	notify();
+}
 
 void Player::setColor(std::string color)
 {
 	this->color = color;
+
+	notify();
 }
 std::string Player::getName()
 {
@@ -64,55 +73,96 @@ Player::getNumber()
   return mNumber;
 }
 
+bool Player::getTurnState()
+{
+	return this->turnState;
+}
+
 void Player::setNArmy(int a)
 {
 	nArmy = a;
 }
 
-int Player::getNArmy()
+void Player::defineNArmy()
 {
-	return nArmy;
+	// Local variables
+	int num = 0;
+	Map *map = Map::getMapInstance();
+	std::vector<Territory*> allTerritories = map->getTerritories();
+	std::vector<Territory*>::iterator it;
+
+	// Looking for all the territories that the player owns 
+	for (it = allTerritories.begin(); it != allTerritories.end(); it++)
+	{
+		if ((*it)->getPlayerOwner()->getName() == name)
+		{
+			// Count the number of armies in this territory
+			num += (*it)->getAmountOfArmies();
+		}
+	}
+
+	nArmy = num;
+	//notify();
 }
 
+int Player::getNArmy()
+{
+	return nArmy; 
+}
+
+/*
 void Player::incArmy()
 {
 	nArmy++;
+
+	notify();
 }
 
 void Player::decArmyToPlace()
 {
 	nArmy--;
-}
+
+	notify();
+}*/
 
 void Player::winTerritory()
 {
 	nTerritory++;
-}
 
+	notify();
+}
+/*
 void Player::loseTerritory()
 {
 	nTerritory--;
+
+	notify();
+}*/
+
+void Player::defineNTerritory()
+{
+	// Local variables
+	Map *map = Map::getMapInstance();
+	std::vector<Territory*> allTerritories = map->getTerritories();
+	int num = 0;
+	std::vector<Territory*>::iterator it;
+
+	// Looking for all the territories that the player owns
+	for (it = allTerritories.begin(); it != allTerritories.end(); it++)
+	{
+		if ((*it)->getPlayerOwner() == this)
+			num++;
+	}
+
+	// Assign to nTerritory
+	nTerritory = num;
+	//notify();
 }
 
 int Player::getNTerritory()
 {
 	return nTerritory;
 }
-
-/*
-void Player::addCard()
-{
-	if (hasNewTerritory)
-	{
-		std::cout << "Player receives new card\n\n";
-		hasNewTerritory = false;
-		if (nCard > 5)
-			std::cout << "Player has 5 cards and must exchange them in the next round.\n\n";
-	}
-	else
-		std::cout << "No risk card.\n\n";
-}
-*/
 
 int Player::getNCard()
 {
@@ -122,23 +172,15 @@ int Player::getNCard()
 void Player::setNCard(int i)
 {
 	nCard = i;
-}
 
-int Player::getListCards(int i)
-{
-	return listCards[i];
+	notify();
 }
 
 void Player::setNReinforcement(int n)
 {
-	nReinforcement = n;
-}
+	nReinforcement = n; // TO UPDATE WITH REAL FUNCTIONS
 
-void Player::setListCards(int i, int j, int k)
-{
-	listCards[0] += i;
-	listCards[1] += i;
-	listCards[2] += i;
+	notify();
 }
 
 bool Player::getHasNewTerritory()
@@ -149,9 +191,22 @@ bool Player::getHasNewTerritory()
 void Player::setHasNewTerritory(bool b)
 {
 	hasNewTerritory = b;
+
+	notify();
 }
 
 int Player::getNReinforcement()
 {
 	return nReinforcement;
+}
+
+void Player::defineNCard()
+{
+	nCard = pDeck->getNumOfCards();
+//	notify();
+}
+
+PlayerDeck* Player::getPDeck()
+{
+	return pDeck;
 }

@@ -1,3 +1,5 @@
+*/Debug/
+*/.setting/
 # Compiled Object files
 *.slo
 *.lo
@@ -26,3 +28,12 @@
 *.exe
 *.out
 *.app
+
+# Others
+*.mk
+*.cproject
+*.project
+*.autotools
+/RiskGameProjectLocal/gameSave.gsv
+.settings
+/RiskGameProjectLocal/Debug

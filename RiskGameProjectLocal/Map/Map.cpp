@@ -43,24 +43,25 @@ std::vector<Continent*> Map::getContinents()
 std::vector<Territory*> Map::getTerritories()
 {
   std::vector<Territory*> vt;
-
   int nContinents = this->continents.size();
   int nTerritories = 0;
 
   if (nContinents == 0)
-    std::cout << "No continents here." << std::endl;
+	  std::cout << "No continents here." << std::endl; 
+  // To remove in the final version ?
+  // Replace by if (nContinent > 0) ??
 
   for (int i = 0; i < nContinents; i++)
     {
       nTerritories = this->continents.at(i)->getTerritories().size();
 
       for (int j = 0; j < nTerritories; j++)
-    	  vt.push_back(this->continents.at(i)->getTerritories().at(j));
+	vt.push_back(this->continents.at(i)->getTerritories().at(j));
     }
 
   return vt;
-
 }
+
 std::string Map::getFileName()
 {
 	return this->fileName;
@@ -206,6 +207,11 @@ void
 Map::loadMap (char* filename)
 {
 
+  MapIO mio;
+  mio.loadMapInfo(filename);
+
+/*
+
   // Reading lines
   char lineBuffer[302];
   char lineStream[302];
@@ -281,11 +287,20 @@ Map::loadMap (char* filename)
 		{
 		  posC = lineString.find("=");
 
+		  // Takes the continent name
 		  std::string aContinent = lineString.substr(0, posC);
 		  continentsNames.push_back(aContinent);
 
+		  // Takes the continent reinforcement bonus
+		  std::string aContinentBonusStr = lineString.substr(posC + 1);
+		  std::stringstream convert(aContinentBonusStr);
+		  int aContinentBonusInt;
+		  if (!(convert >> aContinentBonusInt))
+			  aContinentBonusInt = 0;
+
 		  Continent* continentObject = new Continent();
 		  continentObject->setName(aContinent);
+		  continentObject->setBonus(aContinentBonusInt); // Define the continent bonus value for reinforcement
 		  this->addNewContinent(continentObject);
 		}
 
@@ -381,6 +396,7 @@ Map::loadMap (char* filename)
       //cout << imageFileName;
     }
 notify();
+*/
 
 }
 

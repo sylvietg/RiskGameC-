@@ -5,8 +5,9 @@
 #include "../Map/MapViewer.h"
 #include "../Map/PlayerViewer.h"
 #include "../Player/Player.h"
+#include "../Player/StatisticsViewer.h"
 #include "../Player/AIPlayer.h"
-//#include "Dice.h"
+#include "../Cards/GameDeck.h"
 #include "Reinforcement.h"
 #include <math.h>
 
@@ -14,8 +15,9 @@
 #include "../Battle/Battle.h"
 
 #include <SFML/Graphics.hpp>
-//#include "Fortification.h"
-//#include "Deck.h"
+#include "Fortification.h"
+#include "../Map/MapIO/GameIO.h"
+#include "../Map/MapIO/GameToMapIO.h"
 
 class Game
 {
@@ -29,7 +31,6 @@ public:
 	void placeArmy();
 	void pickRandom();
 	void graphics();
-	//void ownCountry(Country c, Player p);
 	void startUp();
 
 	//Main-play
@@ -40,6 +41,7 @@ public:
 
 	void battle();
 
+	void fortification();
 
 	//Other
 	int rollDice();
@@ -54,11 +56,13 @@ private:
 	int ct;
 	int first;
 	int totArmy;
-	//Deck deck;
-	int cardReinforcement;
+	int *cardReinforcement;
 	sf::RenderWindow window;
+	sf::RenderTexture* bottomBar;
 	MapViewer* MapObserver;
 	PlayerViewer* PlayerObserver;
+	StatisticsViewer** StatisticsObserver;
+	GameDeck gDeck;
 };
 
 #endif /* GAME_H_ */

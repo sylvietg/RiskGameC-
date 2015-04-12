@@ -143,18 +143,23 @@ bool MapViewer::loadMapImage(std::string nameOfImage)
 		//std::cout << "Background map picture loaded successfully!" << std::endl;
 
 		sf::Vector2u dimensions = mapBackground.getSize();
-		this->window->setSize(dimensions);
+
+	  	if (dimensions.x >= 900)
+	  		this->window->setSize(sf::Vector2u(dimensions.x, dimensions.y + 100));
+	  	else
+	  		this->window->setSize(sf::Vector2u(dimensions.x + (900 - dimensions.x), dimensions.y + 100));
 
 		mapTexture.loadFromImage(mapBackground);
 		spriteBackground.setTexture(mapTexture);
 
-
 		this->window->draw(spriteBackground);
 
 		loaded = true;
+
 		return true;
 	}
-  }else
+  }
+  else
   {
 
       this->window->draw(spriteBackground);

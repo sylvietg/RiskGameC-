@@ -13,6 +13,9 @@
 #include <string>
 #include <vector>
 
+/* Added to fixe circular dependency problem */
+class Player;
+
 class Territory : public Observable
 {
 

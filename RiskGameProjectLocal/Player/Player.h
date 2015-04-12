@@ -4,13 +4,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Card.h"
+#include "../Cards/PlayerDeck.h"
+#include "../Map/Observable.h"
+#include "../Map/Map.h"
 
-
-class Player
+class Player : public Observable
 {
 public:
-
 	Player();
 	Player(int n);
 	Player(std::string name);
@@ -21,14 +21,16 @@ public:
 std::string getColor();
 	void setColor(std::string color);
 	void setName(std::string n);
+	void setTurnState(bool state);
 	std::string getName();
 	int getNumber();
 	void setNArmy(int a);
 	int getNArmy();
-	void incArmy();
-	void decArmyToPlace();
+	bool getTurnState();
+/*	void incArmy();
+	void decArmyToPlace();*/
 	void winTerritory();
-	void loseTerritory();
+/*	void loseTerritory(); */
 	int getNTerritory();
 //	void addCard();
 	int getNCard();
@@ -36,12 +38,15 @@ std::string getColor();
 	void setOrder(int o);
 	bool getHasNewTerritory();
 	void setHasNewTerritory(bool b);
-	int getListCards(int index);
-	void setListCards(int i, int j, int k);
 	void setNReinforcement(int n);
 	int getNReinforcement();
 
-  void
+	PlayerDeck* getPDeck();
+
+	void defineNTerritory();
+	void defineNCard();
+	void defineNArmy();
+	void
   setNumber (int number)
   {
     mNumber = number;
@@ -63,10 +68,9 @@ private:
 	int nWin;
 
 	bool hasNewTerritory;
+	bool turnState;
 
-//	std::vector<Continent*> Player::listContinents; //New
-//	std::vector<Territory*> Player::listTerritories;
-	int listCards[3];
+	PlayerDeck *pDeck; //New
 	
 };
 #endif /* PLAYER_H_ */

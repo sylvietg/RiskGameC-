@@ -1,5 +1,5 @@
 #include <math.h>
-#include "../Player/Card.h"
+#include "../Cards/Card.h"
 #include "../Player/Player.h"
 #include "../Map/Map.h"
 
@@ -7,25 +7,30 @@
 class Reinforcement
 {
 public:
-	Reinforcement();
-	Reinforcement(Player *p, int *cardBonusCt);
-	void checkCards();
-	void exchangeSet();
-	void territoryBonus();
-	void continentBonus();
-	void reinforce();
-	void chooseTerritory(std::string s);
-	int* updateCardBonus();
+	// Constructor
+	Reinforcement(Player* p, int* cardBonusCt);
 	
+	// Others
+	void countTerritories();
+	void countContinents();
+	void countCards();
+	void reinforce();
+	bool checkMinCondition();
+	void exchangeCards(std::vector<Card*> cards);
+	void checkCardName(Card* exchangeSet[3]);
+	bool Reinforcement::sameType(Card* exchangeSet[3]);
+	bool Reinforcement::uniqueType(Card* exchangeSet[3]);
 private:
-	Map *map;
+	// Attributes
 	Player *mCurrent;
-/*	int cArtillery;
-	int cCavalry;
-	int cInfantry;	*/
 	int numOfR;
 	int *cardBonusCt;
+	bool toExchange;
 	bool useCard;
+
+	// Methods
+	//int* updateCardBonus();
+	
 };
 
 
