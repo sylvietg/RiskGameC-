@@ -20,6 +20,7 @@
 #include "time.h"
 #include <algorithm>
 #include <stdlib.h>
+#include <functional>
 
 class Battle
 {

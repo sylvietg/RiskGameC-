@@ -10,8 +10,10 @@
 
 #include <vector>
 #include "Territory.h"
-#include "../Player/Player.h"
-#include "Observable.h"
+#include "Observable.h" // ALREADY IN TERRITORY.H 
+
+/* Added to fixe circular dependency problem */
+class Territory;
 
 class Continent : public Observable
 {

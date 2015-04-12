@@ -11,17 +11,20 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <string>
-#include <vector>
+#include <vector>	/*ALREADY IN TERRITORY.H, CONTINENT.H */
 
 #include <iostream>
 #include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Territory.h"
 #include "Continent.h"
-#include "Observable.h"
+#include "Observable.h" // ALREADY IN TERRITORY.H, CONTINENT.H
 #include "MapIO/MapIO.h"
+
+/* Added to fixe circular dependency problem */
+class Continent;
+class Territory;
 
 class Map : public Observable
 {

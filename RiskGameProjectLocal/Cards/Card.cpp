@@ -3,9 +3,9 @@
 // Constructor
 Card::Card(std::string name)
 {
-	std::cout << "Territory Name, Type of Army \n";
+	//std::cout << "Territory Name, Type of Army \n";
 	territoryName = name;
-	typeOfArmy = 0;
+	typeOfArmy = generateTypeOfArmy();
 }
 
 // Copy constructor
@@ -40,7 +40,7 @@ void Card::setTypeOfArmy(int type)
 // Others
 int Card::generateTypeOfArmy()
 {
-	std::cout << "Choose randomly a country and a type of army. \n";
+	//std::cout << "Choose randomly a country and a type of army. \n";
 	return (rand() % 3) + 1;
 }
 
@@ -52,6 +52,4 @@ std::string Card::getTypeOfArmyStr()
 		return "Cavalry";
 	else if (typeOfArmy == 3)
 		return "Artillery";
-	else
-		return "Wild Card";
 }
