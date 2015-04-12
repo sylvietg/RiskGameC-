@@ -26,8 +26,8 @@ void Game::startUp()
 	GameDeck gDeck;
 	gDeck.createDeck();
 	gDeck.printCards();
-	players[0]->notify();
-	players[0]->getPDeck()->printCards();
+	/*players[0]->notify();
+	players[0]->getPDeck()->printCards();*/
 	// Test
 /*	std::cout << "Test NumOfTerritories = " << players[0]->getNTerritory() << std::endl;
 	map->getTerritories().at(1)->setPlayerOwner(players[0]);
@@ -53,8 +53,8 @@ void Game::startUp()
 	players[0]->notify();
 /*	std::cout << "Print Cards!" << std::endl;
 	gDeck.printCards();*/
-	std::cout << "!! !!! !!" << std::endl;
-	players[0]->getPDeck()->printCards();
+/*	std::cout << "!! !!! !!" << std::endl;
+	players[0]->getPDeck()->printCards();*/
 	// Remove
 	Reinforcement rPhase(players[0], &cardReinforcement);
 	rPhase.reinforce();

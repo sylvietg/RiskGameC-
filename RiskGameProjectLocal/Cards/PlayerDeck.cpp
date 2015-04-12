@@ -4,6 +4,7 @@
 PlayerDeck::PlayerDeck()
 {
 	numOfCards = 0;
+	cards = {};
 }
 
 // Destructor

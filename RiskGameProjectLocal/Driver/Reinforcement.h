@@ -16,13 +16,14 @@ public:
 	void countCards();
 	void reinforce();
 	bool checkMinCondition();
-	void exchangeCards();
+	void exchangeCards(std::vector<Card*> cards);
 	void checkCardName(Card* exchangeSet[3]);
 private:
 	// Attributes
 	Player *mCurrent;
 	int numOfR;
 	int *cardBonusCt;
+	bool toExchange;
 	bool useCard;
 
 	// Methods

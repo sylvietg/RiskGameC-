@@ -42,8 +42,8 @@ void GameDeck::createDeck()
 	}
 	
 	// Delete pointer
-	delete map;
-	tempList.clear();
+/*	delete map;
+	tempList.clear();*/
 }
 
 void GameDeck::addCard(Card* aCard)
