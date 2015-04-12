@@ -1,29 +1,34 @@
 #ifndef GAMEDECK_H_
 #define GAMEDECK_H_
 
-#include "Deck.h"
+#include "IDeck.h"
 #include "../Map/Map.h"
-#include <vector>
 
-class GameDeck: public Deck
+class GameDeck: public IDeck
 {
 public:
+	// Singleton Instance
+	static GameDeck* getGameDeckInstance();
 	// Constructor & Destructor
 	GameDeck();
 	~GameDeck();
 
 	// Getters
 	std::vector<Card*> getCards();
+//	int getNumOfCards(); IN DECK: USED HERE?
 
 	// Others
 	void createDeck();
-/*	void addCard(Card* aCard);
-	void removeCard(Card* aCard);*/
+	void addCard(Card* aCard);
+	void removeCard(Card* aCard);
+	void printCards();
 	Card* drawCard();
 
 private:
 	std::vector<Card*> cards;
-	Map *map;
+	
+	// Singleton Instance
+	static GameDeck *gameDeckInstance;
 };
 
 #endif /* GAMEDECK_H_ */

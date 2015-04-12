@@ -31,6 +31,12 @@ StatisticsViewer::~StatisticsViewer()
 
 void StatisticsViewer::update()
 {
+	// Update Player Stats
+	this->observedPlayer->defineNTerritory();
+	this->observedPlayer->defineNCard();
+	this->observedPlayer->defineNArmy();
+
+	// Update viewer
 	bottomBar->clear(sf::Color(45, 45, 45)); /// Background Color
 	drawPlayerBlock();
 	drawPlayerStatistics();
