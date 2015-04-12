@@ -43,8 +43,10 @@ std::string getColor();
 
 	PlayerDeck* getPDeck();
 
-
-  void
+	void defineNTerritory();
+	void defineNCard();
+	void defineNArmy();
+	void
   setNumber (int number)
   {
     mNumber = number;

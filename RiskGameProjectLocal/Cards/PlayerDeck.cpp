@@ -56,12 +56,14 @@ void PlayerDeck::removeCard(Card* aCard)
 
 void PlayerDeck::printCards()
 {
-	if (cards.size() > 0)
+	if (cards.size() <= 0)
+		std::cout << "No card.\n";
+	else
+	{
 		for (int i = 0; i < cards.size(); i++)
 		{
-			std::cout << cards.at(i)->getTerritoryName() << ", "
-				<< cards.at(i)->getTypeOfArmyStr() << std::endl;
+			std::cout << cards.at(i)->getTerritoryName() << ", ";
+			std::cout << cards.at(i)->getTypeOfArmyStr() << std::endl;
 		}
-	else
-		std::cout << "No card.\n";
+	}
 }

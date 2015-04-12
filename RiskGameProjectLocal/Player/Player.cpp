@@ -83,10 +83,10 @@ void Player::setNArmy(int a)
 	nArmy = a;
 }
 
-int Player::getNArmy()
+void Player::defineNArmy()
 {
 	// Local variables
-	int nArmy = 0;
+	int num = 0;
 	Map *map = Map::getMapInstance();
 	std::vector<Territory*> allTerritories = map->getTerritories();
 	std::vector<Territory*>::iterator it;
@@ -97,15 +97,16 @@ int Player::getNArmy()
 		if ((*it)->getPlayerOwner()->getName() == name)
 		{
 			// Count the number of armies in this territory
-			nArmy += (*it)->getAmountOfArmies();
+			num += (*it)->getAmountOfArmies();
 		}
 	}
 
-	// Delete pointers
-	delete map;
-	allTerritories.clear();
-	
-	// Return number of armies
+	nArmy = num;
+	//notify();
+}
+
+int Player::getNArmy()
+{
 	return nArmy; 
 }
 
@@ -138,35 +139,34 @@ void Player::loseTerritory()
 	notify();
 }*/
 
-int Player::getNTerritory()
+void Player::defineNTerritory()
 {
 	// Local variables
 	Map *map = Map::getMapInstance();
 	std::vector<Territory*> allTerritories = map->getTerritories();
-	std::vector<Territory*> playerTerritories;
-	int nTerritory = 0;
+	int num = 0;
 	std::vector<Territory*>::iterator it;
 
 	// Looking for all the territories that the player owns
 	for (it = allTerritories.begin(); it != allTerritories.end(); it++)
 	{
-		if ((*it)->getPlayerOwner()->getName() == name)
-		{
-			std::cout << (*it)->getName() << std::endl;
-			nTerritory++;
-			playerTerritories.push_back((*it));
-		}
+		if ((*it)->getPlayerOwner() == this)
+			num++;
 	}
 
-	allTerritories.clear();
-	playerTerritories.clear();
+	// Assign to nTerritory
+	nTerritory = num;
+	//notify();
+}
 
+int Player::getNTerritory()
+{
 	return nTerritory;
 }
 
 int Player::getNCard()
 {
-	return pDeck->getNumOfCards();
+	return nCard;
 }
 
 void Player::setNCard(int i)
@@ -198,6 +198,12 @@ void Player::setHasNewTerritory(bool b)
 int Player::getNReinforcement()
 {
 	return nReinforcement;
+}
+
+void Player::defineNCard()
+{
+	nCard = pDeck->getNumOfCards();
+//	notify();
 }
 
 PlayerDeck* Player::getPDeck()

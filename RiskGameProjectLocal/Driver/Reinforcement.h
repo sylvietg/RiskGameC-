@@ -15,7 +15,9 @@ public:
 	void countContinents();
 	void countCards();
 	void reinforce();
-		
+	bool checkMinCondition();
+	void exchangeCards();
+	void checkCardName(Card* exchangeSet[3]);
 private:
 	// Attributes
 	Player *mCurrent;
@@ -25,9 +27,7 @@ private:
 
 	// Methods
 	//int* updateCardBonus();
-	bool checkMinCondition();
-	void exchangeCards();
-	void checkCardName(Card* exchangeSet[3]);
+	
 };
 
 

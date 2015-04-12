@@ -31,7 +31,7 @@ public:
 	
 
 private:
-	int typeOfArmy; //2: Infantry 3: Cavalry 5: Artillery
+	int typeOfArmy; //1: Infantry 2: Cavalry 3: Artillery
 	std::string typeStr;
 	std::string territoryName;
 };

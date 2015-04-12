@@ -21,8 +21,9 @@ void Reinforcement::countTerritories()
 	std::cout << "Counting the number of territories.\n";
 	int count = mCurrent->getNTerritory();
 	std::cout << "Num = " << count << std::endl;
+	count = (int)floor(count / 3);
 	if (count >= 3)
-		numOfR += (int)floor(count / 3);
+		numOfR += count;
 	else
 		numOfR += 3;
 	std::cout << "Reinforcement = " << numOfR << std::endl;
@@ -56,30 +57,61 @@ void Reinforcement::countContinents()
 				break;
 			}
 		}
-
 		// Assign appropriate bonus value according to ownership status
 		numOfR = bonus;
+		
 	}
 
 	std::cout << "Reinforcement = " << numOfR << std::endl;
-
-	// Delete pointers
-	delete map;
-	continents.clear();
-	territories.clear();
+	std::cout << "End of Continent Bonus\n";
 }
 
+bool Reinforcement::checkMinCondition()
+{
+	int type1 = 0;
+	int type2 = 0;
+	int type3 = 0;
+
+	PlayerDeck *pdeck = this->mCurrent->getPDeck();
+	pdeck->printCards();
+
+	// Counting card per type
+	for (int i = 0; i < pdeck->getNumOfCards(); i++)
+	{
+	/*	int type = pdeck->getCards().at(i)->getTypeOfArmy();
+		if (type == 1)
+			type1++;
+		else if (type == 2)
+			type2++;
+		else
+			type3++;*/
+	}
+
+	// Delete pointer
+	delete pdeck;
+	pdeck = NULL;
+
+	// Check condition
+	if (type1 >= 3 || type2 >= 3 || type3 >= 3 || (type1 > 0 && type2 > 0 && type3 > 0))
+		return true;
+	else
+	{
+		//std::cout << "Do not meet mininal condition." << std::endl;
+		return false;
+	}
+}
 
 void Reinforcement::countCards()
 {
 	int numOfCard = mCurrent->getNCard();
-
-	if (mCurrent->getNCard() <= 5)
+	std::cout << "NumOfCards = " << numOfCard << std::endl;
+	bool meetConditions = checkMinCondition();
+	if (numOfCard >= 5)
 	{
 		std::cout << "Player must exchange its cards.\n\n";
 		exchangeCards();
 	}
-	else if (checkMinCondition())
+	else if (meetConditions)
 	{	
 		std::cout << "Player may exchange its cards.\n\n";
 		std::string ans;
@@ -89,37 +121,13 @@ void Reinforcement::countCards()
 		if (ans == "true")
 			exchangeCards();
 	}
-}
-
-bool Reinforcement::checkMinCondition()
-{
-	int type0 = 0;
-	int type1 = 0;
-	int type2 = 0;
-
-	PlayerDeck *pdeck = mCurrent->getPDeck();
-
-	// Counting card per type
-	for (int i = 0; i < mCurrent->getNCard(); i++)
-	{
-		int type = pdeck->getCards().at(i)->getTypeOfArmy();
-		if (type == 0)
-			type0++;
-		else if (type == 1)
-			type1++;
-		else
-			type2++;
-	}
-
-	// Delete pointer
-	delete pdeck;
-	
-	// Check condition
-	if (type0 >= 3 || type1 >= 3 || type2 >= 3 || (type0 > 0 && type1 > 0 && type2 > 0))
-		return true;
 	else
-		return false;
+	{
+		std::cout << "Cannot exchange." << std::endl;
+	}
 }
+
+
 
 void Reinforcement::exchangeCards()
 {
@@ -143,7 +151,8 @@ void Reinforcement::exchangeCards()
 		}
 
 	} while (!(exchangeSet[1]->getTypeOfArmy() == exchangeSet[2]->getTypeOfArmy() && exchangeSet[2]->getTypeOfArmy() == exchangeSet[3]->getTypeOfArmy()) ||		// Case: same type
-		(exchangeSet[1]->getTypeOfArmy() == exchangeSet[2]->getTypeOfArmy() || exchangeSet[2]->getTypeOfArmy() == exchangeSet[3]->getTypeOfArmy()));			// Case: unique type 
+		((exchangeSet[1]->getTypeOfArmy() == exchangeSet[2]->getTypeOfArmy()) || (exchangeSet[2]->getTypeOfArmy() == exchangeSet[3]->getTypeOfArmy()) ||		// Case: unique type 
+		(exchangeSet[1]->getTypeOfArmy() == exchangeSet[3]->getTypeOfArmy())));																					
 
 	// Look for card territory extra bonus
 	checkCardName(exchangeSet);
@@ -206,6 +215,7 @@ void Reinforcement::reinforce()
 
 	/* Assign the number of reinforcements to the current player */
 	mCurrent->setNReinforcement(numOfR);
+	mCurrent->notify();
 }
 
 /*int* Reinforcement::updateCardBonus()
