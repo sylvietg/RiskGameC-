@@ -8,7 +8,7 @@ class Reinforcement
 {
 public:
 	// Constructor
-	Reinforcement(Player *p, int *cardBonusCt);
+	Reinforcement(Player* p, int* cardBonusCt);
 	
 	// Others
 	void countTerritories();
@@ -18,6 +18,8 @@ public:
 	bool checkMinCondition();
 	void exchangeCards(std::vector<Card*> cards);
 	void checkCardName(Card* exchangeSet[3]);
+	bool Reinforcement::sameType(Card* exchangeSet[3]);
+	bool Reinforcement::uniqueType(Card* exchangeSet[3]);
 private:
 	// Attributes
 	Player *mCurrent;

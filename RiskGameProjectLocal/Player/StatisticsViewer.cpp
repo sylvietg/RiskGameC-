@@ -35,6 +35,7 @@ void StatisticsViewer::update()
 	this->observedPlayer->defineNTerritory();
 	this->observedPlayer->defineNCard();
 	this->observedPlayer->defineNArmy();
+
 	// Update viewer
 	bottomBar->clear(sf::Color(45, 45, 45)); /// Background Color
 	drawPlayerBlock();
@@ -146,7 +147,6 @@ void StatisticsViewer::drawPlayerStatistics()
 
 		std::stringstream sStreamTerritories;
 		std::string sTerritories;
-		std::cout << "WTF?!" << std::endl;
 		sStreamTerritories << "Territories: "
 				<< this->observedPlayer->getNTerritory();
 		sTerritories = sStreamTerritories.str();

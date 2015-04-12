@@ -10,8 +10,8 @@ Game::Game()
 	std::cout << "Map has been created!\n\n";
 	startUp();
 	std::cout << "End of Start-up!\n\n";
-	//mainPlay();
-	cardReinforcement = 5;
+	//mainPlay(); !! To put back on after reinforcement testing
+	cardReinforcement = new int(5);
 	totArmy = 0;
 }
 
@@ -22,46 +22,16 @@ void Game::startUp()
 	createPlayer();
 	/*turnOrder();
 	pickRandom();
-	placeArmy();*/
+	placeArmy();	!! To put back on after reinforcement testing */
 	GameDeck gDeck;
 	gDeck.createDeck();
+	std::cout << "Listing all Risk cards:\n";
 	gDeck.printCards();
-	/*players[0]->notify();
-	players[0]->getPDeck()->printCards();*/
-	// Test
-/*	std::cout << "Test NumOfTerritories = " << players[0]->getNTerritory() << std::endl;
-	map->getTerritories().at(1)->setPlayerOwner(players[0]);
-	map->getTerritories().at(2)->setPlayerOwner(players[0]);
-	map->getTerritories().at(3)->setPlayerOwner(players[0]);
-	map->getTerritories().at(4)->setPlayerOwner(players[0]);
-	map->getTerritories().at(5)->setPlayerOwner(players[0]);
-	map->getTerritories().at(6)->setPlayerOwner(players[0]);
-	map->getTerritories().at(7)->setPlayerOwner(players[0]);
-	map->getTerritories().at(8)->setPlayerOwner(players[0]);
-	map->getTerritories().at(9)->setPlayerOwner(players[0]);
-	map->getTerritories().at(12)->setPlayerOwner(players[0]);
-	map->getTerritories().at(15)->setPlayerOwner(players[0]);
-	map->getTerritories().at(17)->setPlayerOwner(players[0]);
-	players[0]->notify();
-	std::cout << "Now NumOfTerritories = " << players[0]->getNTerritory() << std::endl;*/
-
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->notify();
-/*	std::cout << "Print Cards!" << std::endl;
-	gDeck.printCards();*/
-/*	std::cout << "!! !!! !!" << std::endl;
-	players[0]->getPDeck()->printCards();*/
-	// Remove
-	Reinforcement rPhase(players[0], &cardReinforcement);
-	rPhase.reinforce();
-
 	
-	
-
+	/* Reinforcement Test		  */
+//	Reinforcement rPhase(players[0], cardReinforcement);
+//	rPhase.reinforce();
+	/* _End of Reinforcement Test */
 }
 
 
@@ -123,7 +93,7 @@ void Game::createPlayer()
 
 	std::cout << "Please enter the number of player 2-6.\n\n";
 	//std::cin >> nPlayer;
-	std::cout << "2" << std::endl;
+	std::cout << "2" << std::endl; // !! To change back to 3 after reinforcement testing
 	nPlayer = 2;
 
 	players = new Player*[nPlayer];
@@ -144,11 +114,12 @@ void Game::createPlayer()
 	AIPlayer *AI = (AIPlayer*)players[1];
 	AI->setStrategy(new Defensive());
 	
+	// !! To put back on after reinforcement testing
 	/*players[2] = new Player(2);
 	std::cout << "Please enter your name\n";
 	std::cin >> name;
 	players[2]->setName(name);
-	players[2]->setColor("green");*/
+	players[2]->setColor("green");*/ 
 
 	// Create the Statistics Observers, that will monitor individually each player
 	StatisticsObserver = new StatisticsViewer*[nPlayer];
@@ -165,7 +136,6 @@ void Game::createPlayer()
 		std::cout << players[i]->getName()
 			<< " is now a player and will receive an army of "
 			<< assignArmy() << " infantries.\n\n";
-		std::cout << "HERE?\n";
 		players[i]->notify();
 	}
 
@@ -192,6 +162,7 @@ int Game::assignArmy()
 	}
 }
 
+// To remove
 /*void Game::ownCountry(Country c, Player p)
 {
 if (!c.getIsOwned())
@@ -271,6 +242,7 @@ void Game::pickRandom()
 
 	while (numTerri > 0)
 	{
+		// To remvove ?
 		/*std::cout << "Inside num > 0\n\n";
 		int rd;
 		do {
@@ -319,6 +291,7 @@ void Game::pickRandom()
 	gio.loadGameInfo("gameSave.gsv");
 }
 
+// To remove
 /* OLD
 void Game::placeArmy()
 {
@@ -438,10 +411,13 @@ void Game::mainPlay()
 ////////  Reinforcement  //////// 
 void Game::reinforcement()
 {
-	Reinforcement rPhase(players[ct], &cardReinforcement);
+	Reinforcement rPhase(players[ct], cardReinforcement);
 	rPhase.reinforce();
 	placeArmy();
 }
+
+// !! To put back on after reinforcement testing
+////////  Battle  ////////
 /*
 void Game::battle()
 {
@@ -486,8 +462,8 @@ std::cout << map->getTerritories().at(i)->getName() << " "
 }
 }*/
 
-////////  Battle  ////////
 
+// !! To put back on after reinforcement testing
 ////////  Fortification  ////////
 /*void Game::fortification()
 {
@@ -508,6 +484,7 @@ int Game::rollDice()
 	int val = rand() % 5 + 1;
 	return val;
 }
+// !! To put back on after reinforcement testing
 /*
 void Game::drawCard()
 {

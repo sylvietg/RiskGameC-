@@ -7,7 +7,7 @@
 	numOfR = 0;
 }*/
 
-Reinforcement::Reinforcement(Player *p, int *c)
+Reinforcement::Reinforcement(Player* p, int* c)
 {
 	std::cout << "Reinforcement Phase.\n";
 	mCurrent = p;
@@ -163,25 +163,26 @@ void Reinforcement::exchangeCards(std::vector<Card*> cards)
 	do {
 		int choice;
 
-		for (int i = 1; i <= 3; i++)
+		for (int i = 0; i < 3; i++)
 		{
-			std::cout << "Select card #:" << i - 1 << std::endl;
+			std::cout << "Select card #:" << (i + 1) << std::endl;
 			std::cin.ignore();
 			std::cin >> choice;
-			exchangeSet[i-1] = cards.at(choice);
+			exchangeSet[i] = cards.at(choice);
+			std::cout << exchangeSet[i]->getTypeOfArmy() << std::endl;
 		}
-		std::cout << "Out!" << std::endl;
-	} while (!(exchangeSet[1]->getTypeOfArmy() == exchangeSet[2]->getTypeOfArmy() && exchangeSet[2]->getTypeOfArmy() == exchangeSet[3]->getTypeOfArmy()) ||		// Case: same type
-		((exchangeSet[1]->getTypeOfArmy() == exchangeSet[2]->getTypeOfArmy()) || (exchangeSet[2]->getTypeOfArmy() == exchangeSet[3]->getTypeOfArmy()) ||		// Case: unique type 
-		(exchangeSet[1]->getTypeOfArmy() == exchangeSet[3]->getTypeOfArmy())));																			
+		
+	} while ( !sameType(exchangeSet) && !uniqueType(exchangeSet) );																			
 	
+	std::cout << "Out!" << std::endl;
 	
 
 	// Look for card territory extra bonus
 	checkCardName(exchangeSet);
-	
+	std::cout << "No error" << std::endl;
 	// Update the player's & the game's number of reinforcements
-	numOfR += (*cardBonusCt);
+	std::cout << "carBonus = " << cardBonusCt << std::endl;
+	numOfR += (int)cardBonusCt;
 	cardBonusCt += 5;
 
 	std::cout << "Reinforcement = " << numOfR << std::endl;
@@ -190,6 +191,17 @@ void Reinforcement::exchangeCards(std::vector<Card*> cards)
 
 }
 
+bool Reinforcement::sameType(Card* exchangeSet[3])
+{
+	return ((exchangeSet[0]->getTypeOfArmy() == exchangeSet[1]->getTypeOfArmy()) && (exchangeSet[1]->getTypeOfArmy() == exchangeSet[2]->getTypeOfArmy()));
+}
+
+bool Reinforcement::uniqueType(Card* exchangeSet[3])
+{
+	return ((exchangeSet[0]->getTypeOfArmy() != exchangeSet[1]->getTypeOfArmy()) && (exchangeSet[1]->getTypeOfArmy() != exchangeSet[2]->getTypeOfArmy())		// Case: unique type 
+		&& (exchangeSet[0]->getTypeOfArmy() != exchangeSet[2]->getTypeOfArmy()) );
+
+}
 
 void Reinforcement::checkCardName(Card* exchangeSet[3])
 {
