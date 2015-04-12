@@ -117,9 +117,9 @@ void Game::createPlayer()
 
 	for (int i = 0; i < nPlayer; i++)
 	{
-		bottomBar[i].create(window.getSize().x/6, 100);
+		bottomBar[i].create(window.getSize().x/6, 100); // Creates a RenderTexture for the player in the bottomBar
 		StatisticsObserver[i] = new StatisticsViewer(players[i], bottomBar[i],
-				window);
+				window); // Creates the Observer for this player, for displaying in the bottom bar
 		players[i]->setNArmy(assignArmy());
 		players[i]->setNReinforcement(assignArmy());
 		totArmy += assignArmy() * nPlayer;
@@ -328,7 +328,9 @@ void Game::turnOrder()
 			p = i;
 		}
 	}
+
 	Player *temp = new Player[nPlayer];
+
 	std::cout << players[p]->getName() << " plays first." << std::endl;
 	ct = p;
 	first = p;

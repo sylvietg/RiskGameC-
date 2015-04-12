@@ -18,7 +18,7 @@ public:
 	Continent getContinent();
 	Card getCard();
 	void setOrder();*/
-std::string getColor();
+	std::string getColor();
 	void setColor(std::string color);
 	void setName(std::string n);
 	void setTurnState(bool state);
