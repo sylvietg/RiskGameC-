@@ -17,6 +17,7 @@ public:
 	// Setters
 	//void setListCards(int i, int j, int k);
 	void setNumOfCards(int num);
+	void setCards(std::vector<Card*> set);
 
 	// Others
 	void addCard(Card* aCard);
