@@ -24,13 +24,14 @@ class Game
 public:
 	//Start-up
 	Game();
+	void menu();
 	void createPlayer();
 	void turnOrder();
 	int getNPlayer();
 	int assignArmy();
 	void placeArmy();
 	void pickRandom();
-	void graphics();
+	void graphics(std::string mapFileName);
 	void startUp();
 
 	//Main-play
@@ -45,6 +46,7 @@ public:
 
 	//Other
 	int rollDice();
+	void updateTurnStatus();
 	void drawCard();
 
 private:
@@ -53,7 +55,7 @@ private:
 	Player **players;
 	int d1, d2, a1, a2, a3; // Dices
 	bool endGame;
-	int ct;
+	int ct;		// Index of the Current Player
 	int first;
 	int totArmy;
 	int *cardReinforcement;

@@ -203,7 +203,7 @@ int Player::getNReinforcement()
 void Player::defineNCard()
 {
 	nCard = pDeck->getNumOfCards();
-//	notify();
+
 }
 
 PlayerDeck* Player::getPDeck()

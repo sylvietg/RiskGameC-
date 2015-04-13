@@ -182,7 +182,7 @@ void Reinforcement::exchangeCards(std::vector<Card*> cards)
 	std::cout << "No error" << std::endl;
 	// Update the player's & the game's number of reinforcements
 	std::cout << "carBonus = " << cardBonusCt << std::endl;
-	numOfR += (int)cardBonusCt;
+	numOfR += *cardBonusCt;
 	cardBonusCt += 5;
 
 	std::cout << "Reinforcement = " << numOfR << std::endl;
