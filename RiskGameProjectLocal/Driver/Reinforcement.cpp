@@ -7,12 +7,12 @@
 	numOfR = 0;
 }*/
 
-Reinforcement::Reinforcement(Player* p, int c)
+Reinforcement::Reinforcement(Player* p, int* c)
 {
 	std::cout << "Reinforcement Phase.\n";
 	mCurrent = p;
 	cardBonusCt = c;
-	exchange = false;
+	toExchange = false;
 	numOfR = 0;
 }
 
@@ -58,7 +58,7 @@ void Reinforcement::countContinents()
 			}
 		}
 		// Assign appropriate bonus value according to ownership status
-		numOfR += bonus;
+		numOfR = bonus;
 		
 	}
 
@@ -135,7 +135,6 @@ void Reinforcement::countCards()
 
 void Reinforcement::exchangeCards(std::vector<Card*> cards)
 {
-	exchange = true;
 	//this->mCurrent->getPDeck()->printCards();
 	//std::vector<Card*> *cards = &(mCurrent->getPDeck()->getCards());
 	Card* exchangeSet[3];
@@ -159,7 +158,7 @@ void Reinforcement::exchangeCards(std::vector<Card*> cards)
 	//mCurrent->notify();
 	/*PlayerDeck *pDeck = mCurrent->getPDeck();
 	std::vector<Card*> cards = pDeck->getCards();*/
-	//std::cout << "SUCEED" << std::endl;
+	std::cout << "SUCEED" << std::endl;
 	// Asking the player to pick 3 cards
 	do {
 		int choice;
@@ -176,65 +175,20 @@ void Reinforcement::exchangeCards(std::vector<Card*> cards)
 	} while ( !sameType(exchangeSet) && !uniqueType(exchangeSet) );																			
 	
 	std::cout << "Out!" << std::endl;
-	/*c1 = exchangeSet[0];
-	c2 = exchangeSet[1];
-	c3 = exchangeSet[2];*/
-	// Update PlayerDeck
-	updatePDeck(exchangeSet/*c1, c2, c3*/, cards);
 	
+
 	// Look for card territory extra bonus
 	checkCardName(exchangeSet);
-	//std::cout << "No error" << std::endl;
-
-	// Assign appropriate bonus value
-	//std::cout << "carBonus = " << cardBonusCt << std::endl;
-	numOfR += cardBonusCt;
-	
+	std::cout << "No error" << std::endl;
+	// Update the player's & the game's number of reinforcements
+	std::cout << "carBonus = " << cardBonusCt << std::endl;
+	numOfR += (int)cardBonusCt;
+	cardBonusCt += 5;
 
 	std::cout << "Reinforcement = " << numOfR << std::endl;
 
-}
+//	useCard = true;
 
-void Reinforcement::updatePDeck(Card* exchangeSet[3]/*Card* c1, Card* c2, Card* c3*/, std::vector<Card*> cards)
-{
-	std::cout << "Before: " << std::endl;
-	for (int i = 0; i < cards.size(); i++)
-	{
-		std::cout << i << ") " << cards.at(i)->getTerritoryName() << ", ";
-		std::cout << cards.at(i)->getTypeOfArmyStr() << std::endl;
-	}
-	std::cout << "MID: " << std::endl;
-	/*mCurrent->getPDeck()->removeCard(c1);
-	mCurrent->getPDeck()->removeCard(c2);
-	mCurrent->getPDeck()->removeCard(c3);*/
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < cards.size(); j++)
-		{
-			if (cards.at(j)->getTerritoryName() == exchangeSet[i]->getTerritoryName())
-			{
-				cards.erase(cards.begin() + i);
-				break;
-			}
-		}
-	}
-		
-/*	mCurrent->getPDeck()->removeCard(exchangeSet[0]);
-	mCurrent->getPDeck()->removeCard(exchangeSet[1]);
-	mCurrent->getPDeck()->removeCard(exchangeSet[2]);*/
-	std::cout << "After: " << std::endl;
-	for (int i = 0; i < cards.size(); i++)
-	{
-		std::cout << i << ") " << cards.at(i)->getTerritoryName() << ", ";
-		std::cout << cards.at(i)->getTypeOfArmyStr() << std::endl;
-	}
-	updatedDeck = cards;
-	mCurrent->getPDeck()->setCards(updatedDeck);
-}
-
-std::vector<Card*> Reinforcement::getUpdatedDeck()
-{
-	return updatedDeck;
 }
 
 bool Reinforcement::sameType(Card* exchangeSet[3])
@@ -290,37 +244,16 @@ void Reinforcement::reinforce()
 	countTerritories();
 	countContinents();
 	countCards();
-	
+
 	/* Assign the number of reinforcements to the current player */
 	mCurrent->setNReinforcement(numOfR);
 	mCurrent->notify();
 	std::cout << "End REiNFORCEMENT\n";
 }
 
-int Reinforcement::updateCardBonus()
+/*int* Reinforcement::updateCardBonus()
 {
-	//std::cout << "Bool: " << exchange << std::endl;
-	if (exchange)
+	if (useCard)
 		cardBonusCt += 5;
 	return cardBonusCt;
-} 
-
-bool Reinforcement::getExchange()
-{
-	return exchange;
-}
-
-Card* Reinforcement::getC1()
-{
-	return c1;
-}
-
-Card* Reinforcement::getC2()
-{
-	return c2;
-}
-
-Card* Reinforcement::getC3()
-{
-	return c3;
-}
+} */

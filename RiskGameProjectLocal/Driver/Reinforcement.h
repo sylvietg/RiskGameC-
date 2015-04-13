@@ -8,7 +8,7 @@ class Reinforcement
 {
 public:
 	// Constructor
-	Reinforcement(Player* p, int cardBonusCt);
+	Reinforcement(Player* p, int* cardBonusCt);
 	
 	// Others
 	void countTerritories();
@@ -20,25 +20,14 @@ public:
 	void checkCardName(Card* exchangeSet[3]);
 	bool Reinforcement::sameType(Card* exchangeSet[3]);
 	bool Reinforcement::uniqueType(Card* exchangeSet[3]);
-	int updateCardBonus();
-	void updatePDeck(Card* exchangeSet[3]/*c1, Card* c2, Card* c3*/, std::vector<Card*> cards);
-	std::vector<Card*> getUpdatedDeck();
-	bool getExchange();
-	Card* getC1();
-	Card* getC2();
-	Card* getC3();
-
 private:
 	// Attributes
 	Player *mCurrent;
 	int numOfR;
-	int cardBonusCt;
-	std::vector<Card*> updatedDeck;
-	bool exchange;
+	int *cardBonusCt;
+	bool toExchange;
 	bool useCard;
-	Card* c1;
-	Card* c2;
-	Card* c3;
+
 	// Methods
 	//int* updateCardBonus();
 	

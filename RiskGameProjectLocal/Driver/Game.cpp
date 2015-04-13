@@ -11,13 +11,13 @@ Game::Game()
 	startUp();
 	std::cout << "End of Start-up!\n\n";
 	//mainPlay(); !! To put back on after reinforcement testing
+	cardReinforcement = new int(5);
 	totArmy = 0;
 }
 
 //////// Start-Up ////////
 void Game::startUp()
 {
-	cardReinforcement = 5;
 	endGame = false;
 	createPlayer();
 	/*turnOrder();
@@ -25,35 +25,12 @@ void Game::startUp()
 	placeArmy();	!! To put back on after reinforcement testing */
 	GameDeck gDeck;
 	gDeck.createDeck();
-	/*std::cout << "Listing all Risk cards:\n";
-	gDeck.printCards();*/
+	std::cout << "Listing all Risk cards:\n";
+	gDeck.printCards();
 	
-	std::cout << "INITIAL VALUE = " << cardReinforcement << std::endl;
 	/* Reinforcement Test		  */
-	// Cards
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->notify();
-	std::cout << "numOFReinforcemnet = " << players[0]->getNReinforcement() << std::endl;
-	std::cout << "numOFCards = " << players[0]->getNCard() << std::endl;
-
-	Reinforcement rPhase(players[0], cardReinforcement);
-	rPhase.reinforce();
-	cardReinforcement = rPhase.updateCardBonus();
-	std::cout << "AFTER ONE ROUND, VALUE = " << cardReinforcement << std::endl;
-	//players[0]->getPDeck()->setCards(rPhase.getUpdatedDeck());
-	std::cout << "numOFReinforcemnet = " << players[0]->getNReinforcement() << std::endl;
-	std::cout << "numOFCards = " << players[0]->getNCard() << std::endl;
-	
-//	std::vector<Card*> temp = players[0]->getPDeck()->getCards();
-/*	for (int i = 0; i < temp.size(); i++)
-	{
-		std::cout << i << ") " << temp.at(i)->getTerritoryName() << ", ";
-		std::cout << temp.at(i)->getTypeOfArmyStr() << std::endl;
-	}*/
+//	Reinforcement rPhase(players[0], cardReinforcement);
+//	rPhase.reinforce();
 	/* _End of Reinforcement Test */
 }
 

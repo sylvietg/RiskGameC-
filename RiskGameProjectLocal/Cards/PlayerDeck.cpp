@@ -37,11 +37,6 @@ int PlayerDeck::getNumOfCards()
 	numOfCards = num;
 }*/
 
-void PlayerDeck::setCards(std::vector<Card*> set)
-{
-	cards = set;
-}
-
 // Others
 void PlayerDeck::addCard(Card* aCard)		// aCard should be define with GameDeck::drawCard() function
 {

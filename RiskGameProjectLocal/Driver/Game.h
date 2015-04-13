@@ -56,7 +56,7 @@ private:
 	int ct;
 	int first;
 	int totArmy;
-	int cardReinforcement;
+	int *cardReinforcement;
 	sf::RenderWindow window;
 	sf::RenderTexture* bottomBar;
 	MapViewer* MapObserver;
