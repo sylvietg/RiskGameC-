@@ -481,4 +481,3 @@ else
 			players[i]->setTurnState(false);
 	}
 }
-

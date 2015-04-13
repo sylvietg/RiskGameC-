@@ -18,8 +18,8 @@ public:
 	bool checkMinCondition();
 	void exchangeCards(std::vector<Card*> cards);
 	void checkCardName(Card* exchangeSet[3]);
-	bool Reinforcement::sameType(Card* exchangeSet[3]);
-	bool Reinforcement::uniqueType(Card* exchangeSet[3]);
+	bool sameType(Card* exchangeSet[3]);
+	bool uniqueType(Card* exchangeSet[3]);
 	int updateCardBonus();
 	void updatePDeck(Card* exchangeSet[3]/*c1, Card* c2, Card* c3*/, std::vector<Card*> cards);
 

@@ -150,7 +150,7 @@ void Reinforcement::exchangeCards(std::vector<Card*> cards)
 	// Update info
 	updatePDeck(exchangeSet, cards);
 	numOfR += cardBonusCt;
-	
+
 	std::cout << "Reinforcement = " << numOfR << std::endl;
 
 }
