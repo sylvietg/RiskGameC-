@@ -13,27 +13,24 @@ Player::Player()
 	nReinforcement = 0;
 	nWin = 0;
 	this->color = "gray"; // default
-	pDeck = new PlayerDeck;
 }
 
 Player::Player(std::string color)
 {
 	this->color = color;
-	pDeck = new PlayerDeck;
 }
 Player::Player(int n)
 {
 	mNumber = n;
 	name = "";
 	turnState = false;
-  	nCard = 0;
-  	nTerritory = 0;
-  	nContinent = 0;
-  	nArmy = 0;
-  	nReinforcement = 0;
-  	nWin = 0;
+	nCard = 0;
+	nTerritory = 0;
+	nContinent = 0;
+	nArmy = 0;
+	nReinforcement = 0;
+	nWin = 0;
 	this->color = "green"; // default
-	pDeck = new PlayerDeck;
 }
 
 
@@ -70,7 +67,7 @@ std::string Player::getName()
 int
 Player::getNumber()
 {
-  return mNumber;
+	return mNumber;
 }
 
 bool Player::getTurnState()
@@ -102,27 +99,26 @@ void Player::defineNArmy()
 	}
 
 	nArmy = num;
-	//notify();
 }
 
 int Player::getNArmy()
 {
-	return nArmy; 
+	return nArmy;
 }
 
 /*
 void Player::incArmy()
 {
-	nArmy++;
+nArmy++;
 
-	notify();
+notify();
 }
 
 void Player::decArmyToPlace()
 {
-	nArmy--;
+nArmy--;
 
-	notify();
+notify();
 }*/
 
 void Player::winTerritory()
@@ -134,9 +130,9 @@ void Player::winTerritory()
 /*
 void Player::loseTerritory()
 {
-	nTerritory--;
+nTerritory--;
 
-	notify();
+notify();
 }*/
 
 void Player::defineNTerritory()
@@ -156,7 +152,6 @@ void Player::defineNTerritory()
 
 	// Assign to nTerritory
 	nTerritory = num;
-	//notify();
 }
 
 int Player::getNTerritory()
@@ -178,7 +173,7 @@ void Player::setNCard(int i)
 
 void Player::setNReinforcement(int n)
 {
-	nReinforcement = n; // TO UPDATE WITH REAL FUNCTIONS
+	nReinforcement = n; 
 
 	notify();
 }
@@ -202,11 +197,50 @@ int Player::getNReinforcement()
 
 void Player::defineNCard()
 {
-	nCard = pDeck->getNumOfCards();
-
+	nCard = cards.size();
+	//	notify();
 }
 
-PlayerDeck* Player::getPDeck()
+// Getters
+std::vector<Card*> Player::getCards()
 {
-	return pDeck;
+	return cards;
+}
+
+
+void Player::setCards(std::vector<Card*> set)
+{
+	cards = set;
+}
+
+// Others
+void Player::addCard(Card* aCard)		// aCard should be define with GameDeck::drawCard() function
+{
+	this->cards.push_back(aCard);
+}
+
+void Player::removeCard(Card* aCard)
+{
+	for (int i = 0; i < cards.size(); i++)
+	{
+		if (cards.at(i)->getTerritoryName() == aCard->getTerritoryName())
+		{
+			cards.erase(cards.begin() + i);
+			break;
+		}
+	}
+}
+
+void Player::printCards()
+{
+	if (cards.size() <= 0)
+		std::cout << "No card.\n";
+	else
+	{
+		for (int i = 0; i < cards.size(); i++)
+		{
+			std::cout << cards.at(i)->getTerritoryName() << ", ";
+			std::cout << cards.at(i)->getTypeOfArmyStr() << std::endl;
+		}
+	}
 }

@@ -1,10 +1,9 @@
 #ifndef GAMEDECK_H_
 #define GAMEDECK_H_
 
-#include "IDeck.h"
 #include "../Map/Map.h"
 
-class GameDeck: public IDeck
+class GameDeck
 {
 public:
 	// Singleton Instance
