@@ -9,7 +9,7 @@ class Reinforcement
 public:
 	// Constructor
 	Reinforcement(Player* p, int cardBonusCt);
-
+	
 	// Others
 	void countTerritories();
 	void countContinents();
@@ -41,7 +41,7 @@ private:
 	Card* c3;
 	// Methods
 	//int* updateCardBonus();
-
+	
 };
 
 
