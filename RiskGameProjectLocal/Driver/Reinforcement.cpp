@@ -14,6 +14,7 @@ Reinforcement::Reinforcement(Player* p, int c)
 	cardBonusCt = c;
 	exchange = false;
 	numOfR = 0;
+	//deck = mCurrent->getCards();
 }
 
 void Reinforcement::countTerritories()
@@ -72,24 +73,24 @@ bool Reinforcement::checkMinCondition()
 	int type2 = 0;
 	int type3 = 0;
 
-	PlayerDeck *pdeck = this->mCurrent->getPDeck();
-	pdeck->printCards();
+//	std::vector<Card*> *deck = this->mCurrent->getCards();
+//	pdeck->printCards();
 
 	// Counting card per type
-	for (int i = 0; i < pdeck->getNumOfCards(); i++)
+	for (int i = 0; i < mCurrent->getNCard(); i++)
 	{
-	/*	int type = pdeck->getCards().at(i)->getTypeOfArmy();
+		int type = mCurrent->getCards().at(i)->getTypeOfArmy();
 		if (type == 1)
 			type1++;
 		else if (type == 2)
 			type2++;
 		else
-			type3++;*/
+			type3++;
 	}
 
 	// Delete pointer
-	delete pdeck;
-	pdeck = NULL;
+/*	delete pdeck;
+	pdeck = NULL;*/
 
 	// Check condition
 	if (type1 >= 3 || type2 >= 3 || type3 >= 3 || (type1 > 0 && type2 > 0 && type3 > 0))
@@ -103,17 +104,21 @@ bool Reinforcement::checkMinCondition()
 
 void Reinforcement::countCards()
 {
-	std::cout << "Inside count card." << std::endl;
-	//this->mCurrent->getPDeck()->printCards();
+	
+	//std::cout << "Inside count card." << std::endl;
+	//mCurrent->printCards();
 	//PlayerDeck *deck = mCurrent->getPDeck();
-	std::vector<Card*> cards = mCurrent->getPDeck()->getCards();
+	std::vector<Card*> cards = mCurrent->getCards();
 	int numOfCard = mCurrent->getNCard();
 	std::cout << "NumOfCards = " << numOfCard << std::endl;
+	std::cout << "WTF" << std::endl;
 	bool meetConditions = checkMinCondition();
+	
 	if (numOfCard >= 5)
 	{
 		std::cout << "Player must exchange its cards.\n\n";
 		exchangeCards(cards);
+		
 	}
 	else if (meetConditions)
 	{	
@@ -122,8 +127,9 @@ void Reinforcement::countCards()
 		std::cin.ignore();
 		std::cout << "Do you want to exchange? true or false.\n\n";
 		std::cin >> ans;
-		if (ans == "true")
+		if(ans == "true")
 			exchangeCards(cards);
+
 	}
 	else
 	{
@@ -135,6 +141,7 @@ void Reinforcement::countCards()
 
 void Reinforcement::exchangeCards(std::vector<Card*> cards)
 {
+	//std::vector<Card*> pDeck = mCurrent->getCards();
 	exchange = true;
 	//this->mCurrent->getPDeck()->printCards();
 	//std::vector<Card*> *cards = &(mCurrent->getPDeck()->getCards());
@@ -144,17 +151,14 @@ void Reinforcement::exchangeCards(std::vector<Card*> cards)
 	std::cout << "List of Cards (Select a set of 3 unique types or a set of 3 cards of the same type)\n\n";
 //	deck->printCards();
 	//std::vector<Card*> *set = &(deck->getCards());
-
-	if (cards.size() <= 0)
-		std::cout << "No card.\n";
-	else
-	{
-		for (int i = 0; i < cards.size(); i++)
+	std::cout << "WTF" << std::endl;
+	
+	for (int i = 0; i < cards.size(); i++)
 		{
 			std::cout << i << ") " << cards.at(i)->getTerritoryName() << ", ";
 			std::cout << cards.at(i)->getTypeOfArmyStr() << std::endl;
 		}
-	}
+	
 
 	//mCurrent->notify();
 	/*PlayerDeck *pDeck = mCurrent->getPDeck();
@@ -170,11 +174,14 @@ void Reinforcement::exchangeCards(std::vector<Card*> cards)
 			std::cin.ignore();
 			std::cin >> choice;
 			exchangeSet[i] = cards.at(choice);
-			std::cout << exchangeSet[i]->getTypeOfArmy() << std::endl;
+			//std::cout << exchangeSet[i]->getTypeOfArmy() << std::endl;
 		}
 		
 	} while (!sameType(exchangeSet) && !uniqueType(exchangeSet));
 	
+	// Look for card territory extra bonus
+	checkCardName(exchangeSet);
+
 	std::cout << "Out!" << std::endl;
 	/*c1 = exchangeSet[0];
 	c2 = exchangeSet[1];
@@ -182,8 +189,7 @@ void Reinforcement::exchangeCards(std::vector<Card*> cards)
 	// Update PlayerDeck
 	updatePDeck(exchangeSet/*c1, c2, c3*/, cards);
 	
-	// Look for card territory extra bonus
-	checkCardName(exchangeSet);
+	
 	//std::cout << "No error" << std::endl;
 
 	// Assign appropriate bonus value
@@ -197,12 +203,12 @@ void Reinforcement::exchangeCards(std::vector<Card*> cards)
 
 void Reinforcement::updatePDeck(Card* exchangeSet[3]/*Card* c1, Card* c2, Card* c3*/, std::vector<Card*> cards)
 {
-	std::cout << "Before: " << std::endl;
+	/*std::cout << "Before: " << std::endl;
 	for (int i = 0; i < cards.size(); i++)
 	{
 		std::cout << i << ") " << cards.at(i)->getTerritoryName() << ", ";
 		std::cout << cards.at(i)->getTypeOfArmyStr() << std::endl;
-	}
+	}*/
 	std::cout << "MID: " << std::endl;
 	/*mCurrent->getPDeck()->removeCard(c1);
 	mCurrent->getPDeck()->removeCard(c2);
@@ -213,7 +219,7 @@ void Reinforcement::updatePDeck(Card* exchangeSet[3]/*Card* c1, Card* c2, Card* 
 		{
 			if (cards.at(j)->getTerritoryName() == exchangeSet[i]->getTerritoryName())
 			{
-				cards.erase(cards.begin() + i);
+				cards.erase(cards.begin() + j);
 				break;
 			}
 		}
@@ -228,14 +234,17 @@ void Reinforcement::updatePDeck(Card* exchangeSet[3]/*Card* c1, Card* c2, Card* 
 		std::cout << i << ") " << cards.at(i)->getTerritoryName() << ", ";
 		std::cout << cards.at(i)->getTypeOfArmyStr() << std::endl;
 }
-	updatedDeck = cards;
-	mCurrent->getPDeck()->setCards(updatedDeck);
+	//updatedDeck = cards;
+	mCurrent->setNCard(cards.size());
+	mCurrent->setCards(cards);
+	mCurrent->notify();
+	//mCurrent->getPDeck()->setCards(updatedDeck);
 }
 
-std::vector<Card*> Reinforcement::getUpdatedDeck()
+/*std::vector<Card*> Reinforcement::getUpdatedDeck()
 {
 	return updatedDeck;
-}
+}*/
 
 bool Reinforcement::sameType(Card* exchangeSet[3])
 {
@@ -251,34 +260,47 @@ bool Reinforcement::uniqueType(Card* exchangeSet[3])
 
 void Reinforcement::checkCardName(Card* exchangeSet[3])
 {
+	std::cout << "Inside CHECK " << std::endl;
 	// Looking for all the territories that the player owns
 	Map *map = Map::getMapInstance();
 	std::vector<Territory*> allTerritories = map->getTerritories();
 	std::vector<Territory*>::iterator it;
-
+	bool eligible = false; // To control outer loop
+	std::cout << "INSIDE FIRST LOOP " << std::endl;
 	for (it = allTerritories.begin(); it != allTerritories.end(); it++)
 	{
-		bool eligible = false; // To control outer loop
-
-		if (((*it)->getPlayerOwner()->getName() == mCurrent->getName()) && !eligible)
+		if (!eligible)
 		{
-			// Looking for card with the player's territory
-			for (int i = 0; i < 3; i++)
+			std::cout << "INSIDE FIRST LOOP " << std::endl;
+			std::cout << (*it)->getName() << "," << (*it)->getPlayerOwner()->getName() << std::endl;
+
+
+			if (((*it)->getPlayerOwner() == mCurrent) && !eligible)
 			{
-				// Check if eligible for extra 2 armies territory name bonus per turn
-				if (exchangeSet[i]->getTerritoryName() == (*it)->getName())
+				std::cout << "INSIDE FIRST IF : PLAYERS'" << std::endl;
+				std::cout << (*it)->getName() << std::endl;
+				//break;
+				// Looking for card with the player's territory
+				for (int i = 0; i < 3; i++)
 				{
-					// Assign 2 extra armies for this territory
-					(*it)->setAmountOfArmies((*it)->getAmountOfArmies() + 2);
-					eligible = true;
-					break; // Break innerloop
+					std::cout << "INSIDE SEC LOOP " << std::endl;
+					// Check if eligible for extra 2 armies territory name bonus per turn
+					if (exchangeSet[i]->getTerritoryName() == (*it)->getName())
+					{
+						std::cout << "INSIDE SEC IF " << std::endl;
+						std::cout << exchangeSet[i]->getTerritoryName() << std::endl;
+						// Assign 2 extra armies for this territory
+						(*it)->setAmountOfArmies((*it)->getAmountOfArmies() + 2);
+						eligible = true;
+						break; // Break innerloop
+					}
 				}
 			}
 		}
 		else
-			break; // Break outerloop
+			break;// Break outerloop
 	}
-
+	std::cout << "Break! " << std::endl;
 	// Deleting pointers
 /*	delete map;
 	allTerritories.clear();*/
@@ -293,6 +315,7 @@ void Reinforcement::reinforce()
 
 	/* Assign the number of reinforcements to the current player */
 	mCurrent->setNReinforcement(numOfR);
+	
 	mCurrent->notify();
 	std::cout << "End REiNFORCEMENT\n";
 }
@@ -305,7 +328,7 @@ int Reinforcement::updateCardBonus()
 	return cardBonusCt;
 }
 
-bool Reinforcement::getExchange()
+/*bool Reinforcement::getExchange()
 {
 	return exchange;
 }
@@ -323,4 +346,4 @@ Card* Reinforcement::getC2()
 Card* Reinforcement::getC3()
 {
 	return c3;
-}
+}*/

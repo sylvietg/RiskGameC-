@@ -91,34 +91,6 @@ void Game::startUp()
 	gDeck.createDeck();
 	/*std::cout << "Listing all Risk cards:\n";
 	gDeck.printCards();*/
-	
-	std::cout << "INITIAL VALUE = " << cardReinforcement << std::endl;
-	/* Reinforcement Test		  */
-	// Cards
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->getPDeck()->addCard(gDeck.drawCard());
-	players[0]->notify();
-	std::cout << "numOFReinforcemnet = " << players[0]->getNReinforcement() << std::endl;
-	std::cout << "numOFCards = " << players[0]->getNCard() << std::endl;
-
-	Reinforcement rPhase(players[0], cardReinforcement);
-	rPhase.reinforce();
-	cardReinforcement = rPhase.updateCardBonus();
-	std::cout << "AFTER ONE ROUND, VALUE = " << cardReinforcement << std::endl;
-	//players[0]->getPDeck()->setCards(rPhase.getUpdatedDeck());
-	std::cout << "numOFReinforcemnet = " << players[0]->getNReinforcement() << std::endl;
-	std::cout << "numOFCards = " << players[0]->getNCard() << std::endl;
-
-	//	std::vector<Card*> temp = players[0]->getPDeck()->getCards();
-	/*	for (int i = 0; i < temp.size(); i++)
-	{
-	std::cout << i << ") " << temp.at(i)->getTerritoryName() << ", ";
-	std::cout << temp.at(i)->getTypeOfArmyStr() << std::endl;
-	}*/
-	/* _End of Reinforcement Test */
 }
 
 
@@ -398,14 +370,13 @@ void Game::mainPlay()
 	updateTurnStatus();
 
 	//Round-Robin
-	while (!endGame && test > 0)
-	{
+//	while (!endGame && test > 0)
+//	{
 
 		std::cout << players[ct]->getName() << "'s turn!\n\n";
 
 		//Reinforcement
-		//std::cout << "Before Reinforcement, Test" << players[ct].getListCards(0) << " " << players[ct].getListCards(1) << " " << players[ct].getListCards(2) << std::endl;
-		//reinforcement();
+		reinforcement();
 
 		//Battle
 		//	battle();
@@ -414,15 +385,15 @@ void Game::mainPlay()
 		updateTurnStatus();
 
 		test--;
-	}
+//	}
 }
 
 ////////  Reinforcement  //////// 
 void Game::reinforcement()
 {
-	Reinforcement rPhase(players[ct], cardReinforcement);
+	Reinforcement rPhase(players[0], cardReinforcement);
 	rPhase.reinforce();
-	placeArmy();
+	cardReinforcement = rPhase.updateCardBonus();
 }
 
 
@@ -492,6 +463,7 @@ std::cin.get();
 //cout << "Destination is: " << d << endl;
 //f.selectDestination(o, d, ct);
 //}
+
 ////////  Other  ////////
 int Game::rollDice()
 {
@@ -509,49 +481,4 @@ else
 			players[i]->setTurnState(false);
 	}
 }
-// !! To put back on after reinforcement testing
-
-// void Game::drawCard()
-// {
-// if (players[ct]->getHasNewTerritory())
-// {
-// std::cout << "Player has conquered a new territory and will receive a Risk card\n\n";
-// players[ct]->setHasNewTerritory(false);
-// int card = rand() * 3;
-// if (card == 0)
-// players[ct]->setListCards(players[ct]->getListCards(0) + 1, 0, 0);
-// if (card == 1)
-// players[ct]->setListCards(0, players[ct]->getListCards(1) + 1, 0);
-// if (card == 2)
-// players[ct]->setListCards(0, 0, players[ct]->getListCards(2 + 1));
-//}
-//void Game::drawCard()
-//{
-//if (players[ct]->getHasNewTerritory())
-//{
-//std::cout << "Player has conquered a new territory and will receive a Risk card\n\n";
-//players[ct]->setHasNewTerritory(false);
-//int card = rand() * 3;
-//if (card == 0)
-//players[ct]->setListCards(players[ct]->getListCards(0) + 1, 0, 0);
-//if (card == 1)
-//players[ct]->setListCards(0, players[ct]->getListCards(1) + 1, 0);
-//if (card == 2)
-//players[ct]->setListCards(0, 0, players[ct]->getListCards(2 + 1));
-//players[ct]->setNCard(players[ct]->getNCard() + 1);
-//if (players[ct]->getNCard() > 5)
-//std::cout << "Player has 5 cards and must exchange them in the next round.\n\n";
-//else
-//std::cout << "No risk card.\n\n";
-//}
-//
-// players[ct]->setNCard(players[ct]->getNCard() + 1);
-//
-// if (players[ct]->getNCard() > 5)
-//	 std::cout << "Player has 5 cards and must exchange them in the next round.\n\n";
-// else
-//	 std::cout << "No risk card.\n\n";
-// }
-//
-//}
 

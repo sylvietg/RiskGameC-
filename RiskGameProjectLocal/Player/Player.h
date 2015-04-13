@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../Cards/PlayerDeck.h"
+#include "../Cards/Card.h"
 #include "../Map/Observable.h"
 #include "../Map/Map.h"
 
@@ -41,7 +41,7 @@ std::string getColor();
 	void setNReinforcement(int n);
 	int getNReinforcement();
 
-	PlayerDeck* getPDeck();
+//	PlayerDeck* getPDeck();
 
 	void defineNTerritory();
 	void defineNCard();
@@ -51,6 +51,20 @@ std::string getColor();
   {
     mNumber = number;
   }
+
+	// Getters
+	std::vector<Card*> getCards();
+	int getNumOfCards();
+
+	// Setters
+	//void setListCards(int i, int j, int k);
+	void setNumOfCards(int num);
+	void setCards(std::vector<Card*> set);
+
+	// Others
+	void addCard(Card* aCard);
+	void removeCard(Card* aCard);
+	void printCards();
 
 protected:
   std::string name;
@@ -70,7 +84,9 @@ private:
 	bool hasNewTerritory;
 	bool turnState;
 
-	PlayerDeck *pDeck; //New
+	//PlayerDeck *pDeck; //New
 	
+	std::vector<Card*> cards;
+
 };
 #endif /* PLAYER_H_ */
