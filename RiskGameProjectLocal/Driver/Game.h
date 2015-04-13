@@ -4,6 +4,7 @@
 #include "../Map/Map.h"
 #include "../Map/MapViewer.h"
 #include "../Map/PlayerViewer.h"
+#include "../Map/MapCreator/MapCreator.h"
 #include "../Player/Player.h"
 #include "../Player/StatisticsViewer.h"
 #include "../Player/AIPlayer.h"

@@ -39,6 +39,7 @@ void Game::menu()
 		std::cout << "Loading map...\n\n";
 		map = Map::getMapInstance();
 		graphics(mapFileName);
+
 		std::cout << "Map has been created!\n\n";
 
 		startUp();
@@ -58,7 +59,9 @@ void Game::menu()
 		break;
 	case 3:
 		// MAP CREATOR, MIGHT RETURN THE NAME OF THE NEW MAP:
-		// mapFileName = mapCreator();
+		//MapCreator mapCreator = new MapCreator();
+	//	mapCreator.createAMap();
+		//mapFileName = mapCreator.getFileName();
 		std::cout << "Loading map...\n\n";
 		map = Map::getMapInstance();
 		graphics(mapFileName);
@@ -79,6 +82,7 @@ void Game::menu()
 //////// Start-Up ////////
 void Game::startUp()
 {
+
 	endGame = false;
 
 	createPlayer();
@@ -101,6 +105,7 @@ void Game::startUp()
 
 void Game::graphics(std::string mapFileName)
 {
+
 	window.clear(sf::Color(45, 45, 45));
 
 	MapIO mio;
@@ -115,7 +120,7 @@ void Game::graphics(std::string mapFileName)
 
 	// Creates the main render window
 	sf::ContextSettings settings;
-	settings.antialiasingLevel = 6;
+	settings.antialiasingLevel = 4;
 
 	if (mapBackground.getSize().x >= 900)
 		window.create(
@@ -143,7 +148,9 @@ void Game::graphics(std::string mapFileName)
 		map->getContinents().at(i)->setColor(c[i % 8]);
 	}
 
+
 	window.display();
+
 }
 
 void Game::createPlayer()
@@ -151,8 +158,11 @@ void Game::createPlayer()
 	// Coloring the players (max 6)
 	std::string c[] = { "blue", "red", "green", "cyan", "magenta", "yellow" };
 
-	std::cout << "Please enter the number of players: (2-6).\n\n";
-	std::cin >> nPlayer;
+	while (nPlayer < 2 || nPlayer > 6)
+	{
+		std::cout << "Please enter the number of players: (2-6).\n\n";
+		std::cin >> nPlayer;
+	}
 
 	std::cout << "\nCreating players...\n\n";
 	players = new Player*[nPlayer];
@@ -174,7 +184,7 @@ void Game::createPlayer()
 		else
 		{
 			players[i] = new Player(i);
-			std::cout << "Please enter your name, player " << i << ":" << std::endl;
+			std::cout << "Please enter your name, player " << i + 1 << ":" << std::endl;
 			std::string name;
 			std::cin >> name;
 			players[i]->setName(name);
