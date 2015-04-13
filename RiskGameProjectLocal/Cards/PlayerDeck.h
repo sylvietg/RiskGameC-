@@ -3,7 +3,7 @@
 
 #include "IDeck.h"
 
-class PlayerDeck: public IDeck
+class PlayerDeck : public IDeck
 {
 public:
 	// Constructor & Destructor
@@ -17,6 +17,7 @@ public:
 	// Setters
 	//void setListCards(int i, int j, int k);
 	void setNumOfCards(int num);
+	void setCards(std::vector<Card*> set);
 
 	// Others
 	void addCard(Card* aCard);
