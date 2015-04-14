@@ -11,12 +11,12 @@ MapViewer::MapViewer(Map* aMap, sf::RenderWindow &aWindow) : observedMap (aMap),
 {
 	observedMap->attach(this);
 
-	for(int i = 0; i < this->observedMap->getContinents().size();i++)
+	for(unsigned int i = 0; i < this->observedMap->getContinents().size();i++)
 	{
 	    this->observedMap->getContinents()[i]->attach(this);
 	}
 
-	for(int i = 0; i < this->observedMap->getTerritories().size();i++)
+	for(unsigned int i = 0; i < this->observedMap->getTerritories().size();i++)
 	{
 	    this->observedMap->getTerritories()[i]->attach(this);
 	}
@@ -33,13 +33,11 @@ MapViewer::~MapViewer()
 void MapViewer::update()
 {
 
-
 	loadMapImage(this->observedMap->getFileName());
 	drawAllNeighborsLines();
 	drawAllContinentOwners();
+	drawContinentInfoBar();
 	//window->display();
-
-	//
 
 }
 
@@ -87,29 +85,12 @@ void MapViewer::drawContinentOwner(int xPos, int yPos, std::string continentColo
 	sf::CircleShape continentOwnerInTerritory(circleSize, 6);
 
 	// Color of the Continent
-	sf::Color color;
-
-	if (continentColor == "blue")
-		color = sf::Color(0, 0, 150);
-	else if (continentColor == "red")
-		color = sf::Color(150, 0, 0);
-	else if (continentColor == "green")
-		color = sf::Color(0, 150, 0);
-	else if (continentColor == "black")
-		color = sf::Color(0, 0, 0);
-	else if (continentColor == "cyan")
-		color = sf::Color(0, 150, 150);
-	else if (continentColor == "magenta")
-		color = sf::Color(150, 0, 150);
-	else if (continentColor == "yellow")
-		color = sf::Color(150, 150, 0);
-	else if (continentColor == "gray")
-			color = sf::Color(60, 60, 60);
+	sf::Color color = convertContinentColor(continentColor);
 
 	continentOwnerInTerritory.setFillColor(color);
 	continentOwnerInTerritory.setPosition(xPos, yPos);
 
-	// Draw the Player circle
+	// Draw the Continent hexagon
 	window->draw(continentOwnerInTerritory);
 
 }
@@ -128,6 +109,102 @@ void MapViewer::drawAllContinentOwners()
 								this->observedMap->getContinents().at(i)->getColor()
 							  );
 	}
+}
+
+void MapViewer::drawContinentInfoBar()
+{
+//	bool showInfoBar = false;
+//	int currentPosX = sf::Mouse::getPosition(*window).x;
+//	int currentPosY = sf::Mouse::getPosition(*window).y;
+//
+//	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+//		showInfoBar = true;
+//	else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
+//		showInfoBar = false;
+
+	// Draw the Bar
+	sf::RectangleShape territoryBar(sf::Vector2f(window->getSize().x, 30));
+	territoryBar.setFillColor(sf::Color(45,45,45, 210));
+	territoryBar.setPosition(sf::Vector2f(0, window->getSize().y - 130));
+
+	window->draw(territoryBar);
+
+	// Draw the continent information
+	int nContinents = this->observedMap->getContinents().size();
+
+	for(int i = 0; i < nContinents; i++)
+	{
+		drawContinentLabel(this->observedMap->getContinents().at(i)->getName(),
+							this->observedMap->getContinents().at(i)->getColor(),
+							this->observedMap->getContinents().at(i)->getTerritories().size(),
+							i);
+	}
+
+
+}
+
+void MapViewer::drawContinentLabel(std::string continentName,
+									std::string continentColor,
+									int nTerritories,
+									int posX)
+{
+	int refPosX = (window->getSize().x/observedMap->getContinents().size())*posX + 8 ;
+	int refPosY = window->getSize().y - 124;
+
+	sf::Font font;
+	if (!font.loadFromFile("FreeSans.ttf"))
+	{
+		std::cerr << "Font could not be loaded!" << std::endl;
+	}
+	else
+	{
+		sf::Text text;
+
+		// Elipsing
+		if (continentName.size() > (8/observedMap->getContinents().size()) + 8)
+		{
+			continentName = continentName.substr(0, 8/observedMap->getContinents().size() + 8);
+			continentName += "...";
+		}
+
+		std::stringstream ssInfo;
+		ssInfo << continentName << "(" << nTerritories << ")";
+
+		// setting the text configurations
+		text.setString(ssInfo.str());
+		text.setPosition(refPosX, refPosY ); // put in center of the circle
+		text.setCharacterSize(16);		 		// set size in pixels
+		text.setFont(font); 			 		// select the font
+		text.setColor(convertContinentColor(continentColor)); // set the color
+		text.setStyle(sf::Text::Bold);   		// set the text style
+
+		// Draw the Amount of Armies
+		window->draw(text);
+	}
+}
+
+sf::Color MapViewer::convertContinentColor(std::string continentColor)
+{
+	sf::Color color;
+
+	if (continentColor == "blue")
+		color = sf::Color(0, 0, 150, 185);
+	else if (continentColor == "red")
+		color = sf::Color(150, 0, 0, 185);
+	else if (continentColor == "green")
+		color = sf::Color(0, 150, 0, 185);
+	else if (continentColor == "black")
+		color = sf::Color(0, 0, 0, 187);
+	else if (continentColor == "cyan")
+		color = sf::Color(0, 150, 150, 185);
+	else if (continentColor == "magenta")
+		color = sf::Color(150, 0, 150, 185);
+	else if (continentColor == "yellow")
+		color = sf::Color(150, 150, 0, 185);
+	else if (continentColor == "gray")
+			color = sf::Color(60, 60, 60, 180);
+
+	return color;
 }
 
 bool MapViewer::loadMapImage(std::string nameOfImage)

@@ -142,23 +142,23 @@ void Fortification::fortify()
 
 			// Look for all owned territories with at least 2 armies
 			if ((*it)->getAmountOfArmies() >= 2)
-			{
+{
 				tempOriginStr1.push_back((*it)->getName());
 
 				pTerritories.push_back(*it);	
 			}
 		}
-	}
+}
 
 	// Sort the list of origins
 	for (int i = 0; i < tempOriginStr1.size(); i++)
-	{
+{
 		// Get the list of neighbors for a territory
 		std::vector <std::string> neighbor = createNeighborsStr(tempOriginStr1[i]);
 
 		// Add the one that has valid neighbors
 		if (neighbor.size() > 0)
-		{
+	{
 			originStr.push_back(tempOriginStr1[i]);
 		}
 	}
@@ -171,7 +171,7 @@ void Fortification::fortify()
 
 	// Move Armies
 	move(tOriginStr, tDestinationStr);
-}
+	}
 
 std::vector<std::string> Fortification::createNeighborsStr(std::string name)
 {
@@ -185,13 +185,13 @@ std::vector<std::string> Fortification::createNeighborsStr(std::string name)
 	for (int i = 0; i < nTerritory.size(); i++)
 	{
 		nTerritoryStr0.push_back(nTerritory.at(i)->getName());
-	}
+}
 
 	// Get the name of the owned neighbors
 	for (int j = 0; j < nTerritoryStr0.size(); j++)
-	{
+{
 		for (int k = 0; k < map->getTerritories().size(); k++)
-		{
+	{
 			if (nTerritoryStr0[j] == map->getTerritories().at(k)->getName())
 				if (map->getTerritories().at(k)->getPlayerOwner() == mCurrent)
 					nTerritoryStr.push_back(nTerritoryStr0[j]);

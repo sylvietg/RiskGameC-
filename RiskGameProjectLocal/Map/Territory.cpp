@@ -135,7 +135,7 @@ void Territory::printMyNeighbors()
 // - find and return a neighbor object in the list by the given name
 Territory* Territory::getNeighborByName(std::string territory)
 {
-	int nNeighbors = this->neighbors.size();
+	int nNeighbors = this->getNeighbors().size();
 	int index = nNeighbors;
 	int i;
 

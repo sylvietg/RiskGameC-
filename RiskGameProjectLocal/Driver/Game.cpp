@@ -9,70 +9,70 @@ Game::Game()
 //////// Menu ////////
 void Game::menu()
 {
-	std::cout << ">>#>>#>>#>>#>>#>>#>>-- RISK! --<<#<<#<<#<<#<<#<<#<<"	<< std::endl;
-	std::cout << "--^--^--^--^--^--^--^--^--^--^--^--^--^--^--^--^--"	<< std::endl;
-	std::cout << "                                                  "	<< std::endl;
-	std::cout << "       Welcome to RISK!, a game made with C++     "	<< std::endl;
+	bool exit = false;
 
-	int option = 0;
-
-	while (option < 1 || option > 4)
+	while (!exit)
 	{
-		std::cout << "Please type the number of your option:" 		<< std::endl;
-		std::cout << " 1 - Start a new RISK! with an existing map."	<< std::endl;
-		std::cout << " 2 - Load a previously started RISK! game."	<< std::endl;
-		std::cout << " 3 - Create a new map with RISK! Map Creator"	<< std::endl;
-		std::cout << " 4 - Exit."									<< std::endl;
+		std::cout << ">>#>>#>>#>>#>>#>>#>>-- RISK! --<<#<<#<<#<<#<<#<<#<<"	<< std::endl;
+		std::cout << "--^--^--^--^--^--^--^--^--^--^--^--^--^--^--^--^--"	<< std::endl;
+		std::cout << "                                                  "	<< std::endl;
+		std::cout << "       Welcome to RISK!, a game made with C++     "	<< std::endl;
 
-		std::cin >> option;
+		int option = 0;
+
+		while (option < 1 || option > 4)
+		{
+			std::cout << "Please type the number of your option:" 		<< std::endl;
+			std::cout << " 1 - Start a new RISK! with an existing map."	<< std::endl;
+			std::cout << " 2 - Load a previously started RISK! game."	<< std::endl;
+			std::cout << " 3 - Create a new map with RISK! Map Creator"	<< std::endl;
+			std::cout << " 4 - Exit."									<< std::endl;
+
+			std::cin >> option;
+		}
+
+		std::string mapFileName;
+
+		switch (option)
+		{
+		case 1: // Opening new Game with .map file
+			std::cout << "Type the name of the map you want to load. Ex: 'World.map' " << std::endl;
+			std::cin.get();
+			std::getline(std::cin, mapFileName);
+
+			std::cout << "Loading map..." << std::endl;
+			map = Map::getMapInstance();
+			graphics(mapFileName);
+			std::cout << "Map has been created!"  << std::endl;
+
+			startUp();
+			std::cout << "End of Start-up! Let's play!"  << std::endl;
+			mainPlay();
+
+			break;
+		case 2: // Loading existing game
+			std::cout << "Type the name of the game you want to load. Ex: 'Game.gsv' " << std::endl;
+			std::cin.get();
+			std::getline(std::cin, mapFileName);
+
+			std::cout << "Loading map..."  << std::endl;
+			map = Map::getMapInstance();
+			graphics(mapFileName);
+			std::cout << "Game has been loaded! Let's Play!"  << std::endl;
+			mainPlay();
+
+			break;
+		case 3: // Map Creator
+			mapCreator = new MapCreator();
+			mapCreator->createAMap();
+
+			break;
+		case 4:
+			exit = true;
+			return;
+		}
 	}
 
-	std::string mapFileName;
-
-	switch (option)
-	{
-	case 1:
-		std::cout << "Type the name of the map you want to load. Ex: 'World.map' " << std::endl;
-		std::cin.get();
-		std::getline(std::cin, mapFileName);
-
-	std::cout << "Loading map...\n\n";
-	map = Map::getMapInstance();
-		graphics(mapFileName);
-	std::cout << "Map has been created!\n\n";
-
-	startUp();
-	std::cout << "End of Start-up!\n\n";
-
-		break;
-	case 2:
-		std::cout << "Type the name of the game you want to load. Ex: 'Game.gsv' " << std::endl;
-		std::cin.get();
-		std::getline(std::cin, mapFileName);
-
-		std::cout << "Loading map...\n\n";
-		map = Map::getMapInstance();
-		graphics(mapFileName);
-		std::cout << "Game has been loaded!\n\n";
-
-		break;
-	case 3:
-		// MAP CREATOR, MIGHT RETURN THE NAME OF THE NEW MAP:
-		// mapFileName = mapCreator();
-		std::cout << "Loading map...\n\n";
-		map = Map::getMapInstance();
-		graphics(mapFileName);
-		std::cout << "Map has been created!\n\n";
-
-		startUp();
-		std::cout << "End of Start-up!\n\n";
-
-		break;
-	case 4:
-		return;
-}
-
-	mainPlay();
 }
 
 
@@ -98,15 +98,13 @@ void Game::startUp()
 
 void Game::graphics(std::string mapFileName)
 {
-	window.clear(sf::Color(45, 45, 45));
-
 	MapIO mio;
 	GameToMapIO gtmio(mio);
 	gtmio.loadGameInfo(mapFileName);
 	//mio.loadMapInfo("World.map");
 	mio.saveMapInfo("WorldSave.map");
 
-	map->getFileName();
+	// Loads the Background Image
 	sf::Image mapBackground;
 	mapBackground.loadFromFile(map->getFileName());
 
@@ -127,13 +125,15 @@ void Game::graphics(std::string mapFileName)
 		mapBackground.getSize().y + 100), "RISK! - " + mapFileName,
 		sf::Style::Default, settings);
 
+	window.clear(sf::Color(45, 45, 45));
+
 	// Attach Map and Player Viewers:
 	MapObserver = new MapViewer(map, window); // Responsible for displaying the Map itself, continent colors and neighborhoods
 	PlayerObserver = new PlayerViewer(map, window); // Responsible for displaying the User in it's territories and it's armies
 
 	// Coloring the continents (max 8 colors)
 	std::string c[] =
-		{ "blue", "red", "green", "black", "gray", "cyan", "magenta", "yellow" };
+		{ "blue", "red", "green", "black", "cyan", "magenta", "yellow", "gray" };
 
 	for (unsigned int i = 0; i < map->getContinents().size(); i++)
 	{
@@ -148,8 +148,12 @@ void Game::createPlayer()
 	// Coloring the players (max 6)
 	std::string c[] = { "blue", "red", "green", "cyan", "magenta", "yellow" };
 
-	std::cout << "Please enter the number of players: (2-6).\n\n";
-	std::cin >> nPlayer;
+	do
+	{
+		std::cout << "Please enter the number of players: (2-6).\n\n";
+		std::cin >> nPlayer;
+	}
+	while (nPlayer < 2 || nPlayer > 6);
 
 	std::cout << "\nCreating players...\n\n";
 	players = new Player*[nPlayer];

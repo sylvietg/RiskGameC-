@@ -9,6 +9,14 @@
 #define MAP_MAPCREATOR_MAPCREATOR_H_
 
 #include "../Map.h"
+#include "../Continent.h"
+#include "../Territory.h"
+
+#include "../MapViewer.h"
+
+#include "../MapIO/MapIO.h"
+
+#include <SFML/Graphics.hpp>
 #include <string>
 
 class MapCreator
@@ -18,10 +26,27 @@ public:
 	virtual ~MapCreator();
 
 	std::string getFileName();
+	Map* getMap();
+
+	void mapCreatorMenu();
+	void territoryEditorMenu(std::string territory);
+
 	void createAMap();
+	void mapCreatorGraphics();
+	void createContinents();
+	void createTerritories();
+	void editTerritories();
+	void removeContinents();
+	void removeTerritories();
 
 private:
 	std::string fileName;
+	Map* newMap;
+
+	MapCreator* mapCreator;
+	MapViewer* MapObserver;
+
+	sf::RenderWindow window;
 };
 
 #endif /* MAP_MAPCREATOR_MAPCREATOR_H_ */
