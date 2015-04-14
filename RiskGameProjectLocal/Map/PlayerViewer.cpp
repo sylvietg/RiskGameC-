@@ -56,11 +56,11 @@ void PlayerViewer::drawOnePlayerInfo(int xPos, int yPos, std::string playerColor
 	else if (playerColor == "green")
 		color = sf::Color(0, 255, 0);
 	else if (playerColor == "cyan")
-		color = sf::Color(0, 255, 255);
+		color = sf::Color(0, 250, 250);
 	else if (playerColor == "magenta")
 		color = sf::Color(255, 0, 255);
 	else if (playerColor == "yellow")
-		color = sf::Color(255, 255, 0);
+		color = sf::Color(255, 245, 0);
 
 	playerInTerritory.setFillColor(color);
 	playerInTerritory.setPosition(xPos, yPos);

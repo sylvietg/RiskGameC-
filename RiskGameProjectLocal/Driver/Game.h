@@ -18,6 +18,7 @@
 #include "Fortification.h"
 #include "../Map/MapIO/GameIO.h"
 #include "../Map/MapIO/GameToMapIO.h"
+#include "../Map/MapCreator/MapCreator.h"
 
 class Game
 {
@@ -61,6 +62,7 @@ private:
 	int cardReinforcement;
 	sf::RenderWindow window;
 	sf::RenderTexture* bottomBar;
+	MapCreator* mapCreator;
 	MapViewer* MapObserver;
 	PlayerViewer* PlayerObserver;
 	StatisticsViewer** StatisticsObserver;

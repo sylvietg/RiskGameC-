@@ -62,6 +62,11 @@ public:
 
 	void removeContinent(Continent* continent); // removes from the continent, don't delete
 
+	void removeTerritory(Territory* territory); // removes from the territories, don't delete
+
+	bool checkIfContinentExists(std::string continent);
+
+	bool checkIfTerritoryExists(std::string territory);
 
 	void loadMap(char* filename);
 

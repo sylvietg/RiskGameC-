@@ -34,6 +34,10 @@ class MapViewer : public Observer
 		void drawContinentOwner(int xPos, int yPos, std::string continentColor);
 		void drawAllContinentOwners();
 
+		void drawContinentInfoBar();
+		void drawContinentLabel(std::string continentName, std::string continentColor, int nTerritories, int posX);
+		sf::Color convertContinentColor(std::string continentColor);
+
 		bool loadMapImage(std::string nameOfImage);
 
 	private:
