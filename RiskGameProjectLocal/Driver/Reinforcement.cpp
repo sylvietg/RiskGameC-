@@ -231,9 +231,9 @@ void Reinforcement::reinforce()
 
 	/* Assign the number of reinforcements to the current player */
 	mCurrent->setNReinforcement(numOfR);
-	
 	mCurrent->notify();
-	std::cout << "End REiNFORCEMENT\n";
+
+	std::cout << "End of Reinforcement" << std::endl;
 }
 
 int Reinforcement::updateCardBonus()

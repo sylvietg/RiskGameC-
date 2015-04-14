@@ -84,13 +84,15 @@ void Game::startUp()
 
 	createPlayer();
 	turnOrder();
-	pickRandom();
-	placeArmy();
+	/*pickRandom();
+	placeArmy();*/
 
 	GameDeck gDeck;
 	gDeck.createDeck();
 	/*std::cout << "Listing all Risk cards:\n";
 	gDeck.printCards();*/
+
+
 }
 
 
@@ -358,34 +360,64 @@ void Game::turnOrder()
 
 }
 
+
 ///////// Main Play ////////
 
 void Game::mainPlay()
 {
 	std::cout << "Let's start the game...\n\n";
 
-	int test = 5;
+	int test = 2;
 	ct = first;
 
 	updateTurnStatus();
 
 	//Round-Robin
-//	while (!endGame && test > 0)
-//	{
+	while (!endGame && test > 0)
+	{
 
 		std::cout << players[ct]->getName() << "'s turn!\n\n";
 
-		//Reinforcement
-		reinforcement();
+		// Reinforcement
+		//reinforcement();
 
-		//Battle
+		// Battle
 		//	battle();
 
+		// Display stats [BEFORE]
+		std::cout << "Stats after." << std::endl;
+		std::cout << "Card." << players[ct]->getNCard() << std::endl;
+		std::cout << map->getTerritoryByName("Siam")->getAmountOfArmies() << std::endl;
+		std::cout << map->getTerritoryByName("India")->getAmountOfArmies() << std::endl;
+		std::cout << map->getTerritoryByName("Mongolia")->getAmountOfArmies() << std::endl;
+
+		// Fortification
+		map->getTerritoryByName("Siam")->setPlayerOwner(players[0]);
+		map->getTerritoryByName("Siam")->setAmountOfArmies(2);
+	
+		map->getTerritoryByName("India")->setPlayerOwner(players[0]);
+		map->getTerritoryByName("India")->setAmountOfArmies(5);
+
+		map->getTerritoryByName("Mongolia")->setPlayerOwner(players[0]);
+		map->getTerritoryByName("Mongolia")->setAmountOfArmies(2);
+	
+		players[0]->setHasNewTerritory(true);
+	
+		fortification();
+		
+		// Display stats [AFTER]
+		std::cout << "Stats after." << std::endl;
+		std::cout << "Card." << players[ct]->getNCard() << std::endl;
+		std::cout << map->getTerritoryByName("Siam")->getAmountOfArmies() << std::endl;
+		std::cout << map->getTerritoryByName("India")->getAmountOfArmies() << std::endl;
+		std::cout << map->getTerritoryByName("Mongolia")->getAmountOfArmies() << std::endl;
+	
+		// Update
 		ct = (ct + 1) % nPlayer;
 		updateTurnStatus();
-
 		test--;
-//	}
+		
+	}
 }
 
 ////////  Reinforcement  //////// 
@@ -448,21 +480,20 @@ std::cin.get();
 }
 
 
-// !! To put back on after reinforcement testing
 ////////  Fortification  ////////
-//void Game::fortification()
-//{
-//Fortification f(map, players[ct]);
-//cout << "Please choose an origin." << endl;
-//string origin;
-//cin >> origin;
-//f.selectOrigin("evendim", ct);
-//cout << "Please choose a destination.";
-//string d;
-//cin >> d;
-//cout << "Destination is: " << d << endl;
-//f.selectDestination(o, d, ct);
-//}
+void Game::fortification()
+{
+	
+	if (players[ct]->getHasNewTerritory())
+	{
+		Fortification f(players[ct]);
+		f.fortify();
+	
+		// New risk card
+		std::cout << "Player receives a new Risk card!" << std::endl;
+		players[ct]->addCard(gDeck.drawCard());
+	}
+}
 
 ////////  Other  ////////
 int Game::rollDice()

@@ -140,8 +140,11 @@ Territory* Map::getTerritoryByName(std::string territory)
 
   for (int i = 0; i < nContinents; i++)
     {
-      if (this->continents.at(i)->getTerritoryByName(territory)->getName() == territory)
-	index = i;
+		if (this->continents.at(i)->getTerritoryByName(territory)->getName() == territory)
+		{
+			index = i;
+			break;
+		}
 
     }
 

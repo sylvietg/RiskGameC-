@@ -39,6 +39,7 @@ void MapViewer::update()
 	drawAllContinentOwners();
 	//window->display();
 
+	//
 
 }
 

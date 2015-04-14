@@ -24,7 +24,7 @@ public:
 	// constructors and destructor
 	Territory();
 
-	Territory(std::string name, std::vector<Territory*> neightbors, int posX, int PosY, Player* player, int armies);
+	Territory(std::string name, std::vector<Territory*> neighbors, int posX, int PosY, Player* player, int armies);
 
 	virtual ~Territory();
 

@@ -13,6 +13,7 @@ Player::Player()
 	nReinforcement = 0;
 	nWin = 0;
 	this->color = "gray"; // default
+	hasNewTerritory = false;
 }
 
 Player::Player(std::string color)
@@ -21,6 +22,7 @@ Player::Player(std::string color)
 }
 Player::Player(int n)
 {
+	hasNewTerritory = false;
 	mNumber = n;
 	name = "";
 	turnState = false;
@@ -78,6 +80,7 @@ bool Player::getTurnState()
 void Player::setNArmy(int a)
 {
 	nArmy = a;
+	notify();
 }
 
 void Player::defineNArmy()
@@ -211,12 +214,14 @@ std::vector<Card*> Player::getCards()
 void Player::setCards(std::vector<Card*> set)
 {
 	cards = set;
+	notify();
 }
 
 // Others
 void Player::addCard(Card* aCard)		// aCard should be define with GameDeck::drawCard() function
 {
 	this->cards.push_back(aCard);
+	notify();
 }
 
 void Player::removeCard(Card* aCard)
@@ -229,6 +234,7 @@ void Player::removeCard(Card* aCard)
 			break;
 		}
 	}
+	notify();
 }
 
 void Player::printCards()
