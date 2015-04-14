@@ -4,6 +4,7 @@
 Game::Game()
 {
 	menu();
+
 }
 
 Game::~Game()
