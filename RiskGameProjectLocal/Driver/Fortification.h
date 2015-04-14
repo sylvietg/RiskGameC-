@@ -6,17 +6,27 @@
 class Fortification
 {
 public:
-	Fortification();
-	Fortification(Player* p);
-	void selectOrigin(std::string o, int order);
-	void selectDestination(std::string o, std::string d, int order);
-	void move(std::string origin, std::string destination, int order);
-	void fortify(int i);
+	// Constructor
+	Fortification(Player* aPlayer);
+	virtual ~Fortification();
+
+	// Setters
+	void setTOrigin(std::string aTerritory);
+	void setTDestination(std::string aTerritory);
+
+	// Others
+	void selectOrigin();
+	void selectDestination(std::string origin);
+	void move(std::string origin, std::string destination);
+	std::vector<std::string> createNeighborsStr(std::string name);
+	void fortify();
 
 private:
-	Map* map;
 	Player *mCurrent;
-	int migrate;
-	Territory origin;
-	Territory destination;
+	std::string tOriginStr;
+	std::string tDestinationStr;
+	Territory *tOrigin;
+	Territory *tDestination;
+	std::vector<std::string> originStr;
+	std::vector<std::string> destinationStr;
 };

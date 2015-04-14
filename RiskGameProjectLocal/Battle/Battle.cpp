@@ -13,7 +13,6 @@ Battle::Battle ()
   mDeffender = NULL;
 
   srand (time(NULL));
-
 }
 
 Battle::~Battle ()
@@ -26,10 +25,12 @@ Battle::RunBattle (bool allIn, Player* player)
 {
   bool keepAttacking = true;
   bool setupOK = SetupBattle(player);
-
-
+  int round = 0;
+  std::cout << player->getName() << " turnS\n ";
   while(keepAttacking && setupOK)
   {
+	  round++;
+
       mAttackersDice.clear();
       mDeffendersDice.clear();
       if(mAttacker->getAmountOfArmies() < min_armies_to_attack)
@@ -84,6 +85,29 @@ Battle::RunBattle (bool allIn, Player* player)
 	  mAttacker->setAmountOfArmies(mAttacker->getAmountOfArmies() - newArmies);
 	  mDeffender->setPlayerOwner(mAttacker->getPlayerOwner());
 	  std::cout<<mDeffender->getName()<<" is now owned by: "<<mDeffender->getPlayerOwner()->getName()<<std::endl;
+	  mDeffender->getPlayerOwner()->notify();
+
+	  // Set eligibility for fortification
+	  mAttacker->getPlayerOwner()->setHasNewTerritory(true);
+
+	  // If mDeffender is eliminated and has cards, then mAttacker receives them.
+	  if (mDeffender->getPlayerOwner()->getEliminated())
+	  {
+		  std::cout << "Defender is eliminated." << std::endl;
+		  if (mDeffender->getPlayerOwner()->getNCard() > 0)
+		  {
+			  std::cout << "Defender had cards." << std::endl;
+			  std::vector<Card*> cDeffender = mDeffender->getPlayerOwner()->getCards();
+			  std::cout << mAttacker->getPlayerOwner()->getName() << " has " << mAttacker->getPlayerOwner()->getNCard() << " cards." << std::endl;
+			  for (int i = 0; i < cDeffender.size(); i++)
+			  {
+				  mAttacker->getPlayerOwner()->addCard(cDeffender[i]);
+			  }
+			  std::cout << mAttacker->getPlayerOwner()->getName() << " has " << mAttacker->getPlayerOwner()->getNCard() << " cards." << std::endl;
+		  }
+		  else
+			  std::cout << "No card." << std::endl;
+	  }
 	  return;
       }
       else if(!allIn)
@@ -111,8 +135,13 @@ Battle::RunBattle (bool allIn, Player* player)
 	      keepAttacking = true;
 	  }
       }
+
+	  /* For Testing: AI plays 5 rounds */
+	  if (round == 5 && mAttacker->getPlayerOwner()->getName() == "AI")
+		  keepAttacking = false;
   }
 
+  
 }
 
 void

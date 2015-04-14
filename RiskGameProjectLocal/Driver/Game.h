@@ -37,18 +37,15 @@ public:
 
 	//Main-play
 	void mainPlay();
-
-	//Reinforcement
 	void reinforcement();
-
 	void battle();
-
 	void fortification();
 
 	//Other
 	int rollDice();
 	void updateTurnStatus();
 	void drawCard();
+	bool monitorWins();
 
 private:
 	Map *map;

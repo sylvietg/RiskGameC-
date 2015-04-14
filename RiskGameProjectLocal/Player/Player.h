@@ -40,7 +40,7 @@ std::string getColor();
 	void setHasNewTerritory(bool b);
 	void setNReinforcement(int n);
 	int getNReinforcement();
-
+	void defineNReinforcement();
 //	PlayerDeck* getPDeck();
 
 	void defineNTerritory();
@@ -54,7 +54,7 @@ std::string getColor();
 
 	// Getters
 	std::vector<Card*> getCards();
-	int getNumOfCards();
+	bool getEliminated();
 
 	// Setters
 	//void setListCards(int i, int j, int k);
@@ -83,6 +83,7 @@ private:
 
 	bool hasNewTerritory;
 	bool turnState;
+	bool eliminated;
 
 	//PlayerDeck *pDeck; //New
 	

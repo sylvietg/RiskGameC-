@@ -91,6 +91,8 @@ void Game::startUp()
 	gDeck.createDeck();
 	/*std::cout << "Listing all Risk cards:\n";
 	gDeck.printCards();*/
+
+
 }
 
 
@@ -278,18 +280,6 @@ void Game::pickRandom()
 
 	while (numTerri > 0)
 	{
-		// To remvove ?
-		/*std::cout << "Inside num > 0\n\n";
-		int rd;
-		do {
-		std::cout << "Inside rd > 0\n\n";
-		rd = rand() % (numTerri);
-		} while (map->getTerritories().at(rd)->getPlayerOwner()->getName() == "");
-		std::cout << players[ct].getName() << " is assigned a country.\n\n";
-		map->getTerritories().at(rd)->setPlayerOwner(&players[ct]);
-		players[ct].setNReinforcement(players[].getNReinforcement() - 1);
-		totArmy--;*/
-
 		int rd;
 		rd = rand() % (numTerri);
 
@@ -330,7 +320,7 @@ void Game::turnOrder()
 	srand(time(NULL));
 
 	int max = 0;
-	int p = 0;
+	int playerInd = 0;
 
 	for (int i = 0; i < nPlayer; i++)
 	{
@@ -340,15 +330,15 @@ void Game::turnOrder()
 		if (dice > max)
 		{
 			max = dice;
-			p = i;
+			playerInd = i;
 		}
 	}
 
 	//Player *temp = new Player[nPlayer];
 
-	std::cout << players[p]->getName() << " plays first." << std::endl;
-	ct = p;
-	first = p;
+	std::cout << players[playerInd]->getName() << " plays first." << std::endl;
+	ct = playerInd;
+	first = playerInd;
 	/*for (int i = 0; i < nPlayer; i++)
 	{
 	temp[i] = *players[ct%nPlayer];
@@ -362,63 +352,121 @@ void Game::turnOrder()
 
 }
 
+/* Win Test */
+/*std::vector<Territory*> territory = map->getTerritories();
+for (int i = 0; i < territory.size(); i++)
+{
+	territory[i]->setPlayerOwner(players[ct]);
+	std::cout << territory.at(i)->getName() << " "
+
+		<< territory->getPlayerOwner()->getName()
+		<< std::endl;
+}																*/
+
 ///////// Main Play ////////
 
 void Game::mainPlay()
 {
 	std::cout << "Let's start the game...\n\n";
 
-	int test = 5;
+	int test = 2;
 	ct = first;
 
 	updateTurnStatus();
 
 	//Round-Robin
-//	while (!endGame && test > 0)
-//	{
+	while (!endGame && test > 0)
+	{
+		players[ct]->setHasNewTerritory(false); // Reset to false
+		/* Test Battle */
+	/*	map->getTerritoryByName("Ontario")->setAmountOfArmies(3);
+		map->getTerritoryByName("Quebec")->setPlayerOwner(players[0]);
+		players[0]->addCard(gDeck.drawCard());
+
+		map->getTerritoryByName("Quebec")->setAmountOfArmies(50);
+		map->getTerritoryByName("Quebec")->setPlayerOwner(players[1]);
+		players[1]->addCard(gDeck.drawCard());
+		players[1]->addCard(gDeck.drawCard());*/
+		/* End test conditions */
+
 
 		std::cout << players[ct]->getName() << "'s turn!\n\n";
 
-		//Reinforcement
+		// Reinforcement
 		reinforcement();
+		std::cout << "outside reinforcement" << std::endl;
+		// Battle
+		
 
-		//Battle
-		//	battle();
+		battle();
 
+		// Display stats [BEFORE]
+	/*	std::cout << "Stats after." << std::endl;
+		std::cout << "Card." << players[ct]->getNCard() << std::endl;
+		std::cout << map->getTerritoryByName("Siam")->getAmountOfArmies() << std::endl;
+		std::cout << map->getTerritoryByName("India")->getAmountOfArmies() << std::endl;
+		std::cout << map->getTerritoryByName("Mongolia")->getAmountOfArmies() << std::endl;
+
+		// Fortification
+		map->getTerritoryByName("Siam")->setPlayerOwner(players[0]);
+		map->getTerritoryByName("Siam")->setAmountOfArmies(2);
+	
+		map->getTerritoryByName("India")->setPlayerOwner(players[0]);
+		map->getTerritoryByName("India")->setAmountOfArmies(5);
+
+		map->getTerritoryByName("Mongolia")->setPlayerOwner(players[0]);
+		map->getTerritoryByName("Mongolia")->setAmountOfArmies(2);
+	
+		players[0]->setHasNewTerritory(true);
+	
+		fortification();
+		
+		// Display stats [AFTER]
+		std::cout << "Stats after." << std::endl;
+		std::cout << "Card." << players[ct]->getNCard() << std::endl;
+		std::cout << map->getTerritoryByName("Siam")->getAmountOfArmies() << std::endl;
+		std::cout << map->getTerritoryByName("India")->getAmountOfArmies() << std::endl;
+		std::cout << map->getTerritoryByName("Mongolia")->getAmountOfArmies() << std::endl;*/
+	
+		// Update
 		ct = (ct + 1) % nPlayer;
 		updateTurnStatus();
-
 		test--;
-//	}
+		
+	}
 }
 
 ////////  Reinforcement  //////// 
 void Game::reinforcement()
 {
-	Reinforcement rPhase(players[0], cardReinforcement);
-	rPhase.reinforce();
-	cardReinforcement = rPhase.updateCardBonus();
+	Reinforcement *rPhase = new Reinforcement(players[ct], cardReinforcement);
+	rPhase->reinforce();
+	cardReinforcement = rPhase->updateCardBonus();
 }
 
 
-
-// !! To put back on after reinforcement testing
 ////////  Battle  ////////
 void Game::battle()
 {
+	std::cout << "inside battle" << std::endl;
 bool endTurn = false;
 char choice;
 
+std::cout << "HERE1" << std::endl;
 Battle b;
+std::cout << "HERE2" << std::endl;
 
 while (!endTurn)
 {
+	std::cout << "HERE3" << std::endl;
 		std::cout  << "What would you like to do?" << std::endl
 
 << "1 - Normal Attack" << std::endl << "2 - AllOutAttack"
 << std::endl << "3 - End Turn" << std::endl;
 
-if (players[ct]->getName() == "AI")
+//std::cin.get();
+
+if (players[ct] == players[0])
 {
 AIPlayer *AI = (AIPlayer*) players[ct];
 
@@ -437,36 +485,50 @@ b.RunBattle(true, players[ct]);
 break;
 default:
 endTurn = true;
+
 }
 std::cin.get();
 
-		for (unsigned int i = 0; i < map->getTerritories().size(); i++)
+	/*	for (unsigned int i = 0; i < map->getTerritories().size(); i++)
 {
 			std::cout  << map->getTerritories().at(i)->getName() << " "
 
 << map->getTerritories().at(i)->getPlayerOwner()->getName()
 << std::endl;
-}
-
-}
-}
+}*/
 
 
-// !! To put back on after reinforcement testing
+
+if (monitorWins())
+{
+	std::cout << players[ct]->getName() << " is the winner!" << std::endl;
+	players[ct]->setHasNewTerritory(false);	// Ignore Fortification 
+	endGame = true; // Exit MainPlay
+	return; // Exit Battle
+}
+else
+{
+	std::cout << "No winner yet." << std::endl;
+}
+
+} // End of the Battle Loop
+}
+
+
 ////////  Fortification  ////////
-//void Game::fortification()
-//{
-//Fortification f(map, players[ct]);
-//cout << "Please choose an origin." << endl;
-//string origin;
-//cin >> origin;
-//f.selectOrigin("evendim", ct);
-//cout << "Please choose a destination.";
-//string d;
-//cin >> d;
-//cout << "Destination is: " << d << endl;
-//f.selectDestination(o, d, ct);
-//}
+void Game::fortification()
+{
+	
+	if (players[ct]->getHasNewTerritory())
+	{
+		Fortification f(players[ct]);
+		f.fortify();
+	
+		// New risk card
+		std::cout << "Player receives a new Risk card!" << std::endl;
+		players[ct]->addCard(gDeck.drawCard());
+	}
+}
 
 ////////  Other  ////////
 int Game::rollDice()
@@ -485,3 +547,21 @@ else
 			players[i]->setTurnState(false);
 	}
 }
+
+
+
+bool Game::monitorWins()
+{
+	bool winner = true;
+	std::vector<Territory*> territory = map->getTerritories();
+	for (int i = 0; i < territory.size(); i++)
+	{
+		if (territory[i]->getPlayerOwner() == players[ct])
+		{
+			winner = false;
+			break;
+		}
+	}
+	return winner;
+}
+
