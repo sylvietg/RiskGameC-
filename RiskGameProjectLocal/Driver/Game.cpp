@@ -4,6 +4,11 @@
 Game::Game()
 {
 	menu();
+
+}
+
+Game::~Game()
+{
 }
 
 //////// Menu ////////
@@ -17,6 +22,7 @@ void Game::menu()
 		std::cout << "--^--^--^--^--^--^--^--^--^--^--^--^--^--^--^--^--"	<< std::endl;
 		std::cout << "                                                  "	<< std::endl;
 		std::cout << "       Welcome to RISK!, a game made with C++     "	<< std::endl;
+		std::cout << std::endl;
 
 		int option = 0;
 
@@ -42,11 +48,13 @@ void Game::menu()
 
 			std::cout << "Loading map..." << std::endl;
 			map = Map::getMapInstance();
+
 			graphics(mapFileName);
 			std::cout << "Map has been created!"  << std::endl;
 
 			startUp();
 			std::cout << "End of Start-up! Let's play!"  << std::endl;
+
 			mainPlay();
 
 			break;
@@ -110,7 +118,7 @@ void Game::graphics(std::string mapFileName)
 
 	// Creates the main render window
 	sf::ContextSettings settings;
-	settings.antialiasingLevel = 6;
+	settings.antialiasingLevel = 4;
 
 	if (mapBackground.getSize().x >= 900)
 		window.create(
@@ -140,11 +148,18 @@ void Game::graphics(std::string mapFileName)
 		map->getContinents().at(i)->setColor(c[i % 8]);
 	}
 
+	// Creates the Status Bar for notifying each stage of the game.
+	statusNotifier = new StatusNotifier(window);
+	statusNotifier->setStatusMessage("Map Loaded Successfully");
+
 	window.display();
 }
 
 void Game::createPlayer()
 {
+	// Notify Status
+	statusNotifier->setStatusMessage("Creating Players");
+
 	// Coloring the players (max 6)
 	std::string c[] = { "blue", "red", "green", "cyan", "magenta", "yellow" };
 
@@ -194,7 +209,6 @@ void Game::createPlayer()
 			<< " is now the player of color " << players[i]->getColor() << " and will receive an army of "
 			<< assignArmy() << " infantries.\n\n";
 
-		//players[i]->notify();
 	}
 
 	std::cout << std::endl;
@@ -222,6 +236,9 @@ int Game::assignArmy()
 
 void Game::placeArmy()
 {
+	// Notify Status
+	statusNotifier->setStatusMessage("Distributing armies");
+
 	std::cout << "Now it's the distributing armies phase." << std::endl;
 	//ct = first;
 	int turn = ct;
@@ -267,6 +284,9 @@ void Game::placeArmy()
 
 void Game::pickRandom()
 {
+	// Notify Status
+	statusNotifier->setStatusMessage("Pick Random");
+
 	std::cout << "Pick Random.\n\n";
 
 	ct = first;
@@ -369,7 +389,10 @@ void Game::mainPlay()
 {
 	std::cout << "Let's start the game...\n\n";
 
-	int test = 2;
+	// Notify Status
+	statusNotifier->setStatusMessage("Let's Start the Game!");
+
+	int test = 5;
 	ct = first;
 
 	updateTurnStatus();
@@ -396,7 +419,7 @@ void Game::mainPlay()
 		reinforcement();
 		std::cout << "outside reinforcement" << std::endl;
 		// Battle
-		
+
 
 		battle();
 
@@ -427,46 +450,46 @@ void Game::mainPlay()
 		std::cout << map->getTerritoryByName("Siam")->getAmountOfArmies() << std::endl;
 		std::cout << map->getTerritoryByName("India")->getAmountOfArmies() << std::endl;
 		std::cout << map->getTerritoryByName("Mongolia")->getAmountOfArmies() << std::endl;*/
-	
+
 		// Update
 		ct = (ct + 1) % nPlayer;
 		updateTurnStatus();
 		test--;
-		
+
 	}
 }
 
 ////////  Reinforcement  //////// 
 void Game::reinforcement()
 {
-	Reinforcement *rPhase = new Reinforcement(players[ct], cardReinforcement);
-	rPhase->reinforce();
-	cardReinforcement = rPhase->updateCardBonus();
+	// Notify Status
+	statusNotifier->setStatusMessage("Reinforcement");
+
+	Reinforcement rPhase(players[0], cardReinforcement);
+	rPhase.reinforce();
+	cardReinforcement = rPhase.updateCardBonus();
 }
 
 
 ////////  Battle  ////////
 void Game::battle()
 {
-	std::cout << "inside battle" << std::endl;
+	// Notify Status
+	statusNotifier->setStatusMessage("Battle!");
+
 bool endTurn = false;
 char choice;
 
-std::cout << "HERE1" << std::endl;
 Battle b;
-std::cout << "HERE2" << std::endl;
 
 while (!endTurn)
 {
-	std::cout << "HERE3" << std::endl;
 		std::cout  << "What would you like to do?" << std::endl
 
 << "1 - Normal Attack" << std::endl << "2 - AllOutAttack"
 << std::endl << "3 - End Turn" << std::endl;
 
-//std::cin.get();
-
-if (players[ct] == players[0])
+if (players[ct]->getName() == "AI")
 {
 AIPlayer *AI = (AIPlayer*) players[ct];
 
@@ -478,12 +501,22 @@ std::cin >> choice;
 switch (choice)
 {
 case '1':
+			// Notify Status
+			statusNotifier->setStatusMessage("Battle - Normal Attack");
+
 b.RunBattle(false, players[ct]);
 break;
+
 case '2':
+			// Notify Status
+			statusNotifier->setStatusMessage("Battle - All Out Attack");
+
 b.RunBattle(true, players[ct]);
 break;
 default:
+			// Notify Status
+			statusNotifier->setStatusMessage("Battle - End Turn");
+
 endTurn = true;
 
 }

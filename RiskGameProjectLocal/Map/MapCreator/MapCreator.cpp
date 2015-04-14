@@ -170,7 +170,7 @@ void MapCreator::territoryEditorMenu(std::string territory)
 			std::cout << " 1 - Set coordinates X and Y on the map	"	<< std::endl;
 			std::cout << " 2 - Set a list of neighbors				"	<< std::endl;
 			std::cout << " 3 - Remove a neighbor					"	<< std::endl;
-			std::cout << " 4 - View informations of the player		"	<< std::endl;
+			std::cout << " 4 - View informations of the Territory	"	<< std::endl;
 			std::cout << " 5 - Change the continent owner			"	<< std::endl;
 			std::cout << " 6 - Return to the Map Creator Menu		"	<< std::endl;
 
