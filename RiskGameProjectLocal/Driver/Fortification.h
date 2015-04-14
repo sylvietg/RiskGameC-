@@ -7,8 +7,8 @@ class Fortification
 {
 public:
 	// Constructor
-	Fortification();
 	Fortification(Player* aPlayer);
+	virtual ~Fortification();
 
 	// Setters
 	void setTOrigin(std::string aTerritory);

@@ -14,6 +14,7 @@ Player::Player()
 	nWin = 0;
 	this->color = "gray"; // default
 	hasNewTerritory = false;
+	eliminated = false;
 }
 
 Player::Player(std::string color)
@@ -33,6 +34,7 @@ Player::Player(int n)
 	nReinforcement = 0;
 	nWin = 0;
 	this->color = "green"; // default
+	eliminated = false;
 }
 
 
@@ -155,6 +157,9 @@ void Player::defineNTerritory()
 
 	// Assign to nTerritory
 	nTerritory = num;
+
+	if (num == 0)
+		eliminated = true;
 }
 
 int Player::getNTerritory()
@@ -190,7 +195,7 @@ void Player::setHasNewTerritory(bool b)
 {
 	hasNewTerritory = b;
 
-	notify();
+	//notify();
 }
 
 int Player::getNReinforcement()
@@ -201,7 +206,11 @@ int Player::getNReinforcement()
 void Player::defineNCard()
 {
 	nCard = cards.size();
-	//	notify();
+}
+
+void Player::defineNReinforcement()
+{
+	nReinforcement = getNReinforcement();
 }
 
 // Getters
@@ -221,6 +230,7 @@ void Player::setCards(std::vector<Card*> set)
 void Player::addCard(Card* aCard)		// aCard should be define with GameDeck::drawCard() function
 {
 	this->cards.push_back(aCard);
+	//defineNCard();
 	notify();
 }
 
@@ -234,6 +244,7 @@ void Player::removeCard(Card* aCard)
 			break;
 		}
 	}
+	//defineNCard();
 	notify();
 }
 
@@ -249,4 +260,9 @@ void Player::printCards()
 			std::cout << cards.at(i)->getTypeOfArmyStr() << std::endl;
 		}
 	}
+}
+
+bool Player::getEliminated()
+{
+	return eliminated;
 }

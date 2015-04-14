@@ -1,10 +1,5 @@
 #include "Fortification.h"
 
-Fortification::Fortification()
-{
-	std::cout << "Fortification phase!\n\n";
-}
-
 Fortification::Fortification(Player* aPlayer)
 {
 	std::cout << "Fortification phase!\n\n";
@@ -12,6 +7,15 @@ Fortification::Fortification(Player* aPlayer)
 	tOriginStr = "";
 	tDestinationStr = "";
 }
+
+
+Fortification::~Fortification()
+{
+	delete mCurrent;
+	delete tOrigin;
+	delete tDestination;
+}
+
 
 void Fortification::move(std::string origin, std::string destination)
 {

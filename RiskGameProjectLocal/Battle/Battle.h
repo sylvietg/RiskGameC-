@@ -34,7 +34,7 @@ public:
   void RollDices(bool allin);
   void setDeffender (Territory* deffender);
   void setAttacker (Territory* attacker);
-
+  
 private:
   Map*	mMap;
   Territory* mAttacker;
