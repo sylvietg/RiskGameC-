@@ -13,6 +13,7 @@
 
 #include <stdlib.h>
 #include "../Battle/Battle.h"
+#include "StatusNotifier.h"
 
 #include <SFML/Graphics.hpp>
 #include "Fortification.h"
@@ -25,6 +26,7 @@ class Game
 public:
 	//Start-up
 	Game();
+	virtual ~Game();
 	void menu();
 	void createPlayer();
 	void turnOrder();
@@ -60,12 +62,17 @@ private:
 	int first;
 	int totArmy;
 	int cardReinforcement;
+
 	sf::RenderWindow window;
 	sf::RenderTexture* bottomBar;
+
+	StatusNotifier* statusNotifier;
 	MapCreator* mapCreator;
+
 	MapViewer* MapObserver;
 	PlayerViewer* PlayerObserver;
 	StatisticsViewer** StatisticsObserver;
+
 	GameDeck gDeck;
 };
 

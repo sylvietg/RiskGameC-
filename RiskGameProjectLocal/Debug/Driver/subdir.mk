@@ -7,19 +7,22 @@ CPP_SRCS += \
 ../Driver/Fortification.cpp \
 ../Driver/Game.cpp \
 ../Driver/GameDriver.cpp \
-../Driver/Reinforcement.cpp 
+../Driver/Reinforcement.cpp \
+../Driver/StatusNotifier.cpp 
 
 OBJS += \
 ./Driver/Fortification.o \
 ./Driver/Game.o \
 ./Driver/GameDriver.o \
-./Driver/Reinforcement.o 
+./Driver/Reinforcement.o \
+./Driver/StatusNotifier.o 
 
 CPP_DEPS += \
 ./Driver/Fortification.d \
 ./Driver/Game.d \
 ./Driver/GameDriver.d \
-./Driver/Reinforcement.d 
+./Driver/Reinforcement.d \
+./Driver/StatusNotifier.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

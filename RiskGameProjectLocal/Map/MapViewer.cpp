@@ -113,14 +113,6 @@ void MapViewer::drawAllContinentOwners()
 
 void MapViewer::drawContinentInfoBar()
 {
-//	bool showInfoBar = false;
-//	int currentPosX = sf::Mouse::getPosition(*window).x;
-//	int currentPosY = sf::Mouse::getPosition(*window).y;
-//
-//	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-//		showInfoBar = true;
-//	else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
-//		showInfoBar = false;
 
 	// Draw the Bar
 	sf::RectangleShape territoryBar(sf::Vector2f(window->getSize().x, 30));
