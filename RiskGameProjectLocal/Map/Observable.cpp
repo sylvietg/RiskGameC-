@@ -11,7 +11,8 @@
 
 Observable::Observable() {};
 
-Observable::~Observable() {};
+Observable::~Observable() {
+};
 
 void Observable::attach(Observer* anObserver)
 {
@@ -25,10 +26,17 @@ void Observable::detach(Observer* anObserver)
 
 void Observable::notify()
 {
-
-	for(std::list<Observer*>::iterator i = this->observers.begin(); i != this->observers.end(); ++i)
+	std::list<Observer*>::iterator i;
+	if (this->observers.begin() == this->observers.end())
+		std::cout << "Skip notify()" << std::endl;
+	else
 	{
-		(*i)->update();
-		//std::cout << "Notified!" << std::endl;
+		for (i = this->observers.begin(); i != this->observers.end(); ++i)
+		{
+			(*i)->update();
+			//std::cout << "Notified!" << std::endl;
+		}
 	}
+	
+
 }

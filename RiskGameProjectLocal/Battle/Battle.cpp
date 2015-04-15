@@ -25,11 +25,11 @@ Battle::RunBattle (bool allIn, Player* player)
 {
   bool keepAttacking = true;
   bool setupOK = SetupBattle(player);
-  int round = 0;
-  std::cout << player->getName() << " turnS\n ";
+ // int round = 0;
+//  std::cout << player->getName() << " turnS\n ";
   while(keepAttacking && setupOK)
   {
-	  round++;
+	//  round++;
 
       mAttackersDice.clear();
       mDeffendersDice.clear();
@@ -39,7 +39,7 @@ Battle::RunBattle (bool allIn, Player* player)
 	return;
       }
 
-      if(player->getName() == "AI")
+	  if (typeid(player).name() == "AIPlayer*")
        {
 	 RollDices(true);
        }
@@ -50,11 +50,13 @@ Battle::RunBattle (bool allIn, Player* player)
       {
 	  if(mAttackersDice.at(i) > mDeffendersDice.at(i))
 	  {
-	      mDeffender->setAmountOfArmies(mDeffender->getAmountOfArmies()-1);
+		  int num = mDeffender->getAmountOfArmies() - 1;
+	      mDeffender->setAmountOfArmies(num);
 	  }
 	  else
 	  {
-	      mAttacker->setAmountOfArmies(mAttacker->getAmountOfArmies()-1);
+		  int num = mAttacker->getAmountOfArmies() - 1;
+	      mAttacker->setAmountOfArmies(num);
 	  }
       }
 
@@ -64,7 +66,7 @@ Battle::RunBattle (bool allIn, Player* player)
       {
 	  int newArmies;
 	  std::cout<<"Attackers Won! Distribute your armies!"<<std::endl<<"How many armies will you place in your new territory?"<<std::endl;
-	  if(player->getName() == "AI")
+	  if (typeid(player).name() == "AIPlayer*")
 	   {
 	     AIPlayer *AI = (AIPlayer*)player;
 
@@ -82,7 +84,8 @@ Battle::RunBattle (bool allIn, Player* player)
 	      newArmies = mAttacker->getAmountOfArmies() - 1;
 	  }
 	  mDeffender->setAmountOfArmies(newArmies);
-	  mAttacker->setAmountOfArmies(mAttacker->getAmountOfArmies() - newArmies);
+	  int num = mAttacker->getAmountOfArmies() - newArmies;
+	  mAttacker->setAmountOfArmies(num);
 	  mDeffender->setPlayerOwner(mAttacker->getPlayerOwner());
 	  std::cout<<mDeffender->getName()<<" is now owned by: "<<mDeffender->getPlayerOwner()->getName()<<std::endl;
 	  mDeffender->getPlayerOwner()->notify();
@@ -137,8 +140,8 @@ Battle::RunBattle (bool allIn, Player* player)
       }
 
 	  /* For Testing: AI plays 5 rounds */
-	  if (round == 5 && mAttacker->getPlayerOwner()->getName() == "AI")
-		  keepAttacking = false;
+	/*  if (round == 5 && mAttacker->getPlayerOwner()->getName() == "AI")
+		  keepAttacking = false;*/
   }
 
   
@@ -215,7 +218,7 @@ Battle::SetupBattle (Player* player)
     mMap = Map::getMapInstance();
     std::string at, dt;
 
-    if(player->getName() == "AI")
+    if(typeid(player).name() == "AIPlayer*")
     {
       AIPlayer *AI = (AIPlayer*)player;
 
@@ -239,7 +242,7 @@ Battle::SetupBattle (Player* player)
     }
 
 
-    if(player->getName() == "AI")
+	if (typeid(player).name() == "AIPlayer*")
      {
        AIPlayer *AI = (AIPlayer*)player;
 

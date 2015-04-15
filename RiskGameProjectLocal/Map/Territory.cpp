@@ -110,7 +110,7 @@ void Territory::setPlayerOwner(Player* player)
 
 void Territory::setAmountOfArmies(int armies)
 {
-	amountOfArmies = armies;
+	this->amountOfArmies = armies;
 
 	notify();
 }

@@ -372,16 +372,7 @@ void Game::turnOrder()
 
 }
 
-/* Win Test */
-/*std::vector<Territory*> territory = map->getTerritories();
-for (int i = 0; i < territory.size(); i++)
-{
-	territory[i]->setPlayerOwner(players[ct]);
-	std::cout << territory.at(i)->getName() << " "
 
-		<< territory->getPlayerOwner()->getName()
-		<< std::endl;
-}																*/
 
 ///////// Main Play ////////
 
@@ -420,6 +411,7 @@ void Game::mainPlay()
 		std::cout << "outside reinforcement" << std::endl;
 		// Battle
 
+		
 
 		battle();
 
@@ -465,7 +457,7 @@ void Game::reinforcement()
 	// Notify Status
 	statusNotifier->setStatusMessage("Reinforcement");
 
-	Reinforcement rPhase(players[0], cardReinforcement);
+	Reinforcement rPhase(players[ct], cardReinforcement);
 	rPhase.reinforce();
 	cardReinforcement = rPhase.updateCardBonus();
 }
@@ -489,15 +481,21 @@ while (!endTurn)
 << "1 - Normal Attack" << std::endl << "2 - AllOutAttack"
 << std::endl << "3 - End Turn" << std::endl;
 
-if (players[ct]->getName() == "AI")
-{
-AIPlayer *AI = (AIPlayer*) players[ct];
+		if (players[ct] == players[0])
+		{
 
-choice = AI->decideAttack();
-std::cout << choice << std::endl;
-}
-else
-std::cin >> choice;
+			/*AIPlayer *AI = (AIPlayer*) players[ct];
+			choice = AI->decideAttack();
+			std::cout << choice << std::endl;*/
+
+			choice = '3';
+		}
+		else
+		{
+			std::cin.clear();
+			std::cin >> choice;
+		}
+
 switch (choice)
 {
 case '1':
@@ -530,7 +528,17 @@ std::cin.get();
 << std::endl;
 }*/
 
+/* Win Test */
+/*std::vector<Territory*> territory = map->getTerritories();
+for (int i = 0; i < territory.size(); i++)
+{
+	territory[i]->setPlayerOwner(players[ct]);
+	std::cout << territory.at(i)->getName() << " "
 
+		<< territory[i]->getPlayerOwner()->getName()
+		<< std::endl;
+}*/
+/* End of Win Test */
 
 if (monitorWins())
 {
@@ -544,7 +552,7 @@ else
 	std::cout << "No winner yet." << std::endl;
 }
 
-} // End of the Battle Loop
+}// End of the while Loop 
 }
 
 
